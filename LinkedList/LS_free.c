@@ -3,25 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   LS_free.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akoaik <akoaik@student.42.fr>              +#+  +:+       +#+        */
+/*   By: msafa <msafa@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/04 01:11:58 by akoaik            #+#    #+#             */
-/*   Updated: 2025/09/04 02:21:12 by akoaik           ###   ########.fr       */
+/*   Updated: 2025/09/05 02:32:43 by msafa            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
 #include <stdio.h>
+#include "header.h"
 
-struct alloc_list
-{
-    void *allocation;
-    struct alloc_list *next;
-};
-
-struct alloc_list *head = NULL;
-
-void *ft_malloc(size_t size)
+void *ft_malloc(size_t size, struct alloc_list **head)
 {
     void *ptr = malloc(size);
     if (!ptr)
@@ -34,13 +27,13 @@ void *ft_malloc(size_t size)
         return NULL;
     }
     node->allocation = ptr;
-    node->next = head;
-    head = node;
+    node->next = *head;
+    *head = node;
 
     return ptr;
 }
 
-void free_all()
+void free_all(struct alloc_list *head)
 {
     struct alloc_list *tmp;
     while (head)
