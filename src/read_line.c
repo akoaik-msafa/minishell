@@ -1,19 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   Main.c                                             :+:      :+:    :+:   */
+/*   read_line.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: akoaik <akoaik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/09/08 18:02:05 by akoaik            #+#    #+#             */
-/*   Updated: 2025/09/08 18:02:43 by akoaik           ###   ########.fr       */
+/*   Created: 2025/09/08 20:13:44 by akoaik            #+#    #+#             */
+/*   Updated: 2025/09/08 20:17:58 by akoaik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "header.h"
 
-int main (void)
+char *get_user_input()
 {
-	printf("Hello ali !");
-	return (0);
+    char *input = readline("--minishell#-> ");
+    if (input && *input != '\0') {
+        add_history(input);
+    }
+    return input;
 }

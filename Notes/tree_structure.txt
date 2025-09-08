@@ -1,0 +1,22 @@
+/*
+ * WHY DO WE NEED THIS TREE STRUCTURE?
+ * ===================================
+ * 
+ * Consider: "cat file.txt | head -5 | tail -2"
+ * 
+ * The execution order matters:
+ * 1. Start cat file.txt
+ * 2. Pipe its output to head -5  
+ * 3. Pipe head's output to tail -2
+ * 
+ * Tree representation:
+ *           PIPE
+ *          /    \
+ *       PIPE    tail
+ *      /    \
+ *    cat    head
+ * 
+ * This tree tells us exactly how to execute: 
+ * - Start from the left (cat)
+ * - Connect each level with pipes
+ */

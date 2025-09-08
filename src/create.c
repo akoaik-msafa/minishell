@@ -1,28 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   header.h                                           :+:      :+:    :+:   */
+/*   create.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: akoaik <akoaik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/09/06 18:36:44 by akoaik            #+#    #+#             */
-/*   Updated: 2025/09/08 20:18:20 by akoaik           ###   ########.fr       */
+/*   Created: 2025/09/08 19:35:08 by akoaik            #+#    #+#             */
+/*   Updated: 2025/09/08 20:09:20 by akoaik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef HEADER_H
-#define HEADER_H
+#include "header.h"
 
-#include "data.h"
-#include <unistd.h>
-#include <stdlib.h>
-#include <stdio.h>
-#include <readline/readline.h>
-#include <readline/history.h>
+tree_node *creat_node(node_type type, struct list_head *hn)
+{
+	tree_node *node = ft_malloc(sizeof(tree_node), &(hn->head));
+	if (!node)
+		return (NULL);
+	node->type = type ;
+	node->args = NULL ;
+	node->left = NULL ;
+	node->rigt = NULL ;
+	node->filename = NULL ;
+	node->redir_type = t_eof ;
+	return (node);
+}
 
-void	*ft_malloc(size_t size, struct alloc_list **head);
-void	free_all(struct alloc_list *head);
-char	*get_user_input();
 
-
-#endif

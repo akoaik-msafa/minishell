@@ -1,8 +1,8 @@
 CC      = cc
 CFLAGS  = -g -Wall -Wextra -Werror -Iincludes
+LDFLAGS = -lreadline -lncurses
 
 NAME    = minishell
-
 SRC_DIR = src
 SRCS    = $(wildcard $(SRC_DIR)/*.c)
 OBJS    = $(SRCS:.c=.o)
@@ -16,8 +16,11 @@ $(LIBFT):
 	@$(MAKE) --no-print-directory -C $(LIBFT_DIR)
 
 $(NAME): $(OBJS) $(LIBFT)
-	@$(CC) $(CFLAGS) $(OBJS) $(LIBFT) -o $(NAME)
-	@echo "Complete"
+	@$(CC) $(OBJS) $(LIBFT) $(LDFLAGS) -o $(NAME)
+	@echo "Build complete: $(NAME)"
+
+%.o: %.c
+	@$(CC) $(CFLAGS) -c $< -o $@
 
 clean:
 	@$(MAKE) --no-print-directory -C $(LIBFT_DIR) clean

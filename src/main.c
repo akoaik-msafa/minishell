@@ -1,28 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   header.h                                           :+:      :+:    :+:   */
+/*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: akoaik <akoaik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/09/06 18:36:44 by akoaik            #+#    #+#             */
-/*   Updated: 2025/09/08 20:18:20 by akoaik           ###   ########.fr       */
+/*   Created: 2025/09/08 18:02:05 by akoaik            #+#    #+#             */
+/*   Updated: 2025/09/08 20:28:00 by akoaik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef HEADER_H
-#define HEADER_H
+#include "header.h"
 
-#include "data.h"
-#include <unistd.h>
-#include <stdlib.h>
-#include <stdio.h>
-#include <readline/readline.h>
-#include <readline/history.h>
-
-void	*ft_malloc(size_t size, struct alloc_list **head);
-void	free_all(struct alloc_list *head);
-char	*get_user_input();
-
-
-#endif
+int main (void)
+{
+	char *prompt;
+	while (1)
+	{
+		prompt = get_user_input();
+		printf("user input is : %s\n", prompt);
+	}
+}
