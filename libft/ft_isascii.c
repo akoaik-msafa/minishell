@@ -1,20 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   header.h                                           :+:      :+:    :+:   */
+/*   ft_isascii.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: akoaik <akoaik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/09/06 18:36:44 by akoaik            #+#    #+#             */
-/*   Updated: 2025/09/08 18:03:06 by akoaik           ###   ########.fr       */
+/*   Created: 2025/05/19 17:30:01 by akoaik            #+#    #+#             */
+/*   Updated: 2025/05/19 17:30:03 by akoaik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef HEADER_H
-#define HEADER_H
+int	ft_isascii(int c)
+{
+	return (c >= 0 && c <= 127);
+}
 
-#include <stdio.h>
-#include <unistd.h>
-
-
-#endif
+// #include <stdio.h>
+// int main(void)
+// {
+//     for (int i = -10; i <= 140; i++)
+//     {
+//         printf("%c is ascii : %d\n",(char)i, ft_isascii(i));
+//     }
+//     return 0;
+// }

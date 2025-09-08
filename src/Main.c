@@ -1,20 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   header.h                                           :+:      :+:    :+:   */
+/*   Main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: akoaik <akoaik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/09/06 18:36:44 by akoaik            #+#    #+#             */
-/*   Updated: 2025/09/08 18:03:06 by akoaik           ###   ########.fr       */
+/*   Created: 2025/09/08 18:02:05 by akoaik            #+#    #+#             */
+/*   Updated: 2025/09/08 18:02:43 by akoaik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef HEADER_H
-#define HEADER_H
+#include "header.h"
 
-#include <stdio.h>
-#include <unistd.h>
-
-
-#endif
+int main (void)
+{
+	printf("Hello ali !");
+	return (0);
+}

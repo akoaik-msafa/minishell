@@ -3,21 +3,29 @@ CFLAGS  = -g -Wall -Wextra -Werror -Iincludes
 
 NAME    = minishell
 
-
 SRC_DIR = src
 SRCS    = $(wildcard $(SRC_DIR)/*.c)
 OBJS    = $(SRCS:.c=.o)
 
-all: $(NAME)
+LIBFT_DIR = libft
+LIBFT     = $(LIBFT_DIR)/libft.a
 
-$(NAME): $(OBJS)
-	$(CC) $(CFLAGS) $(OBJS) -o $(NAME)
+all: $(LIBFT) $(NAME)
+
+$(LIBFT):
+	@$(MAKE) --no-print-directory -C $(LIBFT_DIR)
+
+$(NAME): $(OBJS) $(LIBFT)
+	@$(CC) $(CFLAGS) $(OBJS) $(LIBFT) -o $(NAME)
+	@echo "Complete"
 
 clean:
-	rm -f $(OBJS)
+	@$(MAKE) --no-print-directory -C $(LIBFT_DIR) clean
+	@rm -f $(OBJS)
 
 fclean: clean
-	rm -f $(NAME)
+	@$(MAKE) --no-print-directory -C $(LIBFT_DIR) fclean
+	@rm -f $(NAME)
 
 re: fclean all
 

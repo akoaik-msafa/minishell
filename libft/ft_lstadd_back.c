@@ -1,20 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   header.h                                           :+:      :+:    :+:   */
+/*   ft_lstadd_back.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: akoaik <akoaik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/09/06 18:36:44 by akoaik            #+#    #+#             */
-/*   Updated: 2025/09/08 18:03:06 by akoaik           ###   ########.fr       */
+/*   Created: 2025/05/27 11:48:25 by akoaik            #+#    #+#             */
+/*   Updated: 2025/05/28 15:01:47 by akoaik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef HEADER_H
-#define HEADER_H
-
+#include "libft.h"
 #include <stdio.h>
-#include <unistd.h>
 
+void	ft_lstadd_back(t_list **lst, t_list *new)
+{
+	t_list	*temp ;
 
-#endif
+	if (!lst | !new)
+		return ;
+	if (*lst == NULL)
+	{
+		*lst = new ;
+		return ;
+	}
+	temp = *lst ;
+	while (temp->next != NULL)
+		temp = temp->next ;
+	temp->next = new ;
+}

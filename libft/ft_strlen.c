@@ -1,20 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   header.h                                           :+:      :+:    :+:   */
+/*   ft_strlen.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: akoaik <akoaik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/09/06 18:36:44 by akoaik            #+#    #+#             */
-/*   Updated: 2025/09/08 18:03:06 by akoaik           ###   ########.fr       */
+/*   Created: 2025/05/19 17:31:39 by akoaik            #+#    #+#             */
+/*   Updated: 2025/05/29 15:37:34 by akoaik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef HEADER_H
-#define HEADER_H
+int	ft_strlen(const char *str)
+{
+	int	i;
 
-#include <stdio.h>
-#include <unistd.h>
+	i = 0;
+	while (str[i] != '\0')
+	{
+		i++;
+	}
+	return (i);
+}
 
+// #include <stdio.h>
 
-#endif
+// int	main(void)
+// {
+// 	printf("Length of \"\": %d\n", ft_strlen(""));
+// 	printf("Length of \"42\": %d\n", ft_strlen("42"));
+// 	printf("Length of \"Hello, world!\": %d\n", ft_strlen("Hello, world!"));
+// 	return 0;
+// }
