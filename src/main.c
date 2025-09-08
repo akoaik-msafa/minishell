@@ -5,34 +5,90 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: msafa <msafa@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/09/05 22:43:55 by msafa             #+#    #+#             */
-/*   Updated: 2025/09/05 23:54:08 by msafa            ###   ########.fr       */
+/*   Created: 2025/09/07 15:23:30 by msafa             #+#    #+#             */
+/*   Updated: 2025/09/08 20:40:50 by msafa            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/header.h"
+#include "../includes/header.h"
 
-void sigint_handler(int sig)
+int	check_options(char *arg)
 {
-    (void)sig;
-    write(1, "\n", 1);
-    rl_replace_line("", 0);
-    rl_on_new_line();
-    rl_redisplay();
+	int	i;
+
+	i = 1;
+	if (arg[0] == '-')
+	{
+		while (arg[i] == 'n')
+		{
+			i++;
+			if (arg[i] == '\0')
+			{
+				return (1);
+			}
+		}
+	}
+	return (0);
 }
 
-void dis()
+int	ft_echo(char **args)
 {
-	// signal(SIGINT, sigint_handler);
-	char *input;
-    while ((input = readline("minishell> ")) != NULL)
-    {
-		add_history(input);
-        free(input);
-    }
+	int	i;
+	int	option;
+
+	i = 0;
+	option = 0;
+	while (args[i] && check_options(args[i]))
+	{
+		option = 1;
+		i++;
+	}
+	while (args[i])
+	{
+		printf("%s", args[i]);
+		if (args[i + 1])
+			printf(" ");
+		i++;
+	}
+	if (!option)
+		printf("\n");
+	return (0);
 }
 
-int main (int argc,char **argv,char ***envp)
+int	ft_strcmp(const char *s1, const char *s2)
 {
-	dis();
+	unsigned int	i;
+
+	i = 0;
+	while (s1[i] && s2[i])
+	{
+		if ((unsigned char)s1[i] != (unsigned char)s2[i])
+			return ((unsigned char)s1[i] - (unsigned char)s2[i]);
+		i++;
+	}
+	return ((unsigned char)s1[i] - (unsigned char)s2[i]);
+}
+
+int	main(int argc, char **argv)
+{
+	int			nb_builtins;
+	int			i;
+	char *array[7];
+
+	built_ins[7];
+	{{"echo", ft_echo}
+	};
+
+	i = 0;
+	nb_builtins = sizeof(built_ins) / sizeof(built_ins[0]);
+	while (i < nb_builtins)
+	{
+		if (ft_strcmp(argv[1], built_ins[i].cmd) == 0)
+		{
+			(built_ins[i].func)(argv + 2);
+			break ;
+		}
+		i++;
+	}
+	return (0);
 }
