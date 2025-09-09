@@ -1,27 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   create.c                                           :+:      :+:    :+:   */
+/*   my_strdup.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: akoaik <akoaik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/09/08 19:35:08 by akoaik            #+#    #+#             */
-/*   Updated: 2025/09/09 16:43:30 by akoaik           ###   ########.fr       */
+/*   Created: 2025/09/09 16:21:57 by akoaik            #+#    #+#             */
+/*   Updated: 2025/09/09 16:45:28 by akoaik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "header.h"
 
-tree_node *creat_node(node_type type, struct list_head *hn)
+char	*my_strdup(const char *s1, struct list_head *n_head)
 {
-	tree_node *node = ft_malloc(sizeof(tree_node), hn);
-	if (!node)
-		return (NULL);
-	node->type = type ;
-	node->args = NULL ;
-	node->left = NULL ;
-	node->rigt = NULL ;
-	node->filename = NULL ;
-	node->redir_type = t_eof ;
-	return (node);
+	int		len;
+	char	*copy;
+	int		i;
+
+	len = 0;
+	while (s1[len])
+		len++;
+	copy = ft_malloc(sizeof(char) * (len + 1), n_head);
+	if (!copy)
+		return (0);
+	i = 0;
+	while (i < len)
+	{
+		copy[i] = s1[i];
+		i++;
+	}
+	copy[i] = '\0';
+	return (copy);
 }

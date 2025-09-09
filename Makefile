@@ -13,7 +13,7 @@ LIBFT     = $(LIBFT_DIR)/libft.a
 all: $(LIBFT) $(NAME)
 
 $(LIBFT):
-	@$(MAKE) --no-print-directory -C $(LIBFT_DIR)
+	@$(MAKE) --no-print-directory -C $(LIBFT_DIR) CFLAGS="$(CFLAGS) -I ../includes"
 
 $(NAME): $(OBJS) $(LIBFT)
 	@$(CC) $(OBJS) $(LIBFT) $(LDFLAGS) -o $(NAME)
