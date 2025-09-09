@@ -6,41 +6,69 @@
 /*   By: akoaik <akoaik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/08 18:02:05 by akoaik            #+#    #+#             */
-/*   Updated: 2025/09/09 16:59:25 by akoaik           ###   ########.fr       */
+/*   Updated: 2025/09/09 22:57:10 by akoaik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "header.h"
 
+void temp_exit (char *str)
+{
+	if (!ft_strncmp(str, "exit", 4))
+		{
+			exit(1);
+		}
+}
+
+void print_2d(char **arr)
+{
+    int i = 0;
+    while (arr && arr[i])
+    {
+        printf("%s\n", arr[i]);
+        i++;
+    }
+}
+
+void print_tokens(token_t *tokens, int count)
+{
+    const char *type_names[] = {
+        "WORD", "PIPE", "REDIR_IN", "REDIR_OUT", 
+        "REDIR_APPEND", "REDIR_HEREDOC", "EOF"
+    };
+    int i = 0;
+    
+    while (i < count)
+    {
+        printf("Token %d: '%s' -> %s\n", i, tokens[i].value, type_names[tokens[i].type]);
+        i++;
+    }
+}
+
 int	main(void)
 {
 	struct list_head	n_head;
 	char				*prompt;
-	tree_node			*root;
+	// char				**command_line;
+	// tree_node			*root;
+	// int 				counter;
 
 	n_head.head = NULL;
 	while (1)
 	{
+		token_t *tokens;
+		int token_count;
+		
 		prompt = get_user_input();
 		if (!prompt)
-			continue ;
-		add_history(prompt);
-		printf("user input is : %s\n", prompt);
-		root = creat_node(node_cmd, &n_head);
-		root->args = ft_malloc(sizeof(char *) * 2, &n_head);
-		root->args[0] = my_strdup("ls", &n_head);
-		root->args[1] = NULL;
-		if (!ft_strncmp(prompt, "exit", 4))
-		{
-			free(prompt);
-			free_all(&n_head);
-			rl_clear_history();
-			exit(0);
-		}	rl_clear_history();
-	rl_reset_terminal(NULL);
-		free(prompt);
+			break;
+		printf("Input: '%s'\n", prompt);
+		temp_exit(prompt);
+		
+		tokens = tokenize_input(prompt, &token_count, &n_head);
+		printf("Tokenized result (%d tokens):\n", token_count);
+		print_tokens(tokens, token_count);
+		printf("---\n");
 	}
-	free_all(&n_head);
-	rl_clear_history();
-	rl_reset_terminal(NULL);
+	
 }

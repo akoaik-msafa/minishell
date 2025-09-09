@@ -1,0 +1,100 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   token.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: akoaik <akoaik@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/09/09 22:32:17 by akoaik            #+#    #+#             */
+/*   Updated: 2025/09/09 23:30:53 by akoaik           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "header.h"
+
+static token_type	identify_token_type(const char *str)
+{
+	if (!str)
+		return (t_eof);
+	if (ft_strncmp(str, "|", 1) == 0 && ft_strlen(str) == 1)
+		return (t_pipe);
+	if (ft_strncmp(str, "<<", 2) == 0 && ft_strlen(str) == 2)
+		return (t_re_heredoc);
+	if (ft_strncmp(str, ">>", 2) == 0 && ft_strlen(str) == 2)
+		return (t_re_append);
+	if (ft_strncmp(str, "<", 1) == 0 && ft_strlen(str) == 1)
+		return (t_re_in);
+	if (ft_strncmp(str, ">", 1) == 0 && ft_strlen(str) == 1)
+		return (t_re_out);
+	return (t_word);
+}
+
+static char	**copy_basic_tokens(char **basic_tokens, int count,
+		struct list_head *head)
+{
+	char	**tokens;
+	int		i;
+
+	tokens = ft_malloc((count + 1) * sizeof(char *), head);
+	if (!tokens)
+		return (NULL);
+	i = 0;
+	while (i < count)
+	{
+		tokens[i] = my_strdup(basic_tokens[i], head);
+		i++;
+	}
+	tokens[i] = NULL;
+	return (tokens);
+}
+
+static char	**enhance_split_for_tokens(const char *str, int *count,
+		struct list_head *head)
+{
+	char	**basic;
+	char	**tokens;
+	int		cnt;
+
+	basic = split_string(str, &cnt, head);
+	if (!basic)
+		return (NULL);
+	tokens = copy_basic_tokens(basic, cnt, head);
+	if (!tokens)
+		return (NULL);
+	*count = cnt;
+	return (tokens);
+}
+
+static void	fill_tokens_array(token_t *tokens, char **strs, int count)
+{
+	int	i;
+
+	i = 0;
+	while (i < count)
+	{
+		tokens[i].value = strs[i];
+		tokens[i].type = identify_token_type(strs[i]);
+		i++;
+	}
+	tokens[count].type = t_eof;
+	tokens[count].value = NULL;
+}
+
+token_t	*tokenize_input(const char *input, int *count, struct list_head *head)
+{
+	char	**strs;
+	token_t	*tokens;
+	int		cnt;
+
+	if (!input || !count)
+		return (NULL);
+	strs = enhance_split_for_tokens(input, &cnt, head);
+	if (!strs)
+		return (NULL);
+	tokens = ft_malloc((cnt + 1) * sizeof(token_t), head);
+	if (!tokens)
+		return (NULL);
+	fill_tokens_array(tokens, strs, cnt);
+	*count = cnt;
+	return (tokens);
+}

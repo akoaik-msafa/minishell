@@ -6,7 +6,7 @@
 /*   By: akoaik <akoaik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/06 18:36:44 by akoaik            #+#    #+#             */
-/*   Updated: 2025/09/09 16:44:16 by akoaik           ###   ########.fr       */
+/*   Updated: 2025/09/09 21:10:51 by akoaik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,5 +26,7 @@ void		free_all(struct list_head *n_head);
 char		*get_user_input(void);
 tree_node	*creat_node(node_type type, struct list_head *hn);
 char		*my_strdup(const char *s1, struct list_head *head);
+char		**split_string(const char *str, int *count, struct list_head *n_head);
+token_t		*tokenize_input(const char *input, int *count, struct list_head *head);
 
 #endif
