@@ -6,7 +6,7 @@
 /*   By: msafa <msafa@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/07 15:23:30 by msafa             #+#    #+#             */
-/*   Updated: 2025/09/08 20:40:50 by msafa            ###   ########.fr       */
+/*   Updated: 2025/09/10 20:30:00 by msafa            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,9 +23,7 @@ int	check_options(char *arg)
 		{
 			i++;
 			if (arg[i] == '\0')
-			{
 				return (1);
-			}
 		}
 	}
 	return (0);
@@ -55,37 +53,25 @@ int	ft_echo(char **args)
 	return (0);
 }
 
-int	ft_strcmp(const char *s1, const char *s2)
-{
-	unsigned int	i;
-
-	i = 0;
-	while (s1[i] && s2[i])
-	{
-		if ((unsigned char)s1[i] != (unsigned char)s2[i])
-			return ((unsigned char)s1[i] - (unsigned char)s2[i]);
-		i++;
-	}
-	return ((unsigned char)s1[i] - (unsigned char)s2[i]);
-}
-
 int	main(int argc, char **argv)
 {
+	t_builtin	builtins[7];
 	int			nb_builtins;
 	int			i;
-	char *array[7];
 
-	built_ins[7];
-	{{"echo", ft_echo}
-	};
-
+	init_builtins(builtins);
 	i = 0;
-	nb_builtins = sizeof(built_ins) / sizeof(built_ins[0]);
+	nb_builtins = 7;
+	if (argc < 2)
+	{
+		printf("Usage: %s <command> [args...]\n", argv[0]);
+		return (1);
+	}
 	while (i < nb_builtins)
 	{
-		if (ft_strcmp(argv[1], built_ins[i].cmd) == 0)
+		if (ft_strcmp(argv[1], builtins[i].cmd) == 0)
 		{
-			(built_ins[i].func)(argv + 2);
+			(builtins[i].func)(argv + 2);
 			break ;
 		}
 		i++;
