@@ -12,17 +12,16 @@
 
 #include "header.h"
 
-static int	count_cmd_args(token_t **current, token_t *end)
+static int	count_cmd_args(token_t *current, token_t *end)
 {
 	int	arg_count;
 
 	arg_count = 0;
-	while (*current < end && (*current)->type == t_word)
+	while (current < end && current->type == t_word)
 	{
 		arg_count++;
-		(*current)++;
+		current++;
 	}
-	*current -= arg_count;
 	return (arg_count);
 }
 
@@ -56,7 +55,7 @@ static tree_node	*create_cmd_node(token_t **current, token_t *end,
 	node = ft_malloc(sizeof(tree_node), head);
 	if (!node)
 		return (NULL);
-	arg_count = count_cmd_args(current, end);
+	arg_count = count_cmd_args(*current, end);
 	args = populate_cmd_args(current, arg_count, head);
 	if (!args)
 		return (NULL);
