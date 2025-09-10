@@ -6,7 +6,7 @@
 /*   By: akoaik <akoaik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/08 18:02:05 by akoaik            #+#    #+#             */
-/*   Updated: 2025/09/10 13:52:22 by akoaik           ###   ########.fr       */
+/*   Updated: 2025/09/10 14:48:34 by akoaik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,9 +49,6 @@ int	main(void)
 {
 	struct list_head	n_head;
 	char				*prompt;
-	// char				**command_line;
-	// tree_node			*root;
-	// int 				counter;
 
 	n_head.head = NULL;
 	while (1)

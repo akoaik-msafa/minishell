@@ -6,24 +6,33 @@
 /*   By: akoaik <akoaik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/09 19:13:01 by akoaik            #+#    #+#             */
-/*   Updated: 2025/09/09 21:11:16 by akoaik           ###   ########.fr       */
+/*   Updated: 2025/09/10 14:47:37 by akoaik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "header.h"
 
-int	count_tokens(const char *str)
+static int	count_tokens(const char *str)
 {
-	int	count;
-	int	i;
+	int		count = 0;
+	int		i = 0;
+	int		in_quotes = 0;
+	char	quote_char;
 
-	count = 0;
-	i = 0;
 	while (str[i])
 	{
-		if (str[i] != ' ' && str[i] != '\t')
+		if (!in_quotes && (str[i] == '"' || str[i] == '\''))
 		{
-			if (i == 0 || (str[i - 1] == ' ' || str[i - 1] == '\t'))
+			if (i == 0 || str[i - 1] == ' ' || str[i - 1] == '\t')
+				count++;
+			quote_char = str[i];
+			in_quotes = 1;
+		}
+		else if (in_quotes && str[i] == quote_char)
+			in_quotes = 0;
+		else if (!in_quotes && str[i] != ' ' && str[i] != '\t')
+		{
+			if (i == 0 || str[i - 1] == ' ' || str[i - 1] == '\t')
 				count++;
 		}
 		i++;
@@ -31,36 +40,37 @@ int	count_tokens(const char *str)
 	return (count);
 }
 
-static char	**allocate_tokens(int count, struct list_head *n_head)
-{
-	char	**tokens;
-
-	tokens = ft_malloc((count + 1) * sizeof(char *), n_head);
-	if (tokens)
-		tokens[count] = NULL;
-	return (tokens);
-}
-
 static void	extract_tokens(const char *str, char **tokens, int count, struct list_head *n_head)
 {
-	int	i;
-	int	j;
-	int	start;
+	int	i = 0, j = 0, start, len;
+	char	quote_char;
 
-	j = 0;
-	i = 0;
 	while (str[i] && j < count)
 	{
-		while (str[i] && (str[i] == ' ' || str[i] == '\t'))
+		while (str[i] == ' ' || str[i] == '\t')
 			i++;
 		start = i;
-		while (str[i] && str[i] != ' ' && str[i] != '\t')
-			i++;
-		if (start < i)
+		if (str[i] == '"' || str[i] == '\'')
 		{
-			tokens[j] = ft_malloc((i - start + 1) * sizeof(char), n_head);
+			quote_char = str[i++];
+			start = i;
+			while (str[i] && str[i] != quote_char)
+				i++;
+			len = i - start;
+			if (str[i] == quote_char)
+				i++;
+		}
+		else
+		{
+			while (str[i] && str[i] != ' ' && str[i] != '\t' && str[i] != '"' && str[i] != '\'')
+				i++;
+			len = i - start;
+		}
+		if (len > 0)
+		{
+			tokens[j] = ft_malloc((len + 1) * sizeof(char), n_head);
 			if (tokens[j])
-				ft_strlcpy(tokens[j], str + start, i - start + 1);
+				ft_strlcpy(tokens[j], str + start, len + 1);
 			j++;
 		}
 	}
@@ -75,9 +85,10 @@ char	**split_string(const char *str, int *count, struct list_head *n_head)
 	*count = count_tokens(str);
 	if (*count == 0)
 		return (NULL);
-	tokens = allocate_tokens(*count, n_head);
+	tokens = ft_malloc((*count + 1) * sizeof(char *), n_head);
 	if (!tokens)
 		return (*count = 0, NULL);
+	tokens[*count] = NULL;
 	extract_tokens(str, tokens, *count, n_head);
 	return (tokens);
 }
