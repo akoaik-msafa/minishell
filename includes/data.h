@@ -6,7 +6,7 @@
 /*   By: akoaik <akoaik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/08 18:15:33 by akoaik            #+#    #+#             */
-/*   Updated: 2025/09/09 16:41:09 by akoaik           ###   ########.fr       */
+/*   Updated: 2025/09/10 13:52:03 by akoaik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ typedef enum
 typedef struct
 {
 	token_type			type;
-	char				*value;
+	char				*str;
 }						token_t;
 
 typedef struct tree_node

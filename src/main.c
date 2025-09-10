@@ -6,7 +6,7 @@
 /*   By: akoaik <akoaik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/08 18:02:05 by akoaik            #+#    #+#             */
-/*   Updated: 2025/09/09 22:57:10 by akoaik           ###   ########.fr       */
+/*   Updated: 2025/09/10 13:52:22 by akoaik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ void print_tokens(token_t *tokens, int count)
     
     while (i < count)
     {
-        printf("Token %d: '%s' -> %s\n", i, tokens[i].value, type_names[tokens[i].type]);
+        printf("Token %d: '%s' -> %s\n", i, tokens[i].str, type_names[tokens[i].type]);
         i++;
     }
 }

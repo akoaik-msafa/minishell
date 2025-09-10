@@ -29,40 +29,17 @@ static token_type	identify_token_type(const char *str)
 	return (t_word);
 }
 
-static char	**copy_basic_tokens(char **basic_tokens, int count,
+static char	**splite_token(const char *prompt, int *count,
 		struct list_head *head)
 {
-	char	**tokens;
-	int		i;
-
-	tokens = ft_malloc((count + 1) * sizeof(char *), head);
-	if (!tokens)
-		return (NULL);
-	i = 0;
-	while (i < count)
-	{
-		tokens[i] = my_strdup(basic_tokens[i], head);
-		i++;
-	}
-	tokens[i] = NULL;
-	return (tokens);
-}
-
-static char	**enhance_split_for_tokens(const char *str, int *count,
-		struct list_head *head)
-{
-	char	**basic;
-	char	**tokens;
+	char	**words;
 	int		cnt;
 
-	basic = split_string(str, &cnt, head);
-	if (!basic)
-		return (NULL);
-	tokens = copy_basic_tokens(basic, cnt, head);
-	if (!tokens)
+	words = split_string(prompt, &cnt, head);
+	if (!words)
 		return (NULL);
 	*count = cnt;
-	return (tokens);
+	return (words);
 }
 
 static void	fill_tokens_array(token_t *tokens, char **strs, int count)
@@ -72,23 +49,23 @@ static void	fill_tokens_array(token_t *tokens, char **strs, int count)
 	i = 0;
 	while (i < count)
 	{
-		tokens[i].value = strs[i];
+		tokens[i].str = strs[i];
 		tokens[i].type = identify_token_type(strs[i]);
 		i++;
 	}
 	tokens[count].type = t_eof;
-	tokens[count].value = NULL;
+	tokens[count].str = NULL;
 }
 
-token_t	*tokenize_input(const char *input, int *count, struct list_head *head)
+token_t	*tokenize_input(const char *prompt, int *count, struct list_head *head)
 {
 	char	**strs;
 	token_t	*tokens;
 	int		cnt;
 
-	if (!input || !count)
+	if (!prompt || !count)
 		return (NULL);
-	strs = enhance_split_for_tokens(input, &cnt, head);
+	strs = splite_token(prompt, &cnt, head);
 	if (!strs)
 		return (NULL);
 	tokens = ft_malloc((cnt + 1) * sizeof(token_t), head);
