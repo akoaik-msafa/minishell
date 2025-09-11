@@ -41,7 +41,7 @@ static char	**create_cmd_args(token_t **current, token_t *end,
 	return (args);
 }
 
-static tree_node	*create_cmd_node(token_t **current, token_t *end,
+tree_node	*create_cmd_node(token_t **current, token_t *end,
 		struct list_head *head)
 {
 	tree_node	*node;
@@ -57,6 +57,23 @@ static tree_node	*create_cmd_node(token_t **current, token_t *end,
 	node->args = args;
 	node->left = NULL;
 	node->right = NULL;
+	node->filename = NULL;
+	node->redir_type = t_eof;
+	return (node);
+}
+
+tree_node	*create_pipe_node(tree_node *left, tree_node *right,
+		struct list_head *head)
+{
+	tree_node	*node;
+
+	node = ft_malloc(sizeof(tree_node), head);
+	if (!node)
+		return (NULL);
+	node->type = node_pipe;
+	node->args = NULL;
+	node->left = left;
+	node->right = right;
 	node->filename = NULL;
 	node->redir_type = t_eof;
 	return (node);

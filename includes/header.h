@@ -29,5 +29,8 @@ char		*my_strdup(const char *s1, struct list_head *head);
 char		**split_string(const char *str, int *count, struct list_head *n_head);
 token_t		*tokenize_input(const char *input, int *count, struct list_head *head);
 tree_node	*parse_tokens(token_t *tokens, int count, struct list_head *head);
+tree_node	*create_cmd_node(token_t **current, token_t *end, struct list_head *head);
+tree_node	*create_pipe_node(tree_node *left, tree_node *right, struct list_head *head);
+void		execute_ast(tree_node *ast);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: akoaik <akoaik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/08 18:02:05 by akoaik            #+#    #+#             */
-/*   Updated: 2025/09/11 19:16:41 by akoaik           ###   ########.fr       */
+/*   Updated: 2025/09/12 01:04:22 by akoaik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,12 +48,51 @@ void	print_tokens(token_t *tokens, int count)
 	}
 }
 
+void	print_ast(tree_node *node, int depth)
+{
+	const char	*node_types[] = {"CMD", "PIPE", "REDIRECT"};
+	int			i;
+
+	if (!node)
+		return ;
+	i = 0;
+	while (i < depth)
+	{
+		printf("  ");
+		i++;
+	}
+	printf("Node: %s\n", node_types[node->type]);
+	if (node->type == node_cmd && node->args)
+	{
+		i = 0;
+		while (i < depth + 1)
+		{
+			printf("  ");
+			i++;
+		}
+		printf("Args: ");
+		i = 0;
+		while (node->args[i])
+		{
+			printf("'%s' ", node->args[i]);
+			i++;
+		}
+		printf("\n");
+	}
+	if (node->left)
+		print_ast(node->left, depth + 1);
+	if (node->right)
+		print_ast(node->right, depth + 1);
+}
+
 int	main(void)
 {
+	// Unset all env without core dump ;
 	struct list_head	n_head;
 	char				*prompt;
-		token_t *tokens;
-		int token_count;
+	token_t				*tokens;
+	int					token_count;
+	tree_node			*ast;
 
 	n_head.head = NULL;
 	while (1)
@@ -66,6 +105,13 @@ int	main(void)
 		tokens = tokenize_input(prompt, &token_count, &n_head);
 		printf("Tokenized result (%d tokens):\n", token_count);
 		print_tokens(tokens, token_count);
+		ast = parse_tokens(tokens, token_count, &n_head);
+		if (ast)
+		{
+			printf("AST created successfully\n");
+			print_ast(ast, 0);
+			execute_ast(ast);
+		}
 		printf("---\n");
 		free(prompt);
 		free_all(&n_head);
