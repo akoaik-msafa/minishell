@@ -53,7 +53,7 @@ typedef struct tree_node
 	node_type			type;
 	char				**args;
 	struct tree_node	*left;
-	struct tree_node	*rigt;
+	struct tree_node	*right;
 	char				*filename;
 	token_type			redir_type;
 }						tree_node;
