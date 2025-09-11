@@ -12,59 +12,86 @@
 
 #include "../includes/header.h"
 
-int	ft_cd(char **args)
+char	*get_home_path(void)
 {
+	char	*home;
+
+	home = getenv("HOME");
+	if (!home)
+		printf("cd: HOME not set\n");
+	return (home);
+}
+
+char	*get_cd_path(char *arg, char ***args_ptr)
+{
+	char	**args;
 	char	*path;
 	char	*home;
 
+	if (!arg)
+		return (get_home_path());
+	args = ft_split(arg);
+	*args_ptr = args;
 	if (!args || !args[0])
 	{
-		home = getenv("HOME");
-		if (!home)
-		{
-			printf("cd: HOME not set\n");
-			return (1);
-		}
-		path = home;
+		home = get_home_path();
+		if (!home && args)
+			free_split(args);
+		return (home);
 	}
-	else
-		path = args[0];
+	path = args[0];
+	return (path);
+}
+
+int	ft_cd(char *arg)
+{
+	char	**args;
+	char	*path;
+
+	args = NULL;
+	path = get_cd_path(arg, &args);
+	if (!path)
+		return (1);
 	if (chdir(path) == -1)
 	{
 		perror("cd");
+		if (args)
+			free_split(args);
 		return (1);
 	}
+	if (args)
+		free_split(args);
 	return (0);
 }
 
-int	ft_pwd(char **args)
+int	ft_pwd(char *arg)
 {
-	(void)args;
+	(void)arg;
 	printf("pwd command\n");
 	return (0);
 }
 
-int	ft_export(char **args)
+int	ft_export(char *arg)
 {
-	if (args[0])
-		printf("export command: %s\n", args[0]);
+	if (arg)
+		printf("export command: %s\n", arg);
 	else
 		printf("export command: no args\n");
 	return (0);
 }
 
-int	ft_unset(char **args)
+int	ft_unset(char *arg)
 {
-	if (args[0])
-		printf("unset command: %s\n", args[0]);
+	if (arg)
+		printf("unset command: %s\n", arg);
 	else
 		printf("unset command: no args\n");
 	return (0);
 }
 
-int	ft_env(char **args)
+int	ft_env(char *arg)
 {
-	(void)args;
+	(void)arg;
 	printf("env command\n");
 	return (0);
 }

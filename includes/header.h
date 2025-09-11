@@ -18,7 +18,7 @@
 #include <readline/readline.h>
 #include <readline/history.h>
 
-typedef int	(*t_built_in)(char **args);
+typedef int	(*t_built_in)(char *arg);
 
 typedef struct s_built_in
 {
@@ -26,13 +26,24 @@ typedef struct s_built_in
 	t_built_in	func;
 }	t_builtin;
 
-int		ft_echo(char **args);
-int		ft_cd(char **args);
-int		ft_pwd(char **args);
-int		ft_export(char **args);
-int		ft_unset(char **args);
-int		ft_env(char **args);
-int		ft_exit(char **args);
+int		ft_echo(char *arg);
+int		ft_cd(char *arg);
+int		ft_pwd(char *arg);
+int		ft_export(char *arg);
+int		ft_unset(char *arg);
+int		ft_env(char *arg);
+int		ft_exit(char *arg);
 int		ft_strcmp(const char *s1, const char *s2);
 int		check_options(char *arg);
+void	skip_spaces(char *str, int *i);
+char	*extract_word(char *str, int *i);
+char	**ft_split(char *str);
+void	free_split(char **split);
+int	calculate_total_length(char **args);
+void	copy_args_to_result(char **args, char *result);
+char	*join_args(char **args);
+int	process_echo_options(char **args);
+void	print_echo_args(char **args, int start_index);
+char	*get_home_path(void);
+char	*get_cd_path(char *arg, char ***args_ptr);
 void	init_builtins(t_builtin *builtins);

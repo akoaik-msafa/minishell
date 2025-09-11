@@ -29,7 +29,7 @@ int	check_options(char *arg)
 	return (0);
 }
 
-int	ft_echo(char **args)
+int	process_echo_options(char **args)
 {
 	int	i;
 	int	option;
@@ -41,6 +41,14 @@ int	ft_echo(char **args)
 		option = 1;
 		i++;
 	}
+	return (option);
+}
+
+void	print_echo_args(char **args, int start_index)
+{
+	int	i;
+
+	i = start_index;
 	while (args[i])
 	{
 		printf("%s", args[i]);
@@ -48,9 +56,81 @@ int	ft_echo(char **args)
 			printf(" ");
 		i++;
 	}
+}
+
+int	ft_echo(char *arg)
+{
+	char	**args;
+	int		option;
+	int		start_index;
+
+	if (!arg)
+	{
+		printf("\n");
+		return (0);
+	}
+	args = ft_split(arg);
+	if (!args)
+		return (1);
+	option = process_echo_options(args);
+	start_index = 0;
+	while (args[start_index] && check_options(args[start_index]))
+		start_index++;
+	print_echo_args(args, start_index);
 	if (!option)
 		printf("\n");
+	free_split(args);
 	return (0);
+}
+
+int	calculate_total_length(char **args)
+{
+	int	total_len;
+	int	i;
+
+	total_len = 0;
+	i = 0;
+	while (args[i])
+	{
+		total_len += strlen(args[i]);
+		if (args[i + 1])
+			total_len++;
+		i++;
+	}
+	return (total_len);
+}
+
+void	copy_args_to_result(char **args, char *result)
+{
+	int	pos;
+	int	i;
+
+	pos = 0;
+	i = 0;
+	while (args[i])
+	{
+		strcpy(result + pos, args[i]);
+		pos += strlen(args[i]);
+		if (args[i + 1])
+			result[pos++] = ' ';
+		i++;
+	}
+	result[pos] = '\0';
+}
+
+char	*join_args(char **args)
+{
+	int		total_len;
+	char	*result;
+
+	if (!args || !args[0])
+		return (NULL);
+	total_len = calculate_total_length(args);
+	result = malloc(total_len + 1);
+	if (!result)
+		return (NULL);
+	copy_args_to_result(args, result);
+	return (result);
 }
 
 int	main(int argc, char **argv)
@@ -58,6 +138,7 @@ int	main(int argc, char **argv)
 	t_builtin	builtins[7];
 	int			nb_builtins;
 	int			i;
+	char		*args_str;
 
 	init_builtins(builtins);
 	i = 0;
@@ -71,7 +152,10 @@ int	main(int argc, char **argv)
 	{
 		if (ft_strcmp(argv[1], builtins[i].cmd) == 0)
 		{
-			(builtins[i].func)(argv + 2);
+			args_str = join_args(argv + 2);
+			(builtins[i].func)(args_str);
+			if (args_str)
+				free(args_str);
 			break ;
 		}
 		i++;
