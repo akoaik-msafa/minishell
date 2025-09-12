@@ -6,7 +6,7 @@
 /*   By: akoaik <akoaik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/08 18:02:05 by akoaik            #+#    #+#             */
-/*   Updated: 2025/09/12 01:04:22 by akoaik           ###   ########.fr       */
+/*   Updated: 2025/09/12 04:14:48 by akoaik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,6 @@ void	print_ast(tree_node *node, int depth)
 
 int	main(void)
 {
-	// Unset all env without core dump ;
 	struct list_head	n_head;
 	char				*prompt;
 	token_t				*tokens;
