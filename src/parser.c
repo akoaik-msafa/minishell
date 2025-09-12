@@ -6,7 +6,7 @@
 /*   By: akoaik <akoaik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/11 19:30:00 by akoaik            #+#    #+#             */
-/*   Updated: 2025/09/12 04:24:12 by akoaik           ###   ########.fr       */
+/*   Updated: 2025/09/12 22:18:02 by akoaik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,18 +29,18 @@ static token_t	*find_pipe(token_t *start, token_t *end)
 static tree_node	*handle_pipe_parsing(token_t *tokens, token_t *pipe_pos,
 		token_t *end, struct list_head *head)
 {
-	tree_node	*left;		// Pointer to store the parsed AST node for the left command (before pipe)
-	tree_node	*right;		// Pointer to store the parsed AST node for the right command (after pipe)
-	int			left_count;	// Integer count of how many tokens exist before the pipe operator
-	int			right_count;	// Integer count of how many tokens exist after the pipe operator
+	tree_node	*left;
+	tree_node	*right;
+	int			left_count;
+	int			right_count;
 
-	left_count = pipe_pos - tokens;			// Pointer arithmetic: subtract start address from pipe position to get token count before pipe
-	right_count = end - pipe_pos - 1;		// Pointer arithmetic: subtract pipe position from end, minus 1 to exclude the pipe token itself
-	left = parse_tokens(tokens, left_count, head);		// Recursively parse the left side tokens into an AST subtree
-	right = parse_tokens(pipe_pos + 1, right_count, head);	// Recursively parse the right side tokens (skip pipe token with +1) into an AST subtree  
-	if (!left || !right)				// Error checking: ensure both left and right parsing operations succeeded (not NULL)
-		return (NULL);				// If either side failed to parse, return NULL to indicate parsing failure
-	return (create_pipe_node(left, right, head));	// Success: create a new pipe node that connects left and right subtrees, return it
+	left_count = pipe_pos - tokens;
+	right_count = end - pipe_pos - 1;
+	left = parse_tokens(tokens, left_count, head);
+	right = parse_tokens(pipe_pos + 1, right_count, head);
+	if (!left || !right)
+		return (NULL);
+	return (create_pipe_node(left, right, head));
 }
 
 tree_node	*parse_tokens(token_t *tokens, int count, struct list_head *head)
@@ -59,3 +59,15 @@ tree_node	*parse_tokens(token_t *tokens, int count, struct list_head *head)
 	else
 		return (create_cmd_node(&current, end, head));
 }
+
+/*
+  find_pipe (line 15): Iterates through token array from start to end,
+	returns pointer to first pipe token found, or NULL if none exists.
+
+  handle_pipe_parsing (line 29): Splits tokens at pipe position into left and right parts,
+	recursively calls parse_tokens on each side, creates pipe node connecting the results.
+
+  parse_tokens (line 46): Main parsing entry point that validates input, searches for pipes,
+	and either delegates to handle_pipe_parsing or creates command node directly.
+
+*/

@@ -6,14 +6,14 @@
 /*   By: akoaik <akoaik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/05 03:27:21 by akoaik            #+#    #+#             */
-/*   Updated: 2025/09/11 19:17:45 by akoaik           ###   ########.fr       */
+/*   Updated: 2025/09/12 21:19:32 by akoaik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "header.h"
 
 struct tree* createNode(int value) {
-    struct tree* new_node = ft_malloc(sizeof(struct tree));
+    struct tree* new_node = malloc(sizeof(struct tree));
     new_node->value = value;
     new_node->left = NULL;
     new_node->right = NULL;
