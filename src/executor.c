@@ -24,29 +24,47 @@ static void	free_split(char **strs)
 	free(strs);
 }
 
-static char	*get_cmd_path(char *cmd, t_env *env)
+static char	*find_path_env(t_env *env)
 {
-	char	**paths;
-	char	*path;
-	char	*temp;
-	int		i;
 	char	**envp;
+	int		i;
 
-	if (!cmd || cmd[0] == '/' || cmd[0] == '.')
-		return (my_strdup(cmd, NULL));
 	envp = get_env(env);
 	i = 0;
 	while (envp[i] && ft_strncmp(envp[i], "PATH=", 5) != 0)
 		i++;
 	if (!envp[i])
 		return (NULL);
-	paths = ft_split(envp[i] + 5, ':');
+	return (envp[i] + 5);
+}
+
+static char	*build_full_path(char *dir, char *cmd)
+{
+	char	*temp;
+	char	*path;
+
+	temp = ft_strjoin(dir, "/");
+	if (!temp)
+		return (NULL);
+	path = ft_strjoin(temp, cmd);
+	free(temp);
+	return (path);
+}
+
+static char	*search_in_paths(char **paths, char *cmd)
+{
+	char	*path;
+	int		i;
+
 	i = 0;
 	while (paths[i])
 	{
-		temp = ft_strjoin(paths[i], "/");
-		path = ft_strjoin(temp, cmd);
-		free(temp);
+		path = build_full_path(paths[i], cmd);
+		if (!path)
+		{
+			i++;
+			continue;
+		}
 		if (access(path, X_OK) == 0)
 		{
 			free_split(paths);
@@ -57,6 +75,22 @@ static char	*get_cmd_path(char *cmd, t_env *env)
 	}
 	free_split(paths);
 	return (NULL);
+}
+
+static char	*get_cmd_path(char *cmd, t_env *env)
+{
+	char	**paths;
+	char	*path_env;
+
+	if (!cmd || cmd[0] == '/' || cmd[0] == '.')
+		return (my_strdup(cmd, NULL));
+	path_env = find_path_env(env);
+	if (!path_env)
+		return (NULL);
+	paths = ft_split(path_env, ':');
+	if (!paths)
+		return (NULL);
+	return (search_in_paths(paths, cmd));
 }
 
 static void	exec_cmd(tree_node *node, t_env *env)
