@@ -6,7 +6,7 @@
 /*   By: akoaik <akoaik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/08 18:15:33 by akoaik            #+#    #+#             */
-/*   Updated: 2025/09/12 01:01:25 by akoaik           ###   ########.fr       */
+/*   Updated: 2025/09/13 23:37:44 by akoaik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,5 +57,11 @@ typedef struct tree_node
 	char				*filename;
 	token_type			redir_type;
 }						tree_node;
+
+typedef struct s_env
+{
+	char				**envp;
+	int					count;
+}						t_env;
 
 #endif

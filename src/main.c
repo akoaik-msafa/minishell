@@ -6,7 +6,7 @@
 /*   By: akoaik <akoaik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/08 18:02:05 by akoaik            #+#    #+#             */
-/*   Updated: 2025/09/12 04:14:48 by akoaik           ###   ########.fr       */
+/*   Updated: 2025/09/14 00:23:04 by akoaik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,15 +109,23 @@ void	print_tree_structure(tree_node *ast)
 	printf("===============================\n");
 }
 
-int	main(void)
+int	main(int argc, char **argv, char **envp)
 {
 	struct list_head	n_head;
+	t_env				env;
 	char				*prompt;
 	token_t				*tokens;
 	int					token_count;
 	tree_node			*ast;
 
 	n_head.head = NULL;
+	(void)argc;
+	(void)argv;
+	if (!init_env(&env, envp, &n_head))
+	{
+		printf("Error: Failed to initialize environment\n");
+		return (1);
+	}
 	while (1)
 	{
 		prompt = get_user_input();
@@ -131,8 +139,8 @@ int	main(void)
 		ast = parse_tokens(tokens, token_count, &n_head);
 		print_tree_structure(ast);
 		if (ast)
-			execute_ast(ast);
-		printf("---\n");
+			execute_ast(ast, &env);
+		printf("\n");
 		free(prompt);
 		free_all(&n_head);
 		n_head.head = NULL;

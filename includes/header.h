@@ -20,6 +20,9 @@
 # include <stdio.h>
 # include <stdlib.h>
 # include <unistd.h>
+# include <sys/wait.h>
+# include <fcntl.h>
+# include <errno.h>
 
 void		*ft_malloc(size_t size, struct list_head *n_head);
 void		free_all(struct list_head *n_head);
@@ -31,6 +34,9 @@ token_t		*tokenize_input(const char *input, int *count, struct list_head *head);
 tree_node	*parse_tokens(token_t *tokens, int count, struct list_head *head);
 tree_node	*create_cmd_node(token_t **current, token_t *end, struct list_head *head);
 tree_node	*create_pipe_node(tree_node *left, tree_node *right, struct list_head *head);
-void		execute_ast(tree_node *ast);
+void		execute_ast(tree_node *ast, t_env *env);
+int			init_env(t_env *env, char **envp, struct list_head *head);
+char		**get_env(t_env *env);
+int			get_env_count(t_env *env);
 
 #endif
