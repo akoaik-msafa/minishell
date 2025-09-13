@@ -51,6 +51,8 @@ void	print_tokens(token_t *tokens, int count)
 void	print_ast(tree_node *node, int depth)
 {
 	const char	*node_types[] = {"CMD", "PIPE", "REDIRECT"};
+	const char	*redir_types[] = {"WORD", "PIPE", "REDIR_IN", "REDIR_OUT", 
+		"REDIR_APPEND", "REDIR_HEREDOC", "EOF"};
 	int			i;
 
 	if (!node)
@@ -78,11 +80,33 @@ void	print_ast(tree_node *node, int depth)
 			i++;
 		}
 		printf("\n");
+		if (node->redir_type != t_eof && node->filename)
+		{
+			i = 0;
+			while (i < depth + 1)
+			{
+				printf("  ");
+				i++;
+			}
+			printf("Redirection: %s -> '%s'\n", redir_types[node->redir_type], node->filename);
+		}
 	}
 	if (node->left)
 		print_ast(node->left, depth + 1);
 	if (node->right)
 		print_ast(node->right, depth + 1);
+}
+
+void	print_tree_structure(tree_node *ast)
+{
+	if (!ast)
+	{
+		printf("No AST created - parsing failed\n");
+		return ;
+	}
+	printf("=== COMMAND TREE STRUCTURE ===\n");
+	print_ast(ast, 0);
+	printf("===============================\n");
 }
 
 int	main(void)
@@ -105,12 +129,9 @@ int	main(void)
 		printf("Tokenized result (%d tokens):\n", token_count);
 		print_tokens(tokens, token_count);
 		ast = parse_tokens(tokens, token_count, &n_head);
+		print_tree_structure(ast);
 		if (ast)
-		{
-			printf("AST created successfully\n");
-			print_ast(ast, 0);
 			execute_ast(ast);
-		}
 		printf("---\n");
 		free(prompt);
 		free_all(&n_head);

@@ -59,6 +59,19 @@ tree_node	*create_cmd_node(token_t **current, token_t *end,
 	node->right = NULL;
 	node->filename = NULL;
 	node->redir_type = t_eof;
+	
+	if (*current < end && ((*current)->type == t_re_out || 
+		(*current)->type == t_re_in || (*current)->type == t_re_append || 
+		(*current)->type == t_re_heredoc))
+	{
+		node->redir_type = (*current)->type;
+		(*current)++;
+		if (*current < end && (*current)->type == t_word)
+		{
+			node->filename = (*current)->str;
+			(*current)++;
+		}
+	}
 	return (node);
 }
 
