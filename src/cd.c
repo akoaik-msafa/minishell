@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: msafa <msafa@student.42.fr>                +#+  +:+       +#+        */
+/*   By: akoaik <akoaik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/12 00:40:00 by msafa             #+#    #+#             */
-/*   Updated: 2025/09/12 00:40:00 by msafa            ###   ########.fr       */
+/*   Updated: 2025/09/13 18:56:35 by akoaik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ char	*get_home_path(void)
 {
 	char	*home;
 
-	home = getenv("HOME");
+	home = getenv("HOME"); // you can not use this funtion is fobedn 
 	if (!home)
 		printf("cd: HOME not set\n");
 	return (home);

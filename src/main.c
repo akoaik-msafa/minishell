@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: msafa <msafa@student.42.fr>                +#+  +:+       +#+        */
+/*   By: akoaik <akoaik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/07 15:23:30 by msafa             #+#    #+#             */
-/*   Updated: 2025/09/12 00:40:00 by msafa            ###   ########.fr       */
+/*   Updated: 2025/09/13 18:58:30 by akoaik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ void	init_builtins(t_builtin *builtins)
 	builtins[6].func = ft_exit;
 }
 
-int	main(int argc, char **argv)
+int	main(int argc, char **argv, char ** env) // copy the ENV to a 2 dimention to you can edit it and export to it :)
 {
 	t_builtin	builtins[7];
 	int			nb_builtins;
