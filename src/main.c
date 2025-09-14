@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akoaik <akoaik@student.42.fr>              +#+  +:+       +#+        */
+/*   By: msafa <msafa@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/07 15:23:30 by msafa             #+#    #+#             */
-/*   Updated: 2025/09/13 18:58:30 by akoaik           ###   ########.fr       */
+/*   Updated: 2025/09/14 11:50:30 by msafa            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,32 +30,66 @@ void	init_builtins(t_builtin *builtins)
 	builtins[6].func = ft_exit;
 }
 
-int	main(int argc, char **argv, char ** env) // copy the ENV to a 2 dimention to you can edit it and export to it :)
+int	execute_builtin(char *input, t_builtin *builtins, int nb_builtins)
 {
-	t_builtin	builtins[7];
-	int			nb_builtins;
-	int			i;
-	char		*args_str;
+	char	**args;
+	char	*args_str;
+	int		i;
 
-	init_builtins(builtins);
-	i = 0;
-	nb_builtins = 7;
-	if (argc < 2)
+	if (!input || !input[0])
+		return (0);
+	args = ft_split(input);
+	if (!args || !args[0])
 	{
-		printf("Usage: %s <command> [args...]\n", argv[0]);
-		return (1);
+		if (args)
+			free_split(args);
+		return (0);
 	}
+	i = 0;
 	while (i < nb_builtins)
 	{
-		if (ft_strcmp(argv[1], builtins[i].cmd) == 0)
+		if (ft_strcmp(args[0], builtins[i].cmd) == 0)
 		{
-			args_str = join_args(argv + 2);
+			if (args[1])
+				args_str = join_args(args + 1);
+			else
+				args_str = NULL;
 			(builtins[i].func)(args_str);
 			if (args_str)
 				free(args_str);
-			break ;
+			free_split(args);
+			return (1);
 		}
 		i++;
+	}
+	free_split(args);
+	return (0);
+}
+
+int	main(int argc, char **argv, char ** env) 
+{
+	t_builtin	builtins[7];
+	int			nb_builtins;
+	char		*input;
+
+	init_builtins(builtins);
+	nb_builtins = 7;
+	while (1)
+	{
+		input = readline("minishell$ ");
+		if (!input)
+		{
+			printf("exit\n");
+			break ;
+		}
+		if (input[0] != '\0')
+			add_history(input);
+		if (!execute_builtin(input, builtins, nb_builtins))
+		{
+			if (input[0] != '\0')
+				printf("minishell: %s: command not found\n", input);
+		}
+		free(input);
 	}
 	return (0);
 }

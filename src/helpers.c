@@ -12,6 +12,48 @@
 
 #include "../includes/header.h"
 
+char	*ft_strncpy(char *dest, const char *src, int n)
+{
+	int	i;
+
+	i = 0;
+	while (i < n && src[i])
+	{
+		dest[i] = src[i];
+		i++;
+	}
+	while (i < n)
+	{
+		dest[i] = '\0';
+		i++;
+	}
+	return (dest);
+}
+
+char	*ft_strdup(const char *s)
+{
+	int		len;
+	int		i;
+	char	*dup;
+
+	if (!s)
+		return (NULL);
+	len = 0;
+	while (s[len])
+		len++;
+	dup = malloc(len + 1);
+	if (!dup)
+		return (NULL);
+	i = 0;
+	while (s[i])
+	{
+		dup[i] = s[i];
+		i++;
+	}
+	dup[i] = '\0';
+	return (dup);
+}
+
 int	ft_strcmp(const char *s1, const char *s2)
 {
 	unsigned int	i;
@@ -64,7 +106,7 @@ char	*extract_word(char *str, int *i)
 	word = malloc(sizeof(char) * (len + 1));
 	if (!word)
 		return (NULL);
-	strncpy(word, str + start, len);
+	ft_strncpy(word, str + start, len);
 	word[len] = '\0';
 	return (word);
 }
