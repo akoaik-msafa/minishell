@@ -6,67 +6,11 @@
 /*   By: msafa <msafa@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/12 00:40:00 by msafa             #+#    #+#             */
-/*   Updated: 2025/09/12 00:40:00 by msafa            ###   ########.fr       */
+/*   Updated: 2025/09/14 15:17:48 by msafa            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/header.h"
-
-char	*ft_strncpy(char *dest, const char *src, int n)
-{
-	int	i;
-
-	i = 0;
-	while (i < n && src[i])
-	{
-		dest[i] = src[i];
-		i++;
-	}
-	while (i < n)
-	{
-		dest[i] = '\0';
-		i++;
-	}
-	return (dest);
-}
-
-char	*ft_strdup(const char *s)
-{
-	int		len;
-	int		i;
-	char	*dup;
-
-	if (!s)
-		return (NULL);
-	len = 0;
-	while (s[len])
-		len++;
-	dup = malloc(len + 1);
-	if (!dup)
-		return (NULL);
-	i = 0;
-	while (s[i])
-	{
-		dup[i] = s[i];
-		i++;
-	}
-	dup[i] = '\0';
-	return (dup);
-}
-
-int	ft_strcmp(const char *s1, const char *s2)
-{
-	unsigned int	i;
-
-	i = 0;
-	while (s1[i] && s2[i])
-	{
-		if ((unsigned char)s1[i] != (unsigned char)s2[i])
-			return ((unsigned char)s1[i] - (unsigned char)s2[i]);
-		i++;
-	}
-	return ((unsigned char)s1[i] - (unsigned char)s2[i]);
-}
 
 int	count_words(char *str)
 {

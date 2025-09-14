@@ -6,7 +6,7 @@
 /*   By: msafa <msafa@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/12 00:40:00 by msafa             #+#    #+#             */
-/*   Updated: 2025/09/12 00:40:00 by msafa            ###   ########.fr       */
+/*   Updated: 2025/09/14 14:11:57 by msafa            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,9 @@ int	ft_pwd(char *arg)
 	return (0);
 }
 
-int	ft_export(char *arg)
+int	ft_export(char *arg, char **env)
 {
+	(void)env;
 	if (arg)
 		printf("export command: %s\n", arg);
 	else
@@ -37,8 +38,9 @@ int	ft_export(char *arg)
 	return (0);
 }
 
-int	ft_unset(char *arg)
+int	ft_unset(char *arg, char **env)
 {
+	(void)env;
 	if (arg)
 		printf("unset command: %s\n", arg);
 	else
@@ -46,15 +48,25 @@ int	ft_unset(char *arg)
 	return (0);
 }
 
-int	ft_env(char *arg)
+int	ft_env(char *arg, char **env)
 {
+	int	i;
+
 	(void)arg;
-	printf("env command\n");
+	if (!env)
+		return (1);
+	i = 0;
+	while (env[i])
+	{
+		printf("%s\n", env[i]);
+		i++;
+	}
 	return (0);
 }
 
-int	ft_exit(char *arg)
+int	ft_exit(char *arg, char **env)
 {
+	(void)env;
 	if (arg)
 		printf("exit command: %s\n", arg);
 	else
