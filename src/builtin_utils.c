@@ -13,7 +13,7 @@
 #include "../includes/header.h"
 
 int	search_env_builtins(char *cmd, char *args_str,
-		t_env_builtin *env_builtins, char **env)
+		t_env_builtin *env_builtins, char ***env)
 {
 	int	i;
 
@@ -22,7 +22,10 @@ int	search_env_builtins(char *cmd, char *args_str,
 	{
 		if (ft_strcmp(cmd, env_builtins[i].cmd) == 0)
 		{
-			(env_builtins[i].func)(args_str, env);
+			if (ft_strcmp(cmd, "export") == 0)
+				ft_export(args_str, env);
+			else
+				(env_builtins[i].func)(args_str, *env);
 			return (1);
 		}
 		i++;

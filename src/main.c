@@ -27,7 +27,7 @@ void	init_simple_builtins(t_simple_builtin *simple_builtins)
 void	init_env_builtins(t_env_builtin *env_builtins)
 {
 	env_builtins[0].cmd = "export";
-	env_builtins[0].func = ft_export;
+	env_builtins[0].func = NULL;
 	env_builtins[1].cmd = "unset";
 	env_builtins[1].func = ft_unset;
 	env_builtins[2].cmd = "env";
@@ -38,7 +38,7 @@ void	init_env_builtins(t_env_builtin *env_builtins)
 	env_builtins[4].func = NULL;
 }
 
-int	execute_builtin(char *input, char **env)
+int	execute_builtin(char *input, char ***env)
 {
 	t_simple_builtin	simple_builtins[4];
 	t_env_builtin		env_builtins[5];
@@ -104,7 +104,7 @@ int	main(int argc, char **argv, char ** env)
 		}
 		if (input[0] != '\0')
 			add_history(input);
-		if (!execute_builtin(input, env_copy))
+		if (!execute_builtin(input, &env_copy))
 		{
 			if (input[0] != '\0')
 				printf("minishell: %s: command not found\n", input);

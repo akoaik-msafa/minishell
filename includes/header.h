@@ -37,7 +37,7 @@ typedef struct s_env_builtin
 int		ft_echo(char *arg);
 int		ft_cd(char *arg);
 int		ft_pwd(char *arg);
-int		ft_export(char *arg, char **env);
+int		ft_export(char *arg, char ***env);
 int		ft_unset(char *arg, char **env);
 int		ft_env(char *arg, char **env);
 int		ft_exit(char *arg, char **env);
@@ -74,8 +74,8 @@ void	print_cwd(const char *label);
 void	init_simple_builtins(t_simple_builtin *simple_builtins);
 void	init_env_builtins(t_env_builtin *env_builtins);
 int		search_simple_builtins(char *cmd, char *args_str, t_simple_builtin *simple_builtins);
-int		search_env_builtins(char *cmd, char *args_str, 
-			t_env_builtin *env_builtins, char **env);
-int		execute_builtin(char *input, char **env);
+int		search_env_builtins(char *cmd, char *args_str,
+			t_env_builtin *env_builtins, char ***env);
+int		execute_builtin(char *input, char ***env);
 char	**duplicate_env(char **env);
 void	free_env(char **env);
