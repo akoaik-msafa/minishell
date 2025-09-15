@@ -6,7 +6,7 @@
 /*   By: akoaik <akoaik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/11 23:12:11 by akoaik            #+#    #+#             */
-/*   Updated: 2025/09/12 04:03:21 by akoaik           ###   ########.fr       */
+/*   Updated: 2025/09/15 14:43:01 by akoaik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,8 +131,8 @@ static int	child2(tree_node *cmd_node, int *pipefd, t_env *env)
 		exit(1);
 	}
 	close(pipefd[1]);
-	exec_cmd(cmd_node, env);
-	return (1);
+	execute_ast(cmd_node, env);
+	exit(0);
 }
 
 static void	execute_command(tree_node *node, t_env *env)

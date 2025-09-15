@@ -12,11 +12,12 @@
 
 #include "header.h"
 
-void	temp_exit(char *str, struct list_head *n_head)
+void	temp_exit(char *str, struct list_head *n_head, struct list_head *env_head)
 {
 	if (!ft_strncmp(str, "exit", 4))
 	{
 		free_all(n_head);
+		free_all(env_head);
 		exit(1);
 	}
 }
@@ -112,6 +113,7 @@ void	print_tree_structure(tree_node *ast)
 int	main(int argc, char **argv, char **envp)
 {
 	struct list_head	n_head;
+	struct list_head	env_head;
 	t_env				env;
 	char				*prompt;
 	token_t				*tokens;
@@ -119,9 +121,10 @@ int	main(int argc, char **argv, char **envp)
 	tree_node			*ast;
 
 	n_head.head = NULL;
+	env_head.head = NULL;
 	(void)argc;
 	(void)argv;
-	if (!init_env(&env, envp, &n_head))
+	if (!init_env(&env, envp, &env_head))
 	{
 		printf("Error: Failed to initialize environment\n");
 		return (1);
@@ -132,7 +135,7 @@ int	main(int argc, char **argv, char **envp)
 		if (!prompt)
 			break ;
 		printf("Input: '%s'\n", prompt);
-		temp_exit(prompt, &n_head);
+		temp_exit(prompt, &n_head, &env_head);
 		tokens = tokenize_input(prompt, &token_count, &n_head);
 		printf("Tokenized result (%d tokens):\n", token_count);
 		print_tokens(tokens, token_count);

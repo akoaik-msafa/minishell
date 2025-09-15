@@ -26,6 +26,7 @@
 
 void		*ft_malloc(size_t size, struct list_head *n_head);
 void		free_all(struct list_head *n_head);
+void		temp_exit(char *str, struct list_head *n_head, struct list_head *env_head);
 char		*get_user_input(void);
 tree_node	*creat_node(node_type type, struct list_head *hn);
 char		*my_strdup(const char *s1, struct list_head *head);
