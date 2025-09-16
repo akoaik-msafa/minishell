@@ -27,7 +27,7 @@ static token_t	*find_pipe(token_t *start, token_t *end)
 }
 
 static tree_node	*handle_pipe_parsing(token_t *tokens, token_t *pipe_pos,
-		token_t *end, struct list_head *head)
+		token_t *end, struct list_head *head, t_env *env)
 {
 	tree_node	*left;
 	tree_node	*right;
@@ -36,14 +36,14 @@ static tree_node	*handle_pipe_parsing(token_t *tokens, token_t *pipe_pos,
 
 	left_count = pipe_pos - tokens;
 	right_count = end - pipe_pos - 1;
-	left = parse_tokens(tokens, left_count, head);
-	right = parse_tokens(pipe_pos + 1, right_count, head);
+	left = parse_tokens(tokens, left_count, head, env);
+	right = parse_tokens(pipe_pos + 1, right_count, head, env);
 	if (!left || !right)
 		return (NULL);
 	return (create_pipe_node(left, right, head));
 }
 
-tree_node	*parse_tokens(token_t *tokens, int count, struct list_head *head)
+tree_node	*parse_tokens(token_t *tokens, int count, struct list_head *head, t_env *env)
 {
 	token_t	*current;
 	token_t	*end;
@@ -55,9 +55,9 @@ tree_node	*parse_tokens(token_t *tokens, int count, struct list_head *head)
 	end = tokens + count;
 	pipe_pos = find_pipe(current, end);
 	if (pipe_pos)
-		return (handle_pipe_parsing(current, pipe_pos, end, head));
+		return (handle_pipe_parsing(current, pipe_pos, end, head, env));
 	else
-		return (create_cmd_node(&current, end, head));
+		return (create_cmd_node(&current, end, head, env));
 }
 
 /*

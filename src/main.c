@@ -6,7 +6,7 @@
 /*   By: akoaik <akoaik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/08 18:02:05 by akoaik            #+#    #+#             */
-/*   Updated: 2025/09/14 00:23:04 by akoaik           ###   ########.fr       */
+/*   Updated: 2025/09/16 16:31:56 by akoaik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,7 +139,7 @@ int	main(int argc, char **argv, char **envp)
 		tokens = tokenize_input(prompt, &token_count, &n_head);
 		printf("Tokenized result (%d tokens):\n", token_count);
 		print_tokens(tokens, token_count);
-		ast = parse_tokens(tokens, token_count, &n_head);
+		ast = parse_tokens(tokens, token_count, &n_head, &env);
 		print_tree_structure(ast);
 		if (ast)
 			execute_ast(ast, &env);
@@ -148,4 +148,5 @@ int	main(int argc, char **argv, char **envp)
 		free_all(&n_head);
 		n_head.head = NULL;
 	}
+	free_all(&env_head);
 }
