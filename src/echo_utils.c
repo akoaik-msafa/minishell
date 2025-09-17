@@ -21,7 +21,7 @@ int	calculate_total_length(char **args)
 	i = 0;
 	while (args[i])
 	{
-		total_len += strlen(args[i]);
+		total_len += ft_strlen(args[i]);
 		if (args[i + 1])
 			total_len++;
 		i++;
@@ -38,8 +38,8 @@ void	copy_args_to_result(char **args, char *result)
 	i = 0;
 	while (args[i])
 	{
-		strcpy(result + pos, args[i]);
-		pos += strlen(args[i]);
+		ft_strcpy(result + pos, args[i]);
+		pos += ft_strlen(args[i]);
 		if (args[i + 1])
 			result[pos++] = ' ';
 		i++;

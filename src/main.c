@@ -27,7 +27,7 @@ void	init_simple_builtins(t_simple_builtin *simple_builtins)
 void	init_env_builtins(t_env_builtin *env_builtins)
 {
 	env_builtins[0].cmd = "export";
-	env_builtins[0].func = NULL;
+	env_builtins[0].func = ft_export;
 	env_builtins[1].cmd = "unset";
 	env_builtins[1].func = ft_unset;
 	env_builtins[2].cmd = "env";
@@ -38,7 +38,7 @@ void	init_env_builtins(t_env_builtin *env_builtins)
 	env_builtins[4].func = NULL;
 }
 
-int	execute_builtin(char *input, char ***env)
+int	execute_builtin(char *input, t_env_data *env_data)
 {
 	t_simple_builtin	simple_builtins[4];
 	t_env_builtin		env_builtins[5];
@@ -57,7 +57,7 @@ int	execute_builtin(char *input, char ***env)
 	if (args[1])
 		args_str = join_args(args + 1);
 	result = search_simple_builtins(args[0], args_str, simple_builtins) ||
-			search_env_builtins(args[0], args_str, env_builtins, env);
+			search_env_builtins(args[0], args_str, env_builtins, env_data);
 	if (args_str)
 		free(args_str);
 	free_split(args);
@@ -81,15 +81,16 @@ int	search_simple_builtins(char *cmd, char *args_str, t_simple_builtin *simple_b
 	return (0);
 }
 
-int	main(int argc, char **argv, char ** env) 
+int	main(int argc, char **argv, char ** env)
 {
-	char	**env_copy;
-	char	*input;
+	t_env_data	env_data;
+	char		*input;
 
 	(void)argc;
 	(void)argv;
-	env_copy = duplicate_env(env);
-	if (!env_copy)
+	env_data.env = duplicate_env(env);
+	env_data.export_only = NULL;
+	if (!env_data.env)
 	{
 		printf("Error: Could not duplicate environment\n");
 		return (1);
@@ -104,13 +105,15 @@ int	main(int argc, char **argv, char ** env)
 		}
 		if (input[0] != '\0')
 			add_history(input);
-		if (!execute_builtin(input, &env_copy))
+		if (!execute_builtin(input, &env_data))
 		{
 			if (input[0] != '\0')
 				printf("minishell: %s: command not found\n", input);
 		}
 		free(input);
 	}
-	free_env(env_copy);
+	free_env(env_data.env);
+	if (env_data.export_only)
+		free_env(env_data.export_only);
 	return (0);
 }
