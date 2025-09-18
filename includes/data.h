@@ -6,24 +6,35 @@
 /*   By: akoaik <akoaik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/08 18:15:33 by akoaik            #+#    #+#             */
-/*   Updated: 2025/09/13 23:37:44 by akoaik           ###   ########.fr       */
+/*   Updated: 2025/09/18 05:38:02 by akoaik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef DATA_H
 # define DATA_H
 
-struct					list_head
+// holding the env copied
+typedef struct s_env
 {
-	struct alloc_list	*head;
-};
+	char				**envp;
+	int					count;
+}						t_env;
 
+// AGC struct
 struct					alloc_list
 {
 	void				*allocation;
 	struct alloc_list	*next;
 };
 
+// AGC head holder
+typedef struct			list_head
+{
+	struct alloc_list	*head;
+	// t_env				*env;
+}						t_list_head;
+
+// enumeration for types of token
 typedef enum
 {
 	t_word,
@@ -35,33 +46,34 @@ typedef enum
 	t_eof
 }						token_type;
 
+// enum to indecate the type inside the tree node
 typedef enum
 {
-	node_cmd,
-	node_pipe,
-	node_redirect
+	cmd_node,
+	pipe_node,
+	redir_node
 }						node_type;
 
+// each part is :
 typedef struct
 {
 	token_type			type;
 	char				*str;
 }						token_t;
 
+
+
+// tree_node (each node compose of :
 typedef struct tree_node
 {
 	node_type			type;
 	char				**args;
-	struct tree_node	*left;
-	struct tree_node	*right;
 	char				*filename;
 	token_type			redir_type;
+	struct tree_node	*left;
+	struct tree_node	*right;
 }						tree_node;
 
-typedef struct s_env
-{
-	char				**envp;
-	int					count;
-}						t_env;
+
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: akoaik <akoaik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/09 19:13:01 by akoaik            #+#    #+#             */
-/*   Updated: 2025/09/10 14:47:37 by akoaik           ###   ########.fr       */
+/*   Updated: 2025/09/17 22:35:19 by akoaik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,14 @@
 
 static int	count_tokens(const char *str)
 {
-	int		count = 0;
-	int		i = 0;
-	int		in_quotes = 0;
+	int		count;
+	int		i;
+	int		in_quotes;
 	char	quote_char;
 
+	count = 0;
+	i = 0;
+	in_quotes = 0;
 	while (str[i])
 	{
 		if (!in_quotes && (str[i] == '"' || str[i] == '\''))
@@ -40,11 +43,14 @@ static int	count_tokens(const char *str)
 	return (count);
 }
 
-static void	extract_tokens(const char *str, char **tokens, int count, struct list_head *n_head)
+static void	extract_tokens(const char *str, char **tokens, int count,
+		t_list_head *n_head)
 {
-	int	i = 0, j = 0, start, len;
+	int		i, j, start, len;
 	char	quote_char;
 
+	i = 0;
+	j = 0;
 	while (str[i] && j < count)
 	{
 		while (str[i] == ' ' || str[i] == '\t')
@@ -62,7 +68,8 @@ static void	extract_tokens(const char *str, char **tokens, int count, struct lis
 		}
 		else
 		{
-			while (str[i] && str[i] != ' ' && str[i] != '\t' && str[i] != '"' && str[i] != '\'')
+			while (str[i] && str[i] != ' ' && str[i] != '\t' && str[i] != '"'
+				&& str[i] != '\'')
 				i++;
 			len = i - start;
 		}
@@ -76,7 +83,7 @@ static void	extract_tokens(const char *str, char **tokens, int count, struct lis
 	}
 }
 
-char	**split_string(const char *str, int *count, struct list_head *n_head)
+char	**split_string(const char *str, int *count, t_list_head *n_head)
 {
 	char	**tokens;
 

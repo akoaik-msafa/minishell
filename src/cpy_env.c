@@ -6,7 +6,7 @@
 /*   By: akoaik <akoaik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/13 23:38:12 by akoaik            #+#    #+#             */
-/*   Updated: 2025/09/15 14:42:12 by akoaik           ###   ########.fr       */
+/*   Updated: 2025/09/18 05:07:42 by akoaik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,29 +22,29 @@ static int	count_env(char **envp)
 	return (i);
 }
 
-static char	*copy_env_string(const char *src, struct list_head *head)
+static char	*copy_env(char *src, t_list_head *head)
 {
-	char	*dst;
+	char	*dest;
 	int		len;
 	int		i;
 
 	if (!src)
 		return (NULL);
 	len = ft_strlen(src);
-	dst = ft_malloc(len + 1, head);
-	if (!dst)
+	dest = ft_malloc(len + 1, head);
+	if (!dest)
 		return (NULL);
 	i = 0;
 	while (i < len)
 	{
-		dst[i] = src[i];
+		dest[i] = src[i];
 		i++;
 	}
-	dst[i] = '\0';
-	return (dst);
+	dest[i] = '\0';
+	return (dest);
 }
 
-int	init_env(t_env *env, char **envp, struct list_head *head)
+int	init_env(t_env *env, char **envp, t_list_head *head)
 {
 	int	i;
 
@@ -57,7 +57,7 @@ int	init_env(t_env *env, char **envp, struct list_head *head)
 	i = 0;
 	while (i < env->count)
 	{
-		env->envp[i] = copy_env_string(envp[i], head);
+		env->envp[i] = copy_env(envp[i], head);
 		if (!env->envp[i])
 			return (0);
 		i++;
@@ -68,7 +68,7 @@ int	init_env(t_env *env, char **envp, struct list_head *head)
 
 char	**get_env(t_env *env)
 {
-	if (!env)
+	if (!env->envp)
 		return (NULL);
 	return (env->envp);
 }
