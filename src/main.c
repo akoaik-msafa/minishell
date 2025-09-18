@@ -6,7 +6,7 @@
 /*   By: akoaik <akoaik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/08 18:02:05 by akoaik            #+#    #+#             */
-/*   Updated: 2025/09/16 16:31:56 by akoaik           ###   ########.fr       */
+/*   Updated: 2025/09/17 17:33:26 by akoaik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -143,7 +143,6 @@ int	main(int argc, char **argv, char **envp)
 		print_tree_structure(ast);
 		if (ast)
 			execute_ast(ast, &env);
-		printf("\n");
 		free(prompt);
 		free_all(&n_head);
 		n_head.head = NULL;

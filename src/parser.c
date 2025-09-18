@@ -6,7 +6,7 @@
 /*   By: akoaik <akoaik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/11 19:30:00 by akoaik            #+#    #+#             */
-/*   Updated: 2025/09/12 22:36:39 by akoaik           ###   ########.fr       */
+/*   Updated: 2025/09/17 23:12:59 by akoaik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,7 @@ tree_node	*parse_tokens(token_t *tokens, int count, struct list_head *head, t_en
 	else
 		return (create_cmd_node(&current, end, head, env));
 }
+
 
 /*
   find_pipe (line 15): Iterates through token array from start to end,
