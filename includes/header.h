@@ -6,7 +6,7 @@
 /*   By: msafa <msafa@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/07 15:31:25 by msafa             #+#    #+#             */
-/*   Updated: 2025/09/18 02:33:45 by msafa            ###   ########.fr       */
+/*   Updated: 2025/09/18 22:58:48 by msafa            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 #include <signal.h>
 #include <unistd.h>
 #include <string.h>
+#include <fcntl.h>
 #include <readline/readline.h>
 #include <readline/history.h>
 
@@ -98,3 +99,4 @@ void append_to_env(char *arg, t_env_data *env_data, int index);
 void update_env(char *arg, t_env_data *env_data, int index);
 void add_to_env(char *arg, t_env_data *env_data);
 void add_var_no_value(char *arg, t_env_data *env_data);
+int here_doc(char *delimiter);
