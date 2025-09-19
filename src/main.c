@@ -6,7 +6,7 @@
 /*   By: akoaik <akoaik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/08 18:02:05 by akoaik            #+#    #+#             */
-/*   Updated: 2025/09/18 05:40:13 by akoaik           ###   ########.fr       */
+/*   Updated: 2025/09/19 19:06:36 by akoaik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,6 @@ void	while_prompt(t_list_head *n_head, t_list_head *env_head,
 	int			token_count;
 	tree_node	*ast;
 	
-
 	while (1)
 	{
 		prompt = get_user_input();
@@ -28,7 +27,7 @@ void	while_prompt(t_list_head *n_head, t_list_head *env_head,
 			break ;
 		temp_exit(prompt, n_head, env_head);
 		tokens = tokenize_input(prompt, &token_count, n_head);
-		ast = parse_tokens(tokens, token_count, n_head);
+		ast = parse_tokens(tokens, token_count, n_head, env);
 		if (ast)
 			execute_ast(ast, env);
 		free(prompt);

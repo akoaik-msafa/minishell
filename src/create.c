@@ -42,7 +42,7 @@ static char	**create_cmd_args(token_t **current, token_t *end,
 }
 
 tree_node	*create_cmd_node(token_t **current, token_t *end,
-		t_list_head *n_head)
+		t_list_head *n_head, t_env *env)
 {
 	tree_node	*node;
 	char		**args;
@@ -50,7 +50,7 @@ tree_node	*create_cmd_node(token_t **current, token_t *end,
 	node = ft_malloc(sizeof(tree_node), n_head);
 	if (!node)
 		return (NULL);
-	args = create_cmd_args(current, end, n_head, n_head->env);
+	args = create_cmd_args(current, end, n_head, env);
 	if (!args)
 		return (NULL);
 	node->type = cmd_node;

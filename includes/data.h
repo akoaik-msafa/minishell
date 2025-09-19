@@ -6,7 +6,7 @@
 /*   By: akoaik <akoaik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/08 18:15:33 by akoaik            #+#    #+#             */
-/*   Updated: 2025/09/18 05:38:02 by akoaik           ###   ########.fr       */
+/*   Updated: 2025/09/19 19:18:03 by akoaik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,13 @@ typedef struct			list_head
 	struct alloc_list	*head;
 	// t_env				*env;
 }						t_list_head;
+
+typedef struct data_handle_args 
+{
+	token_t			*tokens;
+	token_t			*pipe_position;
+	token_t			*end;
+}					data_handle_args;
 
 // enumeration for types of token
 typedef enum

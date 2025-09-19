@@ -32,11 +32,11 @@ token_t		*tokenize_input(const char *prompt, int *token_count,
 				t_list_head *n_head);
 tree_node	*create_pipe_node(tree_node *left, tree_node *right,
 				t_list_head *n_head);
-tree_node	*create_cmd_node(token_t **current, token_t *end, t_list_head *n_head);
+tree_node	*create_cmd_node(token_t **current, token_t *end, t_list_head *n_head, t_env *env);
 char	*expand_variable(const char *str, t_env *env, struct list_head *head);
 char	*my_strdup(const char *s1, struct list_head *n_head);
 char	**get_env(t_env *env);
-tree_node	*parse_tokens(token_t *tokens, int count, t_list_head *n_head);
+tree_node	*parse_tokens(token_t *tokens, int count, t_list_head *n_head, t_env *env);
 int	init_env(t_env *env, char **envp, t_list_head *head);
 void	execute_ast(tree_node *ast, t_env *env);
 char	**split_string(const char *str, int *count, t_list_head *n_head);

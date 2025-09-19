@@ -6,7 +6,7 @@
 /*   By: akoaik <akoaik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/11 19:30:12 by akoaik            #+#    #+#             */
-/*   Updated: 2025/09/18 05:45:59 by akoaik           ###   ########.fr       */
+/*   Updated: 2025/09/19 19:34:27 by akoaik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,28 +26,28 @@ static token_t	*find_pipe(token_t *current, token_t *end)
 	return (NULL);
 }
 
-static tree_node	*handle_pipe_parsing(token_t *tokens,
-		token_t *pipe_position, token_t *end, t_list_head *n_head)
+static tree_node	*handle_pipe_parsing(data_handle_args *args, t_list_head *n_head, t_env *env)
 {
 	tree_node	*left;
 	tree_node	*right;
 	int			left_count;
 	int			right_count;
 
-	left_count = pipe_position - tokens;
-	right_count = end - pipe_position - 1;
-	left = parse_tokens(tokens, left_count, n_head);
-	right = parse_tokens(pipe_position + 1, right_count, n_head);
+	left_count = args->pipe_position - args->tokens;
+	right_count = args->end - args->pipe_position - 1;
+	left = parse_tokens(args->tokens, left_count, n_head, env);
+	right = parse_tokens(args->pipe_position + 1, right_count, n_head, env);
 	if (!left || !right)
 		return (NULL);
 	return (create_pipe_node(left, right, n_head));
 }
 
-tree_node	*parse_tokens(token_t *tokens, int count, t_list_head *n_head)
+tree_node	*parse_tokens(token_t *tokens, int count, t_list_head *n_head, t_env *env)
 {
 	token_t	*current;
 	token_t	*end;
 	token_t	*pipe_position;
+    data_handle_args args;
 
 	if (!tokens || count == 0)
 		return (NULL);
@@ -55,9 +55,12 @@ tree_node	*parse_tokens(token_t *tokens, int count, t_list_head *n_head)
 	end = tokens + count;
 	pipe_position = find_pipe(current, end);
 	if (pipe_position)
-		return (handle_pipe_parsing(current, pipe_position, end, n_head));
+	{
+		args = (data_handle_args){current, pipe_position, end};
+		return (handle_pipe_parsing(&args, n_head, env));
+	}
 	else
-		return (create_cmd_node(&current, end, n_head));
+		return (create_cmd_node(&current, end, n_head, env));
 }
 /*
   find_pipe (line 15): Iterates through token array from start to end,
