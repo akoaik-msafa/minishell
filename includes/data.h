@@ -6,7 +6,7 @@
 /*   By: akoaik <akoaik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/08 18:15:33 by akoaik            #+#    #+#             */
-/*   Updated: 2025/09/19 19:18:03 by akoaik           ###   ########.fr       */
+/*   Updated: 2025/09/19 21:05:32 by akoaik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,17 +34,12 @@ typedef struct			list_head
 	// t_env				*env;
 }						t_list_head;
 
-typedef struct data_handle_args 
-{
-	token_t			*tokens;
-	token_t			*pipe_position;
-	token_t			*end;
-}					data_handle_args;
-
 // enumeration for types of token
 typedef enum
 {
 	t_word,
+    t_builtin,
+    t_env_builtin,
 	t_pipe,
 	t_re_in,
 	t_re_out,
@@ -53,6 +48,20 @@ typedef enum
 	t_eof
 }						token_type;
 
+// each part is :
+typedef struct
+{
+	token_type			type;
+	char				*str;
+}						token_t;
+
+typedef struct data_handle_args 
+{
+	token_t			*tokens;
+	token_t			*pipe_position;
+	token_t			*end;
+}					data_handle_args;
+
 // enum to indecate the type inside the tree node
 typedef enum
 {
@@ -60,13 +69,6 @@ typedef enum
 	pipe_node,
 	redir_node
 }						node_type;
-
-// each part is :
-typedef struct
-{
-	token_type			type;
-	char				*str;
-}						token_t;
 
 
 

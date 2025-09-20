@@ -6,7 +6,7 @@
 /*   By: akoaik <akoaik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/15 09:45:57 by akoaik            #+#    #+#             */
-/*   Updated: 2025/09/18 02:21:07 by akoaik           ###   ########.fr       */
+/*   Updated: 2025/09/19 20:44:25 by akoaik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,4 +64,8 @@ void	execute_ast(tree_node *ast, t_env *env)
 	{
 		execute_pipe(ast, env);
 	}
+    else if (ast->type == t_builtin)
+    {
+        execute_builtin(ast, env);
+    }
 }

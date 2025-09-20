@@ -27,7 +27,11 @@ void	while_prompt(t_list_head *n_head, t_list_head *env_head,
 			break ;
 		temp_exit(prompt, n_head, env_head);
 		tokens = tokenize_input(prompt, &token_count, n_head);
+		printf("=== TOKENS ===\n");
+		print_tokens(tokens, token_count);
+		printf("===============\n");
 		ast = parse_tokens(tokens, token_count, n_head, env);
+		print_tree_structure(ast);
 		if (ast)
 			execute_ast(ast, env);
 		free(prompt);

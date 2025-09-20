@@ -6,7 +6,7 @@
 /*   By: akoaik <akoaik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/18 02:06:12 by akoaik            #+#    #+#             */
-/*   Updated: 2025/09/18 02:16:38 by akoaik           ###   ########.fr       */
+/*   Updated: 2025/09/19 20:39:38 by akoaik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void	print_2d(char **arr)
 
 void	print_tokens(token_t *tokens, int count)
 {
-	const char	*type_names[] = {"WORD", "PIPE", "REDIR_IN", "REDIR_OUT",
+	const char	*type_names[] = {"WORD", "BUILTIN", "PIPE", "REDIR_IN", "REDIR_OUT",
 			"REDIR_APPEND", "REDIR_HEREDOC", "EOF"};
 	int			i;
 
@@ -42,7 +42,7 @@ void	print_tokens(token_t *tokens, int count)
 void	print_ast(tree_node *node, int depth)
 {
 	const char	*node_types[] = {"CMD", "PIPE", "REDIRECT"};
-	const char	*redir_types[] = {"WORD", "PIPE", "REDIR_IN", "REDIR_OUT", 
+	const char	*redir_types[] = {"WORD", "BUILTIN", "PIPE", "REDIR_IN", "REDIR_OUT", 
 		"REDIR_APPEND", "REDIR_HEREDOC", "EOF"};
 	int			i;
 

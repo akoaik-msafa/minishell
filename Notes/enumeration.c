@@ -6,7 +6,7 @@
 /*   By: akoaik <akoaik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/08 18:30:54 by akoaik            #+#    #+#             */
-/*   Updated: 2025/09/08 18:31:01 by akoaik           ###   ########.fr       */
+/*   Updated: 2025/09/19 21:08:11 by akoaik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ int main() {
     TrafficLight light = RED;
 
     // Check the light using if statements
-    if (light == RED) {
+    if (light == 0) {
         printf("Stop!\n");
     } else if (light == YELLOW) {
         printf("Get ready...\n");

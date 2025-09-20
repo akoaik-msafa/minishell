@@ -57,4 +57,13 @@ int		child1(tree_node *cmd_node, int *pipefd, t_env *env);
 int		child2(tree_node *cmd_node, int *pipefd, t_env *env);
 void	execute_pipe(tree_node *ast, t_env *env);
 
+// Printing.c
+void	print_2d(char **arr);
+void	print_tokens(token_t *tokens, int count);
+void	print_ast(tree_node *node, int depth);
+void	print_tree_structure(tree_node *ast);
+
+// builtins.c
+int		is_builtin(const char *cmd);
+
 #endif
