@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Printing.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akoaik <akoaik@student.42.fr>              +#+  +:+       +#+        */
+/*   By: msafa <msafa@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/18 02:06:12 by akoaik            #+#    #+#             */
-/*   Updated: 2025/09/19 20:39:38 by akoaik           ###   ########.fr       */
+/*   Updated: 2025/09/21 23:38:00 by msafa            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ void	print_tokens(token_t *tokens, int count)
 	i = 0;
 	while (i < count)
 	{
-		printf("Token %d: '%s' -> %s\n", i, tokens[i].str,
+		printf("Token %d: %s -> %s\n", i, tokens[i].str,
 			type_names[tokens[i].type]);
 		i++;
 	}
@@ -67,7 +67,7 @@ void	print_ast(tree_node *node, int depth)
 		i = 0;
 		while (node->args[i])
 		{
-			printf("'%s' ", node->args[i]);
+			printf("%s ", node->args[i]);
 			i++;
 		}
 		printf("\n");

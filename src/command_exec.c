@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   command_exec.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akoaik <akoaik@student.42.fr>              +#+  +:+       +#+        */
+/*   By: msafa <msafa@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/15 09:45:57 by akoaik            #+#    #+#             */
-/*   Updated: 2025/09/21 05:34:35 by akoaik           ###   ########.fr       */
+/*   Updated: 2025/09/21 21:51:09 by msafa            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,17 +32,31 @@ void	exec_cmd(tree_node *node, t_env *env)
 
 int	execute_builtin(tree_node *node, t_env *env,t_list_head *n_head)
 {
+	char *combined_args;
+	int result;
+
 	if (!node || !node->args || !node->args[0])
 		return (0);
+	combined_args = join_args(node->args + 1);
 	if (strcmp(node->args[0], "cd") == 0)
 	{
-		return (ft_cd(node->args[1], env,n_head));
+		result = ft_cd(combined_args, env,n_head);
 	}
-	if(strcmp(node->args[0],"pwd") == 0)
+	else if(strcmp(node->args[0],"pwd") == 0)
 	{
-		return(ft_pwd(node->args[1]));
+		result = ft_pwd(combined_args);
 	}
-	return (-1);
+	else if(strcmp(node->args[0],"echo") == 0)
+	{
+		result = ft_echo(combined_args);
+	}
+	else
+	{
+		result = -1;
+	}
+	if (combined_args)
+		free(combined_args);
+	return (result);
 }
 
 void	execute_command(tree_node *node, t_env *env,t_list_head *n_head)

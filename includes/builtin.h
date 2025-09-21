@@ -33,4 +33,7 @@ char	*extract_quoted_path(char *arg, t_list_head *n_head);
 //pwd.c
 int	ft_pwd(char *arg);
 
+//echo.c
+int	ft_echo(char *arg);
+
 #endif

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_splite.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akoaik <akoaik@student.42.fr>              +#+  +:+       +#+        */
+/*   By: msafa <msafa@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/09 19:13:01 by akoaik            #+#    #+#             */
-/*   Updated: 2025/09/17 22:35:19 by akoaik           ###   ########.fr       */
+/*   Updated: 2025/09/22 00:19:26 by msafa            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,8 @@ static int	count_tokens(const char *str)
 		}
 		i++;
 	}
+	if (in_quotes)
+		return (-1);
 	return (count);
 }
 
@@ -61,7 +63,9 @@ static void	extract_tokens(const char *str, char **tokens, int count,
 			quote_char = str[i++];
 			start = i;
 			while (str[i] && str[i] != quote_char)
+			{
 				i++;
+			}
 			len = i - start;
 			if (str[i] == quote_char)
 				i++;
@@ -90,6 +94,11 @@ char	**split_string(const char *str, int *count, t_list_head *n_head)
 	if (!str || !count)
 		return (NULL);
 	*count = count_tokens(str);
+	if (*count == -1)
+	{
+		printf("Error: unclosed quote\n");
+		return (NULL);
+	}
 	if (*count == 0)
 		return (NULL);
 	tokens = ft_malloc((*count + 1) * sizeof(char *), n_head);

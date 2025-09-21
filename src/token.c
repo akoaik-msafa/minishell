@@ -86,6 +86,8 @@ token_t	*tokenize_input(const char *prompt, int *token_count,
 	if (!prompt || !token_count)
 		return (NULL);
 	strs = splite_token(prompt, &counter, n_head);
+	if (!strs)
+		return (NULL);
 	tokens = ft_malloc((counter + 1) * sizeof(token_t), n_head);
 	if (!tokens)
 		return (NULL);
