@@ -6,7 +6,7 @@
 /*   By: akoaik <akoaik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/12 00:40:00 by msafa             #+#    #+#             */
-/*   Updated: 2025/09/21 02:02:34 by akoaik           ###   ########.fr       */
+/*   Updated: 2025/09/21 04:44:38 by akoaik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,3 +75,4 @@ int	ft_cd(char *arg, t_env *env)
 			free(path);
 		return (1);
 	}// ~ is not handle it
+}
