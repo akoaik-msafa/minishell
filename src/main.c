@@ -19,9 +19,12 @@ void	while_prompt(t_list_head *n_head, t_list_head *env_head,
 	token_t		*tokens;
 	int			token_count;
 	tree_node	*ast;
-	
+	static int	loop_count = 0;
+
 	while (1)
 	{
+		loop_count++;
+		printf("LOOP %d:\n", loop_count);
 		prompt = get_user_input();
 		if (!prompt)
 			break ;

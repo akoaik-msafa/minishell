@@ -26,7 +26,7 @@ void	print_2d(char **arr)
 
 void	print_tokens(token_t *tokens, int count)
 {
-	const char	*type_names[] = {"WORD", "BUILTIN", "PIPE", "REDIR_IN", "REDIR_OUT",
+	const char	*type_names[] = {"WORD", "BUILTIN", "ENV_BUILTIN", "PIPE", "REDIR_IN", "REDIR_OUT",
 			"REDIR_APPEND", "REDIR_HEREDOC", "EOF"};
 	int			i;
 

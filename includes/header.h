@@ -15,6 +15,7 @@
 
 # include "data.h"
 # include "libft.h"
+# include "builtin.h"
 # include <errno.h>
 # include <fcntl.h>
 # include <readline/history.h>
@@ -50,6 +51,7 @@ char	*get_cmd_path(char *cmd, t_env *env);
 
 // command_exec.c
 void	exec_cmd(tree_node *node, t_env *env);
+int	execute_builtin(tree_node *node, t_env *env);
 void	execute_command(tree_node *node, t_env *env);
 
 // pipe_exec.c
@@ -63,7 +65,5 @@ void	print_tokens(token_t *tokens, int count);
 void	print_ast(tree_node *node, int depth);
 void	print_tree_structure(tree_node *ast);
 
-// builtins.c
-int		is_builtin(const char *cmd);
 
 #endif

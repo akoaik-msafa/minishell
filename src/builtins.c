@@ -5,14 +5,10 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: akoaik <akoaik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/09/19 20:17:52 by akoaik            #+#    #+#             */
-/*   Updated: 2025/09/19 21:02:04 by akoaik           ###   ########.fr       */
+/*   Created: 2025/09/20 17:36:13 by akoaik            #+#    #+#             */
+/*   Updated: 2025/09/20 17:36:33 by akoaik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "header.h"
 
-token_type is_builtin(const char *cmd)
-{
-    
-}

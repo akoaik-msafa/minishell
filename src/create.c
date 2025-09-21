@@ -22,7 +22,7 @@ static char	**create_cmd_args(token_t **current, token_t *end,
 
 	temp = *current;
 	arg_count = 0;
-	while (temp < end && temp->type == t_word)
+	while (temp < end && (temp->type == t_word || temp->type == t_builtin || temp->type == t_env_builtin))
 	{
 		arg_count++;
 		temp++;

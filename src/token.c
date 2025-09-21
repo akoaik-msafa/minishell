@@ -12,6 +12,27 @@
 
 #include "header.h"
 
+token_type is_builtin(const char *cmd)
+{
+	if (!cmd)
+		return (t_word);
+	if (strcmp(cmd, "echo") == 0)
+		return (t_builtin);
+	if (strcmp(cmd, "cd") == 0)
+		return (t_builtin);
+	if (strcmp(cmd, "pwd") == 0)
+		return (t_builtin);
+	if (strcmp(cmd, "export") == 0)
+		return (t_env_builtin);
+	if (strcmp(cmd, "unset") == 0)
+		return (t_env_builtin);
+	if (strcmp(cmd, "env") == 0)
+		return (t_env_builtin);
+	if (strcmp(cmd, "exit") == 0)
+		return (t_builtin);
+	return (t_word);
+}
+
 static token_type	identify_token_type(const char *str)
 {
 	if (!str)
@@ -26,9 +47,7 @@ static token_type	identify_token_type(const char *str)
 		return (t_re_in);
 	if (ft_strncmp(str, ">", 1) == 0 && ft_strlen(str) == 1)
 		return (t_re_out);
-    if (is_builtin(str) )
-        return (t_builtin);
-	return (t_word);
+    return (is_builtin(str));
 }
 
 static void	fill_tokens_array(token_t *tokens, char **strs, int count)
@@ -40,7 +59,6 @@ static void	fill_tokens_array(token_t *tokens, char **strs, int count)
 	{
 		tokens[i].str = strs[i];
 		tokens[i].type = identify_token_type(strs[i]);
-        printf("Token %d: '%s' -> %d\n", i, tokens[i].str, tokens[i].type);
 		i++;
 	}
 	tokens[count].type = t_eof;

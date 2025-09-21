@@ -30,12 +30,27 @@ void	exec_cmd(tree_node *node, t_env *env)
 	exit(127);
 }
 
+int	execute_builtin(tree_node *node, t_env *env)
+{
+	if (!node || !node->args || !node->args[0])
+		return (0);
+	if (strcmp(node->args[0], "cd") == 0)
+	{
+		return (ft_cd(node->args[1], env));
+	}
+	return (-1);
+}
+
 void	execute_command(tree_node *node, t_env *env)
 {
 	pid_t	pid;
 	int		status;
+	int		builtin_result;
 
 	if (!node || !node->args || !node->args[0])
+		return ;
+	builtin_result = execute_builtin(node, env);
+	if (builtin_result != -1)
 		return ;
 	pid = fork();
 	if (pid == 0)
@@ -64,8 +79,4 @@ void	execute_ast(tree_node *ast, t_env *env)
 	{
 		execute_pipe(ast, env);
 	}
-    else if (ast->type == t_builtin)
-    {
-        execute_builtin(ast, env);
-    }
 }
