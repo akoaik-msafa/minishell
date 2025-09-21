@@ -6,7 +6,7 @@
 /*   By: akoaik <akoaik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/08 18:02:05 by akoaik            #+#    #+#             */
-/*   Updated: 2025/09/19 19:06:36 by akoaik           ###   ########.fr       */
+/*   Updated: 2025/09/21 07:09:24 by akoaik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,19 +24,19 @@ void	while_prompt(t_list_head *n_head, t_list_head *env_head,
 	while (1)
 	{
 		loop_count++;
-		printf("LOOP %d:\n", loop_count);
+		// printf("LOOP %d:\n", loop_count);
 		prompt = get_user_input();
 		if (!prompt)
 			break ;
 		temp_exit(prompt, n_head, env_head);
 		tokens = tokenize_input(prompt, &token_count, n_head);
-		printf("=== TOKENS ===\n");
-		print_tokens(tokens, token_count);
-		printf("===============\n");
+		// printf("=== TOKENS ===\n");
+		// print_tokens(tokens, token_count);
+		// printf("===============\n");
 		ast = parse_tokens(tokens, token_count, n_head, env);
-		print_tree_structure(ast);
+		// print_tree_structure(ast);
 		if (ast)
-			execute_ast(ast, env);
+			execute_ast(ast, env,n_head);
 		free(prompt);
 		free_all(n_head);
 		n_head->head = NULL;

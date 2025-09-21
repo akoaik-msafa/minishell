@@ -6,7 +6,7 @@
 /*   By: akoaik <akoaik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/14 14:05:00 by msafa             #+#    #+#             */
-/*   Updated: 2025/09/20 17:40:18 by akoaik           ###   ########.fr       */
+/*   Updated: 2025/09/21 07:12:52 by akoaik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,15 +24,15 @@ int	find_closing_quote(char *arg, int start, char quote)
 	return (-1);
 }
 
-char	*extract_from_quotes(char *arg, int start, int end)
+char	*extract_from_quotes(char *arg, int start, int end, t_list_head *n_head)
 {
 	int		len;
 	char	*path;
 
 	len = end - start;
 	if (len == 0)
-		return (ft_strdup("."));
-	path = malloc(len + 1);
+		return (my_strdup(".", n_head));
+	path = ft_malloc(len + 1, n_head);
 	if (!path)
 		return (NULL);
 	ft_strlcpy(path, arg + start, len + 1);
@@ -40,7 +40,7 @@ char	*extract_from_quotes(char *arg, int start, int end)
 	return (path);
 }
 
-char	*handle_quoted_path(char *arg, int *i)
+char	*handle_quoted_path(char *arg, int *i, t_list_head *n_head)
 {
 	char	quote;
 	int		start;
@@ -51,12 +51,12 @@ char	*handle_quoted_path(char *arg, int *i)
 	start = ++(*i);
 	end = find_closing_quote(arg, start, quote);
 	if (end == -1)
-		return (ft_strdup(arg));
-	path = extract_from_quotes(arg, start, end);
+		return (my_strdup(arg, n_head));
+	path = extract_from_quotes(arg, start, end, n_head);
 	return (path);
 }
 
-char	*extract_quoted_path(char *arg)
+char	*extract_quoted_path(char *arg, t_list_head *n_head)
 {
 	int	i;
 
@@ -64,8 +64,8 @@ char	*extract_quoted_path(char *arg)
 	while (arg[i] == ' ' || arg[i] == '\t')
 		i++;
 	if (arg[i] == '"' || arg[i] == '\'')
-		return (handle_quoted_path(arg, &i));
+		return (handle_quoted_path(arg, &i, n_head));
 	if (arg[i] == '\0')
-		return (ft_strdup("."));
-	return (ft_strdup(arg));
+		return (my_strdup(".", n_head));
+	return (my_strdup(arg, n_head));
 }

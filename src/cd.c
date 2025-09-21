@@ -6,7 +6,7 @@
 /*   By: akoaik <akoaik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/12 00:40:00 by msafa             #+#    #+#             */
-/*   Updated: 2025/09/21 04:44:38 by akoaik           ###   ########.fr       */
+/*   Updated: 2025/09/21 07:09:51 by akoaik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,40 +39,38 @@ int	is_only_spaces(char *str)
 	return (1);
 }
 
-char	*get_cd_path(char *arg, char ***args_ptr, t_env *env)
+char	*get_cd_path(char *arg, char ***args_ptr, t_env *env, t_list_head *n_head)
 {
+	// add ~
 	char	*path;
 
 	*args_ptr = NULL;
 	if (!arg)
 		return (get_home_path(env));
-	path = extract_quoted_path(arg);
+	path = extract_quoted_path(arg, n_head);
 	if (!path)
 		return (NULL);
 	return (path);
 }
 
-int	ft_cd(char *arg, t_env *env)
+int	ft_cd(char *arg, t_env *env, t_list_head *n_head)
 {
 	char	**args;
 	char	*path;
-	char	*home_path;
 	int		result;
 
 	args = NULL;
-	path = get_cd_path(arg, &args, env);
+	path = get_cd_path(arg, &args, env, n_head);
 	if (!path)
 	{
-		printf("cd: memory allocation failed\n");
+		// printf("cd: memory allocation failed\n");
 		return (1);
 	}
-	home_path = getenv("HOME");
 	result = chdir(path);
 	if (result == -1)
 	{
 		perror("cd");
-		if (path && path != home_path)
-			free(path);
 		return (1);
-	}// ~ is not handle it
+	}
+	return (0);
 }

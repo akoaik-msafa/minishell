@@ -6,7 +6,7 @@
 /*   By: akoaik <akoaik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/15 09:45:57 by akoaik            #+#    #+#             */
-/*   Updated: 2025/09/19 20:44:25 by akoaik           ###   ########.fr       */
+/*   Updated: 2025/09/21 05:34:35 by akoaik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,18 +30,22 @@ void	exec_cmd(tree_node *node, t_env *env)
 	exit(127);
 }
 
-int	execute_builtin(tree_node *node, t_env *env)
+int	execute_builtin(tree_node *node, t_env *env,t_list_head *n_head)
 {
 	if (!node || !node->args || !node->args[0])
 		return (0);
 	if (strcmp(node->args[0], "cd") == 0)
 	{
-		return (ft_cd(node->args[1], env));
+		return (ft_cd(node->args[1], env,n_head));
+	}
+	if(strcmp(node->args[0],"pwd") == 0)
+	{
+		return(ft_pwd(node->args[1]));
 	}
 	return (-1);
 }
 
-void	execute_command(tree_node *node, t_env *env)
+void	execute_command(tree_node *node, t_env *env,t_list_head *n_head)
 {
 	pid_t	pid;
 	int		status;
@@ -49,7 +53,7 @@ void	execute_command(tree_node *node, t_env *env)
 
 	if (!node || !node->args || !node->args[0])
 		return ;
-	builtin_result = execute_builtin(node, env);
+	builtin_result = execute_builtin(node, env,n_head);
 	if (builtin_result != -1)
 		return ;
 	pid = fork();
@@ -67,16 +71,16 @@ void	execute_command(tree_node *node, t_env *env)
 	}
 }
 
-void	execute_ast(tree_node *ast, t_env *env)
+void	execute_ast(tree_node *ast, t_env *env,t_list_head *n_head)
 {
 	if (!ast)
 		return ;
 	if (ast->type == cmd_node)
 	{
-		execute_command(ast, env);
+		execute_command(ast, env,n_head);
 	}
 	else if (ast->type == pipe_node)
 	{
-		execute_pipe(ast, env);
+		execute_pipe(ast, env, n_head);
 	}
 }

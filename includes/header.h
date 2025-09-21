@@ -6,7 +6,7 @@
 /*   By: akoaik <akoaik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/06 18:36:44 by akoaik            #+#    #+#             */
-/*   Updated: 2025/09/18 01:55:44 by akoaik           ###   ########.fr       */
+/*   Updated: 2025/09/21 05:37:43 by akoaik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ char	*my_strdup(const char *s1, struct list_head *n_head);
 char	**get_env(t_env *env);
 tree_node	*parse_tokens(token_t *tokens, int count, t_list_head *n_head, t_env *env);
 int	init_env(t_env *env, char **envp, t_list_head *head);
-void	execute_ast(tree_node *ast, t_env *env);
+void	execute_ast(tree_node *ast, t_env *env,t_list_head *n_head);
 char	**split_string(const char *str, int *count, t_list_head *n_head);
 
 // path_utils.c
@@ -51,13 +51,13 @@ char	*get_cmd_path(char *cmd, t_env *env);
 
 // command_exec.c
 void	exec_cmd(tree_node *node, t_env *env);
-int	execute_builtin(tree_node *node, t_env *env);
-void	execute_command(tree_node *node, t_env *env);
+int	execute_builtin(tree_node *node, t_env *env,t_list_head *n_head);
+void	execute_command(tree_node *node, t_env *env,t_list_head *n_head);
 
 // pipe_exec.c
 int		child1(tree_node *cmd_node, int *pipefd, t_env *env);
-int		child2(tree_node *cmd_node, int *pipefd, t_env *env);
-void	execute_pipe(tree_node *ast, t_env *env);
+int		child2(tree_node *cmd_node, int *pipefd, t_env *env, t_list_head *n_head);
+void	execute_pipe(tree_node *ast, t_env *env, t_list_head *n_head);
 
 // Printing.c
 void	print_2d(char **arr);
