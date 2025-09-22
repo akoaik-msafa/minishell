@@ -50,27 +50,28 @@ static token_type	identify_token_type(const char *str)
     return (is_builtin(str));
 }
 
-static void	fill_tokens_array(token_t *tokens, char **strs, int count)
+static void	fill_tokens_array(token_t *tokens, char **strs, data_handle_args *data_args)
 {
 	int	i;
 
 	i = 0;
-	while (i < count)
+	while (i < data_args->count)
 	{
 		tokens[i].str = strs[i];
 		tokens[i].type = identify_token_type(strs[i]);
+		tokens[i].expand_flag = data_args->expand_flags[i];
 		i++;
 	}
-	tokens[count].type = t_eof;
-	tokens[count].str = NULL;
+	tokens[data_args->count].type = t_eof;
+	tokens[data_args->count].str = NULL;
 }
 
-static char	**splite_token(const char *prompt, int *counter,
+static char	**splite_token(const char *prompt, data_handle_args *data_args,
 		t_list_head *n_head)
 {
 	char	**words;
 
-	words = split_string(prompt, counter, n_head);
+	words = split_string(prompt, data_args, n_head);
 	if (!words)
 		return (NULL);
 	return (words);
@@ -79,19 +80,21 @@ static char	**splite_token(const char *prompt, int *counter,
 token_t	*tokenize_input(const char *prompt, int *token_count,
 		t_list_head *n_head)
 {
-	int		counter;
-	char	**strs;
-	token_t	*tokens;
+	char			**strs;
+	token_t			*tokens;
+	data_handle_args	data_args;
 
 	if (!prompt || !token_count)
 		return (NULL);
-	strs = splite_token(prompt, &counter, n_head);
+	data_args.count = 0;
+	data_args.expand_flags = NULL;
+	strs = splite_token(prompt, &data_args, n_head);
 	if (!strs)
 		return (NULL);
-	tokens = ft_malloc((counter + 1) * sizeof(token_t), n_head);
+	tokens = ft_malloc((data_args.count + 1) * sizeof(token_t), n_head);
 	if (!tokens)
 		return (NULL);
-	fill_tokens_array(tokens, strs, counter);
-	*token_count = counter;
+	fill_tokens_array(tokens, strs, &data_args);
+	*token_count = data_args.count;
 	return (tokens);
 }

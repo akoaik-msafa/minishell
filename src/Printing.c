@@ -33,8 +33,8 @@ void	print_tokens(token_t *tokens, int count)
 	i = 0;
 	while (i < count)
 	{
-		printf("Token %d: %s -> %s\n", i, tokens[i].str,
-			type_names[tokens[i].type]);
+		printf("Token %d: %s -> %s (expand: %d)\n", i, tokens[i].str,
+			type_names[tokens[i].type], tokens[i].expand_flag);
 		i++;
 	}
 }

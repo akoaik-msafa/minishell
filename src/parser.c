@@ -6,7 +6,7 @@
 /*   By: msafa <msafa@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/11 19:30:12 by akoaik            #+#    #+#             */
-/*   Updated: 2025/09/21 23:58:28 by msafa            ###   ########.fr       */
+/*   Updated: 2025/09/22 01:42:30 by msafa            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ tree_node	*parse_tokens(token_t *tokens, int count, t_list_head *n_head, t_env *
 	pipe_position = find_pipe(current, end);
 	if (pipe_position)
 	{
-		args = (data_handle_args){current, pipe_position, end};
+		args = (data_handle_args){current, pipe_position, end,0,NULL};
 		return (handle_pipe_parsing(&args, n_head, env));
 	}
 	else

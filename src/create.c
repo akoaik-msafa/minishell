@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   create.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akoaik <akoaik@student.42.fr>              +#+  +:+       +#+        */
+/*   By: msafa <msafa@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/10 15:55:37 by akoaik            #+#    #+#             */
-/*   Updated: 2025/09/18 01:35:41 by akoaik           ###   ########.fr       */
+/*   Updated: 2025/09/22 01:46:03 by msafa            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,10 @@ static char	**create_cmd_args(token_t **current, token_t *end,
 	i = 0;
 	while (i < arg_count)
 	{
-		args[i] = expand_variable((*current)->str, env, head);
+		if ((*current)->expand_flag == 1)
+			args[i] = expand_variable((*current)->str, env, head);
+		else
+			args[i] = my_strdup((*current)->str, head);
 		(*current)++;
 		i++;
 	}

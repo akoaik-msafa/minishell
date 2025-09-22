@@ -40,8 +40,10 @@ char	**get_env(t_env *env);
 tree_node	*parse_tokens(token_t *tokens, int count, t_list_head *n_head, t_env *env);
 int	init_env(t_env *env, char **envp, t_list_head *head);
 void	execute_ast(tree_node *ast, t_env *env,t_list_head *n_head);
-char	**split_string(const char *str, int *count, t_list_head *n_head);
+char	**split_string(const char *str, data_handle_args *data_args, t_list_head *n_head);
 char	*join_args(char **args);
+char	*ft_strcpy(char *dest, const char *src);
+char	*ft_strcat(char *dest, const char *src);
 
 // path_utils.c
 void	free_split(char **strs);

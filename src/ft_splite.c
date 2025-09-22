@@ -6,7 +6,7 @@
 /*   By: msafa <msafa@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/09 19:13:01 by akoaik            #+#    #+#             */
-/*   Updated: 2025/09/22 00:19:26 by msafa            ###   ########.fr       */
+/*   Updated: 2025/09/22 00:50:45 by msafa            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,15 +45,15 @@ static int	count_tokens(const char *str)
 	return (count);
 }
 
-static void	extract_tokens(const char *str, char **tokens, int count,
-		t_list_head *n_head)
+static void	extract_tokens(const char *str, char **tokens,
+		data_handle_args *data_args, t_list_head *n_head)
 {
 	int		i, j, start, len;
 	char	quote_char;
 
 	i = 0;
 	j = 0;
-	while (str[i] && j < count)
+	while (str[i] && j < data_args->count)
 	{
 		while (str[i] == ' ' || str[i] == '\t')
 			i++;
@@ -82,29 +82,36 @@ static void	extract_tokens(const char *str, char **tokens, int count,
 			tokens[j] = ft_malloc((len + 1) * sizeof(char), n_head);
 			if (tokens[j])
 				ft_strlcpy(tokens[j], str + start, len + 1);
+			if (quote_char == '\'')
+				data_args->expand_flags[j] = 0;
+			else
+				data_args->expand_flags[j] = 1;
 			j++;
 		}
 	}
 }
 
-char	**split_string(const char *str, int *count, t_list_head *n_head)
+char	**split_string(const char *str, data_handle_args *data_args, t_list_head *n_head)
 {
 	char	**tokens;
 
-	if (!str || !count)
+	if (!str || !data_args)
 		return (NULL);
-	*count = count_tokens(str);
-	if (*count == -1)
+	data_args->count = count_tokens(str);
+	if (data_args->count == -1)
 	{
 		printf("Error: unclosed quote\n");
 		return (NULL);
 	}
-	if (*count == 0)
+	if (data_args->count == 0)
 		return (NULL);
-	tokens = ft_malloc((*count + 1) * sizeof(char *), n_head);
+	data_args->expand_flags = ft_malloc(data_args->count * sizeof(char), n_head);
+	if (!data_args->expand_flags)
+		return (data_args->count = 0, NULL);
+	tokens = ft_malloc((data_args->count + 1) * sizeof(char *), n_head);
 	if (!tokens)
-		return (*count = 0, NULL);
-	tokens[*count] = NULL;
-	extract_tokens(str, tokens, *count, n_head);
+		return (data_args->count = 0, NULL);
+	tokens[data_args->count] = NULL;
+	extract_tokens(str, tokens, data_args, n_head);
 	return (tokens);
 }

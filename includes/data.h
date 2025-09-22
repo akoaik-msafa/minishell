@@ -6,7 +6,7 @@
 /*   By: msafa <msafa@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/08 18:15:33 by akoaik            #+#    #+#             */
-/*   Updated: 2025/09/22 00:25:19 by msafa            ###   ########.fr       */
+/*   Updated: 2025/09/22 01:48:05 by msafa            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,11 +56,13 @@ typedef struct
 	int					expand_flag;
 }						token_t;
 
-typedef struct data_handle_args 
+typedef struct data_handle_args
 {
 	token_t			*tokens;
 	token_t			*pipe_position;
 	token_t			*end;
+	int				count;
+	char			*expand_flags;
 }					data_handle_args;
 
 // enum to indecate the type inside the tree node
