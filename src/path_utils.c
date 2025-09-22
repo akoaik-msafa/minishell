@@ -6,7 +6,7 @@
 /*   By: akoaik <akoaik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/18 02:07:05 by akoaik            #+#    #+#             */
-/*   Updated: 2025/09/18 02:16:01 by akoaik           ###   ########.fr       */
+/*   Updated: 2025/09/22 16:04:43 by akoaik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,7 @@ char	*get_cmd_path(char *cmd, t_env *env)
 	char	*path_env;
 
 	if (!cmd || cmd[0] == '/' || cmd[0] == '.')
-		return (my_strdup(cmd, NULL));
+		return (ft_strdup(cmd));
 	path_env = find_path_env(env);
 	if (!path_env)
 		return (NULL);

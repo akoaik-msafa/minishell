@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: msafa <msafa@student.42.fr>                +#+  +:+       +#+        */
+/*   By: akoaik <akoaik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/08 18:02:05 by akoaik            #+#    #+#             */
-/*   Updated: 2025/09/21 23:32:16 by msafa            ###   ########.fr       */
+/*   Updated: 2025/09/22 16:09:46 by akoaik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ void	while_prompt(t_list_head *n_head, t_list_head *env_head,
 	while (1)
 	{
 		loop_count++;
-		printf("LOOP %d:\n", loop_count);
+		// printf("LOOP %d:\n", loop_count);
 		prompt = get_user_input();
 		if (!prompt)
 			break ;
@@ -38,11 +38,11 @@ void	while_prompt(t_list_head *n_head, t_list_head *env_head,
 		}
 		else
 		{
-			printf("=== TOKENS ===\n");
-			print_tokens(tokens, token_count);
-			printf("===============\n");
+			// printf("=== TOKENS ===\n");
+			// print_tokens(tokens, token_count);
+			// printf("===============\n");
 			ast = parse_tokens(tokens, token_count, n_head, env);
-			print_tree_structure(ast);
+			// print_tree_structure(ast);
 			if (ast)
 				execute_ast(ast, env,n_head);
 			free(prompt);
@@ -67,7 +67,6 @@ int	main(int argc, char **argv, char **envp)
 	{
 		return (1);
 	}
-	// n_head.env = &env;
 	while_prompt(&n_head, &env_head, &env);
 	free_all(&env_head);
 }
@@ -81,5 +80,12 @@ int	main(int argc, char **argv, char **envp)
 	to check it : 
 		- expand.c file 
 		- ft_split.c 
+	leaks : 
+		echo as built-in still use malloc
+		not ft_malloc
 
+cases : 
+		- in cd we have ../ show hidden files
+		- in echo we have "hello "" world " 
+		- we have ./minishell
 */
