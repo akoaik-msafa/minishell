@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_splite.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: msafa <msafa@student.42.fr>                +#+  +:+       +#+        */
+/*   By: akoaik <akoaik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/09 19:13:01 by akoaik            #+#    #+#             */
-/*   Updated: 2025/09/22 00:50:45 by msafa            ###   ########.fr       */
+/*   Updated: 2025/09/22 16:34:42 by akoaik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,7 @@ static void	extract_tokens(const char *str, char **tokens,
 
 	i = 0;
 	j = 0;
+	quote_char = 0 ;
 	while (str[i] && j < data_args->count)
 	{
 		while (str[i] == ' ' || str[i] == '\t')

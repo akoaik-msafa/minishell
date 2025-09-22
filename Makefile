@@ -4,7 +4,7 @@ LDFLAGS = -lreadline -lncurses
 
 NAME    = minishell
 SRC_DIR = src
-SRCS    = $(wildcard $(SRC_DIR)/*.c)
+SRCS    = $(shell find $(SRC_DIR) -name "*.c")
 OBJS    = $(SRCS:.c=.o)
 
 LIBFT_DIR = libft
