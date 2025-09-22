@@ -6,7 +6,7 @@
 /*   By: akoaik <akoaik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/15 09:45:57 by akoaik            #+#    #+#             */
-/*   Updated: 2025/09/22 16:04:46 by akoaik           ###   ########.fr       */
+/*   Updated: 2025/09/22 16:45:21 by akoaik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,23 +30,23 @@ void	exec_cmd(tree_node *node, t_env *env)
 	exit(127);
 }
 
-int	execute_builtin(tree_node *node, t_env *env,t_list_head *n_head)
+int	execute_builtin(tree_node *node, t_env *env, t_list_head *n_head)
 {
-	char *combined_args;
-	int result;
+	char	*combined_args;
+	int		result;
 
 	if (!node || !node->args || !node->args[0])
 		return (0);
 	combined_args = join_args(node->args + 1);
 	if (strcmp(node->args[0], "cd") == 0)
 	{
-		result = ft_cd(combined_args, env,n_head);
+		result = ft_cd(combined_args, env, n_head);
 	}
-	else if(strcmp(node->args[0],"pwd") == 0)
+	else if (strcmp(node->args[0], "pwd") == 0)
 	{
 		result = ft_pwd(combined_args);
 	}
-	else if(strcmp(node->args[0],"echo") == 0)
+	else if (strcmp(node->args[0], "echo") == 0)
 	{
 		result = ft_echo(combined_args);
 	}
@@ -59,7 +59,7 @@ int	execute_builtin(tree_node *node, t_env *env,t_list_head *n_head)
 	return (result);
 }
 
-void	execute_command(tree_node *node, t_env *env,t_list_head *n_head)
+void	execute_command(tree_node *node, t_env *env, t_list_head *n_head)
 {
 	pid_t	pid;
 	int		status;
@@ -67,7 +67,7 @@ void	execute_command(tree_node *node, t_env *env,t_list_head *n_head)
 
 	if (!node || !node->args || !node->args[0])
 		return ;
-	builtin_result = execute_builtin(node, env,n_head);
+	builtin_result = execute_builtin(node, env, n_head);
 	if (builtin_result != -1)
 		return ;
 	pid = fork();
@@ -85,13 +85,13 @@ void	execute_command(tree_node *node, t_env *env,t_list_head *n_head)
 	}
 }
 
-void	execute_ast(tree_node *ast, t_env *env,t_list_head *n_head)
+void	execute_ast(tree_node *ast, t_env *env, t_list_head *n_head)
 {
 	if (!ast)
 		return ;
 	if (ast->type == cmd_node)
 	{
-		execute_command(ast, env,n_head);
+		execute_command(ast, env, n_head);
 	}
 	else if (ast->type == pipe_node)
 	{

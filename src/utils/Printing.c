@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Printing.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: msafa <msafa@student.42.fr>                +#+  +:+       +#+        */
+/*   By: akoaik <akoaik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/18 02:06:12 by akoaik            #+#    #+#             */
-/*   Updated: 2025/09/21 23:38:00 by msafa            ###   ########.fr       */
+/*   Updated: 2025/09/22 16:47:04 by akoaik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,8 @@ void	print_2d(char **arr)
 
 void	print_tokens(token_t *tokens, int count)
 {
-	const char	*type_names[] = {"WORD", "BUILTIN", "ENV_BUILTIN", "PIPE", "REDIR_IN", "REDIR_OUT",
-			"REDIR_APPEND", "REDIR_HEREDOC", "EOF"};
+	const char	*type_names[] = {"WORD", "BUILTIN", "ENV_BUILTIN", "PIPE",
+			"REDIR_IN", "REDIR_OUT", "REDIR_APPEND", "REDIR_HEREDOC", "EOF"};
 	int			i;
 
 	i = 0;
@@ -42,8 +42,8 @@ void	print_tokens(token_t *tokens, int count)
 void	print_ast(tree_node *node, int depth)
 {
 	const char	*node_types[] = {"CMD", "PIPE", "REDIRECT"};
-	const char	*redir_types[] = {"WORD", "BUILTIN", "PIPE", "REDIR_IN", "REDIR_OUT", 
-		"REDIR_APPEND", "REDIR_HEREDOC", "EOF"};
+	const char	*redir_types[] = {"WORD", "BUILTIN", "PIPE", "REDIR_IN",
+			"REDIR_OUT", "REDIR_APPEND", "REDIR_HEREDOC", "EOF"};
 	int			i;
 
 	if (!node)
@@ -79,7 +79,8 @@ void	print_ast(tree_node *node, int depth)
 				printf("  ");
 				i++;
 			}
-			printf("Redirection: %s -> '%s'\n", redir_types[node->redir_type], node->filename);
+			printf("Redirection: %s -> '%s'\n", redir_types[node->redir_type],
+				node->filename);
 		}
 	}
 	if (node->left)

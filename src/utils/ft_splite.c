@@ -6,7 +6,7 @@
 /*   By: akoaik <akoaik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/09 19:13:01 by akoaik            #+#    #+#             */
-/*   Updated: 2025/09/22 16:34:42 by akoaik           ###   ########.fr       */
+/*   Updated: 2025/09/22 16:46:59 by akoaik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,12 +48,12 @@ static int	count_tokens(const char *str)
 static void	extract_tokens(const char *str, char **tokens,
 		data_handle_args *data_args, t_list_head *n_head)
 {
-	int		i, j, start, len;
 	char	quote_char;
 
+	int i, j, start, len;
 	i = 0;
 	j = 0;
-	quote_char = 0 ;
+	quote_char = 0;
 	while (str[i] && j < data_args->count)
 	{
 		while (str[i] == ' ' || str[i] == '\t')
@@ -92,7 +92,8 @@ static void	extract_tokens(const char *str, char **tokens,
 	}
 }
 
-char	**split_string(const char *str, data_handle_args *data_args, t_list_head *n_head)
+char	**split_string(const char *str, data_handle_args *data_args,
+		t_list_head *n_head)
 {
 	char	**tokens;
 
@@ -106,7 +107,8 @@ char	**split_string(const char *str, data_handle_args *data_args, t_list_head *n
 	}
 	if (data_args->count == 0)
 		return (NULL);
-	data_args->expand_flags = ft_malloc(data_args->count * sizeof(char), n_head);
+	data_args->expand_flags = ft_malloc(data_args->count * sizeof(char),
+			n_head);
 	if (!data_args->expand_flags)
 		return (data_args->count = 0, NULL);
 	tokens = ft_malloc((data_args->count + 1) * sizeof(char *), n_head);

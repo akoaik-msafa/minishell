@@ -6,7 +6,7 @@
 /*   By: akoaik <akoaik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/18 02:07:05 by akoaik            #+#    #+#             */
-/*   Updated: 2025/09/22 16:04:43 by akoaik           ###   ########.fr       */
+/*   Updated: 2025/09/22 16:46:12 by akoaik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void	free_split(char **strs)
 	int	i;
 
 	if (!strs)
-		return;
+		return ;
 	i = 0;
 	while (strs[i])
 		free(strs[i++]);
@@ -63,7 +63,7 @@ char	*search_in_paths(char **paths, char *cmd)
 		if (!path)
 		{
 			i++;
-			continue;
+			continue ;
 		}
 		if (access(path, X_OK) == 0)
 		{

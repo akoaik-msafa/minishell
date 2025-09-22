@@ -6,14 +6,13 @@
 /*   By: akoaik <akoaik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/08 18:02:05 by akoaik            #+#    #+#             */
-/*   Updated: 2025/09/22 16:09:46 by akoaik           ###   ########.fr       */
+/*   Updated: 2025/09/22 16:46:32 by akoaik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "header.h"
 
-void	while_prompt(t_list_head *n_head, t_list_head *env_head,
-		t_env *env)
+void	while_prompt(t_list_head *n_head, t_list_head *env_head, t_env *env)
 {
 	char		*prompt;
 	token_t		*tokens;
@@ -30,7 +29,7 @@ void	while_prompt(t_list_head *n_head, t_list_head *env_head,
 			break ;
 		temp_exit(prompt, n_head, env_head);
 		tokens = tokenize_input(prompt, &token_count, n_head);
-		if(!tokens)
+		if (!tokens)
 		{
 			free(prompt);
 			free_all(n_head);
@@ -44,7 +43,7 @@ void	while_prompt(t_list_head *n_head, t_list_head *env_head,
 			ast = parse_tokens(tokens, token_count, n_head, env);
 			// print_tree_structure(ast);
 			if (ast)
-				execute_ast(ast, env,n_head);
+				execute_ast(ast, env, n_head);
 			free(prompt);
 			free_all(n_head);
 			n_head->head = NULL;
@@ -55,9 +54,9 @@ void	while_prompt(t_list_head *n_head, t_list_head *env_head,
 
 int	main(int argc, char **argv, char **envp)
 {
-	t_list_head		n_head;
-	t_list_head		env_head;
-	t_env				env;
+	t_list_head	n_head;
+	t_list_head	env_head;
+	t_env		env;
 
 	n_head.head = NULL;
 	env_head.head = NULL;
@@ -73,19 +72,19 @@ int	main(int argc, char **argv, char **envp)
 
 /*
 
-	I still have : 
+	I still have :
 		- expanding
-		- quotes 
+		- quotes
 		- exit codes
-	to check it : 
-		- expand.c file 
-		- ft_split.c 
-	leaks : 
+	to check it :
+		- expand.c file
+		- ft_split.c
+	leaks :
 		echo as built-in still use malloc
 		not ft_malloc
 
-cases : 
+cases :
 		- in cd we have ../ show hidden files
-		- in echo we have "hello "" world " 
+		- in echo we have "hello "" world "
 		- we have ./minishell
 */
