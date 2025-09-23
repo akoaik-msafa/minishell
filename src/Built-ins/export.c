@@ -6,7 +6,7 @@
 /*   By: msafa <msafa@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/23 11:53:42 by msafa             #+#    #+#             */
-/*   Updated: 2025/09/23 14:17:19 by msafa            ###   ########.fr       */
+/*   Updated: 2025/09/23 15:47:36 by msafa            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -138,7 +138,6 @@ void append_to_env(char *arg, t_env *env, int index, t_list_head *env_head)
 
 void update_env(char *arg, t_env *env, int index, t_list_head *env_head)
 {
-	free(env->envp[index]);
 	env->envp[index] = my_strdup(arg,env_head);
 }
 
@@ -160,8 +159,6 @@ void add_to_env(char *arg, t_env *env, t_list_head *env_head)
 	}
 	new_env[count] = my_strdup(arg,env_head);
 	new_env[count + 1] = NULL;
-
-	free_split(env->envp);
 	env->envp = new_env;
 }
 
@@ -192,7 +189,6 @@ void add_var_no_value(char *arg, t_env *env, t_list_head *env_head)
 	}
 	new_export[count] = my_strdup(arg,env_head);
 	new_export[count + 1] = NULL;
-	free_split(env->export_only);
 	env->export_only = new_export;
 }
 
@@ -205,8 +201,8 @@ int	ft_export(char *arg, t_env *env,t_list_head *n_head,t_list_head *env_head)
 	char **sorted_env;
     int export_count;
     int index;
+	char *equal_pos;
 
-	env->export_only = NULL;
 	if (!arg)
 	{
         env->count = array_len(env->envp);
@@ -250,12 +246,20 @@ int	ft_export(char *arg, t_env *env,t_list_head *n_head,t_list_head *env_head)
 		i = 0;
 		while (sorted_env[i])
 		{
-			printf("declare -x %s\n", sorted_env[i]);
+			equal_pos = ft_strchr(sorted_env[i],'=');
+			if(equal_pos)
+			{
+				*equal_pos = '\0';
+				printf("declare -x %s=\"%s\"\n",sorted_env[i],equal_pos + 1);
+				*equal_pos = '=';
+			}
+			else
+				printf("declare -x %s\n", sorted_env[i]);
 			i++;
 		}
 	}
 	else
-	{
+	{	
 		if(validate_identifier(arg))
 		{
 			i = 0;
@@ -275,7 +279,6 @@ int	ft_export(char *arg, t_env *env,t_list_head *n_head,t_list_head *env_head)
 			}
 			else
 			{
-
 				if (arg[i] == '=')
 				{
 					add_to_env(arg, env,env_head);
@@ -289,8 +292,8 @@ int	ft_export(char *arg, t_env *env,t_list_head *n_head,t_list_head *env_head)
 		else
 		{
 			write(2,"minishell: export: ",20);
-			printf("`%s': not a valid identifier",arg);
-			exit(1);
+			printf("`%s': not a valid identifier\n",arg);
+			return(0);
 		}
 	}
 	return (0);

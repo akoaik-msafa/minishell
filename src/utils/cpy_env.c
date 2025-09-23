@@ -63,6 +63,7 @@ int	init_env(t_env *env, char **envp, t_list_head *head)
 		i++;
 	}
 	env->envp[i] = NULL;
+	env->export_only = NULL;
 	return (1);
 }
 
