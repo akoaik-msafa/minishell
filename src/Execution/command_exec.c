@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   command_exec.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: msafa <msafa@student.42.fr>                +#+  +:+       +#+        */
+/*   By: akoaik <akoaik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/15 09:45:57 by akoaik            #+#    #+#             */
-/*   Updated: 2025/09/23 14:49:15 by msafa            ###   ########.fr       */
+/*   Updated: 2025/09/23 19:31:43 by akoaik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,13 +30,14 @@ void	exec_cmd(tree_node *node, t_env *env)
 	exit(127);
 }
 
-int	execute_builtin(tree_node *node, t_env *env, t_list_head *n_head,t_list_head *env_head)
+int	execute_builtin(tree_node *node, t_env *env, t_list_head *n_head,
+		t_list_head *env_head)
 {
 	char	*combined_args;
 	int		result;
 
 	combined_args = NULL;
-	if(node->args[1])
+	if (node->args[1])
 	{
 		combined_args = join_args(node->args + 1);
 	}
@@ -52,9 +53,9 @@ int	execute_builtin(tree_node *node, t_env *env, t_list_head *n_head,t_list_head
 	{
 		result = ft_echo(combined_args);
 	}
-	else if(ft_strcmp(node->args[0],"export") == 0)
+	else if (ft_strcmp(node->args[0], "export") == 0)
 	{
-		result = ft_export(combined_args,env,n_head,env_head);
+		result = ft_export(combined_args, env, n_head, env_head);
 	}
 	else
 	{
@@ -65,7 +66,8 @@ int	execute_builtin(tree_node *node, t_env *env, t_list_head *n_head,t_list_head
 	return (result);
 }
 
-void	execute_command(tree_node *node, t_env *env, t_list_head *n_head,t_list_head *env_head)
+void	execute_command(tree_node *node, t_env *env, t_list_head *n_head,
+		t_list_head *env_head)
 {
 	pid_t	pid;
 	int		status;
@@ -73,7 +75,7 @@ void	execute_command(tree_node *node, t_env *env, t_list_head *n_head,t_list_hea
 
 	if (!node || !node->args || !node->args[0])
 		return ;
-	builtin_result = execute_builtin(node, env, n_head,env_head);
+	builtin_result = execute_builtin(node, env, n_head, env_head);
 	if (builtin_result != -1)
 		return ;
 	pid = fork();
@@ -91,16 +93,17 @@ void	execute_command(tree_node *node, t_env *env, t_list_head *n_head,t_list_hea
 	}
 }
 
-void	execute_ast(tree_node *ast, t_env *env, t_list_head *n_head,t_list_head *env_head)
+void	execute_ast(tree_node *ast, t_env *env, t_list_head *n_head,
+		t_list_head *env_head)
 {
 	if (!ast)
 		return ;
 	if (ast->type == cmd_node)
 	{
-		execute_command(ast, env, n_head,env_head);
+		execute_command(ast, env, n_head, env_head);
 	}
 	else if (ast->type == pipe_node)
 	{
-		execute_pipe(ast, env, n_head,env_head);
+		execute_pipe(ast, env, n_head, env_head);
 	}
 }
