@@ -168,6 +168,9 @@ void add_var_no_value(char *arg, t_env *env, t_list_head *env_head)
 	int i;
 	char **new_export;
 
+	if (find_env_var(arg, env->export_only) != -1)
+		return;
+
 	if (!env->export_only)
 	{
 		env->export_only = ft_malloc(sizeof(char *) * 2,env_head);
