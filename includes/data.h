@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   data.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akoaik <akoaik@student.42.fr>              +#+  +:+       +#+        */
+/*   By: msafa <msafa@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/08 18:15:33 by akoaik            #+#    #+#             */
-/*   Updated: 2025/09/22 16:49:26 by akoaik           ###   ########.fr       */
+/*   Updated: 2025/09/23 14:00:05 by msafa            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 typedef struct s_env
 {
 	char				**envp;
+	char				**export_only;
 	int					count;
 }						t_env;
 
@@ -31,7 +32,6 @@ struct					alloc_list
 typedef struct			list_head
 {
 	struct alloc_list	*head;
-	// t_env				*env;
 }						t_list_head;
 
 // enumeration for types of token

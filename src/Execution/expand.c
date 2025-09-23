@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akoaik <akoaik@student.42.fr>              +#+  +:+       +#+        */
+/*   By: msafa <msafa@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/16 21:42:30 by akoaik            #+#    #+#             */
-/*   Updated: 2025/09/22 18:19:34 by akoaik           ###   ########.fr       */
+/*   Updated: 2025/09/22 23:00:54 by msafa            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,9 +89,9 @@ char	*expand_variable(const char *str, t_env *env, struct list_head *head) // "h
 		return (prefix);
 	var_name = (char *)(str + dollar_pos + 1);
 	var_len = get_var_name_length(var_name);
-	suffix = var_name + var_len;
+	suffix = expand_variable(var_name + var_len,env,head);
 	var_value = find_env_value(var_name, var_len, env);
 	if (var_value)
 		return (build_result(prefix, var_value, suffix, head));
-	return (my_strdup("", head));
+	return (build_result(prefix, "", suffix, head));
 }

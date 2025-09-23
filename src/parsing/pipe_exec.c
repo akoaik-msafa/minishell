@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   pipe_exec.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akoaik <akoaik@student.42.fr>              +#+  +:+       +#+        */
+/*   By: msafa <msafa@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/15 03:07:05 by akoaik            #+#    #+#             */
-/*   Updated: 2025/09/21 05:38:20 by akoaik           ###   ########.fr       */
+/*   Updated: 2025/09/23 13:38:49 by msafa            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "header.h"
 
-int	child1(tree_node *cmd_node, int *pipefd, t_env *env)
+int	child1(tree_node *cmd_node, int *pipefd, t_env *env, t_list_head *n_head, t_list_head *env_head)
 {
 	if (dup2(pipefd[1], 1) < 0)
 	{
@@ -20,11 +20,11 @@ int	child1(tree_node *cmd_node, int *pipefd, t_env *env)
 		exit(1);
 	}
 	close(pipefd[0]);
-	exec_cmd(cmd_node, env);
-	return (1);
+	execute_ast(cmd_node, env, n_head, env_head);
+	exit(0);
 }
 
-int	child2(tree_node *cmd_node, int *pipefd, t_env *env, t_list_head *n_head)
+int	child2(tree_node *cmd_node, int *pipefd, t_env *env, t_list_head *n_head, t_list_head *env_head)
 {
 	if (dup2(pipefd[0], 0) < 0)
 	{
@@ -32,11 +32,11 @@ int	child2(tree_node *cmd_node, int *pipefd, t_env *env, t_list_head *n_head)
 		exit(1);
 	}
 	close(pipefd[1]);
-	execute_ast(cmd_node, env, n_head);
+	execute_ast(cmd_node, env, n_head, env_head);
 	exit(0);
 }
 
-void	execute_pipe(tree_node *ast, t_env *env, t_list_head *n_head)
+void	execute_pipe(tree_node *ast, t_env *env, t_list_head *n_head,t_list_head *env_head)
 {
 	int		pipefd[2];
 	pid_t	pid1;
@@ -50,10 +50,10 @@ void	execute_pipe(tree_node *ast, t_env *env, t_list_head *n_head)
 	}
 	pid1 = fork();
 	if (pid1 == 0)
-		child1(ast->left, pipefd, env);
+		child1(ast->left, pipefd, env, n_head, env_head);
 	pid2 = fork();
 	if (pid2 == 0)
-		child2(ast->right, pipefd, env, n_head);
+		child2(ast->right, pipefd, env, n_head, env_head);
 	close(pipefd[0]);
 	close(pipefd[1]);
 	waitpid(pid1, NULL, 0);
