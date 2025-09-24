@@ -212,20 +212,16 @@ char	*join_args(char **args)
 }
 
 
-int	ft_echo(char *arg)
+int	ft_echo(char **args)
 {
-	char	**args;
 	int		option;
 	int		start_index;
 
-	if (!arg)
+	if (!args || !args[0])
 	{
 		printf("\n");
 		return (0);
 	}
-	args = echo_split(arg);
-	if (!args)
-		return (1);
 	option = process_echo_options(args);
 	start_index = 0;
 	while (args[start_index] && check_options(args[start_index]))
@@ -233,6 +229,5 @@ int	ft_echo(char *arg)
 	print_echo_args(args, start_index);
 	if (!option)
 		printf("\n");
-	free_split(args);
 	return (0);
 }

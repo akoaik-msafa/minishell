@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akoaik <akoaik@student.42.fr>              +#+  +:+       +#+        */
+/*   By: msafa <msafa@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/08 18:02:05 by akoaik            #+#    #+#             */
-/*   Updated: 2025/09/24 00:33:06 by akoaik           ###   ########.fr       */
+/*   Updated: 2025/09/24 19:12:25 by msafa            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,10 +84,8 @@ int	main(int argc, char **argv, char **envp)
 		not ft_malloc
 
 cases :
-		- in cd we have ../ show hidden files
 		- in echo we have "hello "" world "
-		- we have ./minishell
 		- export : a=12 after export should change the value of a
 		- export a / export a=
-		- unset env --> the env should display a new line not command not found 
+		- unset env --> the env should display a new line not command not found
 */

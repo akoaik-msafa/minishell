@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   command_exec.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akoaik <akoaik@student.42.fr>              +#+  +:+       +#+        */
+/*   By: msafa <msafa@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/15 09:45:57 by akoaik            #+#    #+#             */
-/*   Updated: 2025/09/24 04:11:52 by akoaik           ###   ########.fr       */
+/*   Updated: 2025/09/24 19:28:10 by msafa            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	exec_cmd(tree_node *node, t_env *env)
 	cmd_path = get_cmd_path(node->args[0], env);
 	if (!cmd_path)
 	{
-		write(2, "command not found\n", 18);
+		printf("minishell: %s: No such file or directory\n",node->args[0]);
 		exit(127);
 	}
 	execve(cmd_path, node->args, get_env(env));
@@ -33,36 +33,36 @@ void	exec_cmd(tree_node *node, t_env *env)
 int	execute_builtin(tree_node *node, t_env *env, t_list_head *n_head,
 		t_list_head *env_head)
 {
-	char	*combined_args;
 	int		result;
 
-	combined_args = NULL;
-	if (node->args[1])
-	{
-		combined_args = join_args(node->args + 1);
-	}
 	if (ft_strcmp(node->args[0], "cd") == 0)
 	{
-		result = ft_cd(combined_args, env, n_head);
+		result = ft_cd(node->args + 1, env, n_head);
 	}
 	else if (ft_strcmp(node->args[0], "pwd") == 0)
 	{
-		result = ft_pwd(combined_args);
+		result = ft_pwd(node->args + 1);
 	}
 	else if (ft_strcmp(node->args[0], "echo") == 0)
 	{
-		result = ft_echo(combined_args);
+		result = ft_echo(node->args + 1);
 	}
 	else if (ft_strcmp(node->args[0], "export") == 0)
 	{
-		result = ft_export(combined_args, env, n_head, env_head);
+		result = ft_export(node->args + 1, env, n_head, env_head);
+	}
+	else if(ft_strcmp(node->args[0], "unset") == 0)
+	{
+		result = ft_unset(node->args + 1, env);
+	}
+	else if(ft_strcmp(node->args[0], "env") == 0)
+	{
+		result = ft_env(node->args + 1, env);
 	}
 	else
 	{
 		result = -1;
 	}
-	if (combined_args)
-		free(combined_args);
 	return (result);
 }
 

@@ -6,7 +6,7 @@
 /*   By: msafa <msafa@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/23 11:53:42 by msafa             #+#    #+#             */
-/*   Updated: 2025/09/23 15:47:36 by msafa            ###   ########.fr       */
+/*   Updated: 2025/09/24 18:43:19 by msafa            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -195,7 +195,7 @@ void add_var_no_value(char *arg, t_env *env, t_list_head *env_head)
 	env->export_only = new_export;
 }
 
-int	ft_export(char *arg, t_env *env,t_list_head *n_head,t_list_head *env_head)
+int	ft_export(char **args, t_env *env,t_list_head *n_head,t_list_head *env_head)
 {
 	int count;
 	int i;
@@ -205,8 +205,9 @@ int	ft_export(char *arg, t_env *env,t_list_head *n_head,t_list_head *env_head)
     int export_count;
     int index;
 	char *equal_pos;
+    int k;
 
-	if (!arg)
+	if (!args || !args[0])
 	{
         env->count = array_len(env->envp);
 		if (env->export_only)
@@ -262,41 +263,46 @@ int	ft_export(char *arg, t_env *env,t_list_head *n_head,t_list_head *env_head)
 		}
 	}
 	else
-	{	
-		if(validate_identifier(arg))
+	{
+		k = 0;
+		while(args[k])
 		{
-			i = 0;
-			while(arg[i] && arg[i] != '=')
-				i++;
-			index = find_env_var(arg, env->envp);
-			if (index != -1)
+			if(validate_identifier(args[k]))
 			{
-				if (arg[i] == '=' && i > 0 && arg[i - 1] == '+')
+				i = 0;
+				while(args[k][i] && args[k][i] != '=')
+					i++;
+				index = find_env_var(args[k], env->envp);
+				if (index != -1)
 				{
-					append_to_env(arg, env, index,env_head);
+					if (args[k][i] == '=' && i > 0 && args[k][i - 1] == '+')
+					{
+						append_to_env(args[k], env, index,env_head);
+					}
+					else if (args[k][i] == '=')
+					{
+						update_env(args[k], env, index,env_head);
+					}
 				}
-				else if (arg[i] == '=')
+				else
 				{
-					update_env(arg, env, index,env_head);
+					if (args[k][i] == '=')
+					{
+						add_to_env(args[k], env,env_head);
+					}
+					else
+					{
+						add_var_no_value(args[k], env,env_head);
+					}
 				}
 			}
 			else
 			{
-				if (arg[i] == '=')
-				{
-					add_to_env(arg, env,env_head);
-				}
-				else
-				{
-					add_var_no_value(arg, env,env_head);
-				}
+				write(2,"minishell: export: ",20);
+				printf("`%s': not a valid identifier\n",args[k]);
+				return(0);
 			}
-		}
-		else
-		{
-			write(2,"minishell: export: ",20);
-			printf("`%s': not a valid identifier\n",arg);
-			return(0);
+			k++;
 		}
 	}
 	return (0);
