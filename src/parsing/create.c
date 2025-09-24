@@ -62,6 +62,7 @@ tree_node	*create_cmd_node(token_t **current, token_t *end,
 	node->right = NULL;
 	node->filename = NULL;
 	node->redir_type = t_eof;
+	node->heredoc_fd = -1;
 	return (node);
 }
 
@@ -79,6 +80,25 @@ tree_node	*create_pipe_node(tree_node *left, tree_node *right,
 	node->right = right;
 	node->filename = NULL;
 	node->redir_type = t_eof;
+	node->heredoc_fd = -1;
+	return (node);
+}
+
+tree_node	*create_redir_node(token_type redir_type, char *filename,
+		tree_node *cmd, t_list_head *n_head)
+{
+	tree_node	*node;
+
+	node = ft_malloc(sizeof(tree_node), n_head);
+	if (!node)
+		return (NULL);
+	node->type = redir_node;
+	node->args = NULL;
+	node->left = cmd;
+	node->right = NULL;
+	node->filename = my_strdup(filename, n_head);
+	node->redir_type = redir_type;
+	node->heredoc_fd = -1;
 	return (node);
 }
 

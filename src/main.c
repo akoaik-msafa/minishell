@@ -6,7 +6,7 @@
 /*   By: akoaik <akoaik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/08 18:02:05 by akoaik            #+#    #+#             */
-/*   Updated: 2025/09/23 19:40:49 by akoaik           ###   ########.fr       */
+/*   Updated: 2025/09/24 00:33:06 by akoaik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ void	while_prompt(t_list_head *n_head, t_list_head *env_head, t_env *env)
 	while (1)
 	{
 		loop_count++;
-		// printf("LOOP %d:\n", loop_count);
+		printf("LOOP %d:\n", loop_count);
 		prompt = get_user_input();
 		if (!prompt)
 			break ;
@@ -37,11 +37,11 @@ void	while_prompt(t_list_head *n_head, t_list_head *env_head, t_env *env)
 		}
 		else
 		{
-			// printf("=== TOKENS ===\n");
-			// print_tokens(tokens, token_count);
-			// printf("===============\n");
+			printf("=== TOKENS ===\n");
+			print_tokens(tokens, token_count);
+			printf("===============\n");
 			ast = parse_tokens(tokens, token_count, n_head, env);
-			// print_tree_structure(ast);
+			print_tree_structure(ast);
 			if (ast)
 				execute_ast(ast, env, n_head,env_head);
 			free(prompt);
@@ -88,4 +88,6 @@ cases :
 		- in echo we have "hello "" world "
 		- we have ./minishell
 		- export : a=12 after export should change the value of a
+		- export a / export a=
+		- unset env --> the env should display a new line not command not found 
 */

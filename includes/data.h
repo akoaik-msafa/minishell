@@ -83,6 +83,7 @@ typedef struct tree_node
 	char				**args;
 	char				*filename;
 	token_type			redir_type;
+	int					heredoc_fd;
 	struct tree_node	*left;
 	struct tree_node	*right;
 }						tree_node;

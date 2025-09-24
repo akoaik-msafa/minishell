@@ -35,6 +35,8 @@ tree_node	*create_pipe_node(tree_node *left, tree_node *right,
 				t_list_head *n_head);
 tree_node	*create_cmd_node(token_t **current, token_t *end,
 				t_list_head *n_head, t_env *env);
+tree_node	*create_redir_node(token_type redir_type, char *filename,
+				tree_node *cmd, t_list_head *n_head);
 char		*expand_variable(const char *str, t_env *env,
 				struct list_head *head);
 char		*my_strdup(const char *s1, struct list_head *n_head);
@@ -71,5 +73,10 @@ void		print_2d(char **arr);
 void		print_tokens(token_t *tokens, int count);
 void		print_ast(tree_node *node, int depth);
 void		print_tree_structure(tree_node *ast);
+
+// redirections.c
+int			here_doc(char *delimiter);
+int			redirect_append(char *filename);
+void		handle_heredoc_redirection(tree_node *ast, t_env *env, t_list_head *n_head, t_list_head *env_head);
 
 #endif

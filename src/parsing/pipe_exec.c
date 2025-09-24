@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipe_exec.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: msafa <msafa@student.42.fr>                +#+  +:+       +#+        */
+/*   By: akoaik <akoaik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/15 03:07:05 by akoaik            #+#    #+#             */
-/*   Updated: 2025/09/23 13:38:49 by msafa            ###   ########.fr       */
+/*   Updated: 2025/09/24 03:37:02 by akoaik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,14 @@ void	execute_pipe(tree_node *ast, t_env *env, t_list_head *n_head,t_list_head *e
 	pid_t	pid1;
 	pid_t	pid2;
 	int		status;
+
+	// Handle heredoc in parent process before fork
+	if (ast->left && ast->left->type == redir_node && ast->left->redir_type == t_re_heredoc)
+	{
+		ast->left->heredoc_fd = here_doc(ast->left->filename);
+		if (ast->left->heredoc_fd == -1)
+			return;
+	}
 
 	if (pipe(pipefd) < 0)
 	{

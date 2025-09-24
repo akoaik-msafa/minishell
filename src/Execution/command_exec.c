@@ -6,7 +6,7 @@
 /*   By: akoaik <akoaik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/15 09:45:57 by akoaik            #+#    #+#             */
-/*   Updated: 2025/09/23 19:31:43 by akoaik           ###   ########.fr       */
+/*   Updated: 2025/09/24 04:11:52 by akoaik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,5 +105,9 @@ void	execute_ast(tree_node *ast, t_env *env, t_list_head *n_head,
 	else if (ast->type == pipe_node)
 	{
 		execute_pipe(ast, env, n_head, env_head);
+	}
+	else if (ast->type == redir_node)
+	{
+		handle_heredoc_redirection(ast, env, n_head, env_head);
 	}
 }
