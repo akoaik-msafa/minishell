@@ -6,7 +6,7 @@
 /*   By: msafa <msafa@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/12 00:40:00 by msafa             #+#    #+#             */
-/*   Updated: 2025/09/24 19:09:07 by msafa            ###   ########.fr       */
+/*   Updated: 2025/09/24 20:09:46 by msafa            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,13 +39,16 @@ int	is_only_spaces(char *str)
 	return (1);
 }
 
+
 char	*get_cd_path(char *arg, t_env *env, t_list_head *n_head)
 {
 	char	*path;
 
-	if (!arg || *arg == '~')
+	if (!arg)
+	{
 		return (get_home_path(env));
-	path = extract_quoted_path(arg, n_head);
+	}
+	path = extract_quoted_path(arg, n_head, env);
 	if (!path)
 		return (NULL);
 	return (path);
@@ -64,7 +67,6 @@ int	ft_cd(char **args, t_env *env, t_list_head *n_head)
 	path = get_cd_path(args[0], env, n_head);
 	if (!path)
 	{
-		// printf("cd: memory allocation failed\n");
 		return (1);
 	}
 	result = chdir(path);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd_utils.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akoaik <akoaik@student.42.fr>              +#+  +:+       +#+        */
+/*   By: msafa <msafa@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/14 14:05:00 by msafa             #+#    #+#             */
-/*   Updated: 2025/09/21 07:12:52 by akoaik           ###   ########.fr       */
+/*   Updated: 2025/09/24 19:47:32 by msafa            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,16 +56,30 @@ char	*handle_quoted_path(char *arg, int *i, t_list_head *n_head)
 	return (path);
 }
 
-char	*extract_quoted_path(char *arg, t_list_head *n_head)
+char	*extract_quoted_path(char *arg, t_list_head *n_head, t_env *env)
 {
-	int	i;
+	int		i;
+	char	*home_path;
+	char	*rest_path;
+	char	*full_path;
 
 	i = 0;
 	while (arg[i] == ' ' || arg[i] == '\t')
 		i++;
-	if (arg[i] == '"' || arg[i] == '\'')
-		return (handle_quoted_path(arg, &i, n_head));
 	if (arg[i] == '\0')
 		return (my_strdup(".", n_head));
+	if (arg[i] == '~')
+	{
+		home_path = get_home_path(env);
+		if (!home_path)
+			return (NULL);
+		rest_path = arg + i + 1;
+		if (*rest_path == '\0')
+			return (my_strdup(home_path, n_head));
+		full_path = ft_strjoin(home_path, rest_path);
+		if (!full_path)
+			return (NULL);
+		return (full_path);
+	}
 	return (my_strdup(arg, n_head));
 }

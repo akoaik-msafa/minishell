@@ -29,7 +29,7 @@ int			find_closing_quote(char *arg, int start, char quote);
 char		*extract_from_quotes(char *arg, int start, int end,
 				t_list_head *n_head);
 char		*handle_quoted_path(char *arg, int *i, t_list_head *n_head);
-char		*extract_quoted_path(char *arg, t_list_head *n_head);
+char		*extract_quoted_path(char *arg, t_list_head *n_head, t_env *env);
 
 // pwd.c
 int			ft_pwd(char **args);
