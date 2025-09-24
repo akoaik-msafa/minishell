@@ -81,6 +81,7 @@ typedef struct tree_node
 {
 	node_type			type;
 	char				**args;
+	char				*expand_flags;
 	char				*filename;
 	token_type			redir_type;
 	int					heredoc_fd;

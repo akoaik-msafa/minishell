@@ -104,10 +104,10 @@ static void	extract_tokens(const char *str, char **tokens,
 			tokens[j] = ft_malloc((len + 1) * sizeof(char), n_head);
 			if (tokens[j])
 				ft_strlcpy(tokens[j], str + start, len + 1);
-			if (quote_char == '\'')
-				data_args->expand_flags[j] = 0;
-			else
+			if (quote_char == '\'' || quote_char == '"')
 				data_args->expand_flags[j] = 1;
+			else
+				data_args->expand_flags[j] = 0;
 			j++;
 		}
 		quote_char = 0;
