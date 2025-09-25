@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_splite.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akoaik <akoaik@student.42.fr>              +#+  +:+       +#+        */
+/*   By: msafa <msafa@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/09 19:13:01 by akoaik            #+#    #+#             */
-/*   Updated: 2025/09/22 16:46:59 by akoaik           ###   ########.fr       */
+/*   Updated: 2025/09/25 18:07:48 by msafa            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,9 +83,17 @@ static void	extract_tokens(const char *str, char **tokens,
 			start = i;
 			while (str[i] && str[i] != quote_char)
 				i++;
-			len = i - start;
-			if (str[i] == quote_char)
+			if(str[i] == quote_char && !str[i + 1])
+				len = i - start;
+			i++;
+			if(str[i] == quote_char)
+			{
 				i++;
+				while(str[i] && str[i] != quote_char)
+					i++;
+				if(!str[i + 1])
+					len = i - start;
+			}
 		}
 		else if ((op_len = is_operator(str[i], str[i + 1])) > 0)
 		{
@@ -122,6 +130,7 @@ char	**split_string(const char *str, data_handle_args *data_args,
 	if (!str || !data_args)
 		return (NULL);
 	data_args->count = count_tokens(str);
+	printf("%i", data_args->count);
 	if (data_args->count == -1)
 	{
 		printf("Error: unclosed quote\n");

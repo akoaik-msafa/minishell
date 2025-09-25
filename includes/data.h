@@ -6,7 +6,7 @@
 /*   By: msafa <msafa@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/08 18:15:33 by akoaik            #+#    #+#             */
-/*   Updated: 2025/09/23 14:00:05 by msafa            ###   ########.fr       */
+/*   Updated: 2025/09/25 20:21:39 by msafa            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,8 @@ typedef struct data_handle_args
 	token_t			*pipe_position;
 	token_t			*end;
 	int				count;
+	int				start;
+	int				end;
 	char			*expand_flags;
 }					data_handle_args;
 

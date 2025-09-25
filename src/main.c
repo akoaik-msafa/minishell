@@ -6,7 +6,7 @@
 /*   By: msafa <msafa@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/08 18:02:05 by akoaik            #+#    #+#             */
-/*   Updated: 2025/09/24 19:12:25 by msafa            ###   ########.fr       */
+/*   Updated: 2025/09/25 18:18:59 by msafa            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@ void	while_prompt(t_list_head *n_head, t_list_head *env_head, t_env *env)
 {
 	char		*prompt;
 	token_t		*tokens;
-	int			token_count;
 	tree_node	*ast;
 	static int	loop_count = 0;
 
@@ -28,7 +27,7 @@ void	while_prompt(t_list_head *n_head, t_list_head *env_head, t_env *env)
 		if (!prompt)
 			break ;
 		temp_exit(prompt, n_head, env_head);
-		tokens = tokenize_input(prompt, &token_count, n_head);
+		tokens = tokenize_input(prompt, n_head);
 		if (!tokens)
 		{
 			free(prompt);
@@ -38,7 +37,7 @@ void	while_prompt(t_list_head *n_head, t_list_head *env_head, t_env *env)
 		else
 		{
 			printf("=== TOKENS ===\n");
-			print_tokens(tokens, token_count);
+			// print_tokens(tokens, token_count);
 			printf("===============\n");
 			ast = parse_tokens(tokens, token_count, n_head, env);
 			print_tree_structure(ast);

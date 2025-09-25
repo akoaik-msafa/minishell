@@ -6,7 +6,7 @@
 /*   By: msafa <msafa@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/06 18:36:44 by akoaik            #+#    #+#             */
-/*   Updated: 2025/09/23 13:39:11 by msafa            ###   ########.fr       */
+/*   Updated: 2025/09/25 18:48:09 by msafa            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,7 @@ char		*find_path_env(t_env *env);
 char		*build_full_path(char *dir, char *cmd);
 char		*search_in_paths(char **paths, char *cmd);
 char		*get_cmd_path(char *cmd, t_env *env);
+int	count_tokens(const char *str);
 
 // command_exec.c
 void		exec_cmd(tree_node *node, t_env *env);

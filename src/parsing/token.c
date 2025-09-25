@@ -12,7 +12,7 @@
 
 #include "header.h"
 
-token_type is_builtin(const char *cmd)
+token_type	is_builtin(const char *cmd)
 {
 	if (!cmd)
 		return (t_word);
@@ -47,10 +47,11 @@ static token_type	identify_token_type(const char *str)
 		return (t_re_in);
 	if (ft_strncmp(str, ">", 1) == 0 && ft_strlen(str) == 1)
 		return (t_re_out);
-    return (is_builtin(str));
+	return (is_builtin(str));
 }
 
-static void	fill_tokens_array(token_t *tokens, char **strs, data_handle_args *data_args)
+static void	fill_tokens_array(token_t *tokens, char **strs,
+		data_handle_args *data_args)
 {
 	int	i;
 
@@ -80,8 +81,8 @@ static char	**splite_token(const char *prompt, data_handle_args *data_args,
 token_t	*tokenize_input(const char *prompt, int *token_count,
 		t_list_head *n_head)
 {
-	char			**strs;
-	token_t			*tokens;
+	char				**strs;
+	token_t				*tokens;
 	data_handle_args	data_args;
 
 	if (!prompt || !token_count)
