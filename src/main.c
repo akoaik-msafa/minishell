@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: msafa <msafa@student.42.fr>                +#+  +:+       +#+        */
+/*   By: akoaik <akoaik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/08 18:02:05 by akoaik            #+#    #+#             */
-/*   Updated: 2025/09/25 18:18:59 by msafa            ###   ########.fr       */
+/*   Updated: 2025/09/25 23:49:29 by akoaik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,11 +36,12 @@ void	while_prompt(t_list_head *n_head, t_list_head *env_head, t_env *env)
 		}
 		else
 		{
-			printf("=== TOKENS ===\n");
+			int token_count = count_token_array(tokens);
+			// printf("=== TOKENS ===\n");
 			// print_tokens(tokens, token_count);
-			printf("===============\n");
+			// printf("===============\n");
 			ast = parse_tokens(tokens, token_count, n_head, env);
-			print_tree_structure(ast);
+			// print_tree_structure(ast);
 			if (ast)
 				execute_ast(ast, env, n_head,env_head);
 			free(prompt);

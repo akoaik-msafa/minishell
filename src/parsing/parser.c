@@ -94,7 +94,7 @@ tree_node	*parse_tokens(token_t *tokens, int count, t_list_head *n_head, t_env *
 	pipe_position = find_pipe(current, end);
 	if (pipe_position)
 	{
-		args = (data_handle_args){current, pipe_position, end,0,NULL};
+		args = (data_handle_args){current, pipe_position, end, 0, 0, 0, NULL};
 		return (handle_pipe_parsing(&args, n_head, env));
 	}
 	redir_position = find_redirection(current, end);

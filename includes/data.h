@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   data.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: msafa <msafa@student.42.fr>                +#+  +:+       +#+        */
+/*   By: akoaik <akoaik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/08 18:15:33 by akoaik            #+#    #+#             */
-/*   Updated: 2025/09/25 20:21:39 by msafa            ###   ########.fr       */
+/*   Updated: 2025/09/25 23:17:38 by akoaik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ typedef struct data_handle_args
 	token_t			*end;
 	int				count;
 	int				start;
-	int				end;
+	int				end_index;
 	char			*expand_flags;
 }					data_handle_args;
 

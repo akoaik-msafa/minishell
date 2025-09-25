@@ -19,68 +19,74 @@ void	init_data_args(char *cmd_line, data_handle_args *data_args,
 	if (data_args->count == -1)
 	{
 		printf("Error: unclosed quote\n");
-		return (NULL);
+		return ;
 	}
 	if (data_args->count == 0)
-		return (NULL);
+		return ;
 	data_args->expand_flags = ft_malloc(data_args->count * sizeof(char),
 			n_head);
 	if (!data_args->expand_flags)
 	{
 		data_args->count = 0;
-		return (NULL);
+		return ;
 	}
 }
-void find_closed_quote(char *str,char *quote_flag,data_handle_args *data_args)
+
+
+static int	process_token(char *cmd_line, data_handle_args *data_args,
+		char **arguments, int j, t_list_head *n_head, int i)
 {
-    int i;
-    int end;
+	char quote_flag;
 
-    i = data_args->start;
-    while(str[i] && str[i] != '"')
-        i++;
-    if(str[i] && str[i] == '"')
-    {
-        quote_flag = '"';
-        data_args->end = data_args->start - 1;
-        i++;
-        return;
-    }
-}
-
-char *alloc_tokens(char *cmd_line,data_handle_args *data_args,t_list_head *n_head)
-{
-    int len;
-    char *str;
-
-    len = data_args->end - data_args->start;
-    str = ft_malloc((len + 1) * sizeof(char),n_head);
-    if(str)
-        ft_strlcpy(str,cmd_line + data_args->start,len + 1);
+	if (cmd_line[i] == '"' || cmd_line[i] == '\'')
+	{
+		data_args->start = i;
+		find_closed_quote(cmd_line, &quote_flag, data_args);
+		if (data_args->end_index != -1)
+		{
+			data_args->start = i + 1;
+			arguments[j] = alloc_tokens(cmd_line, data_args, n_head);
+			data_args->expand_flags[j] = 1;
+			return (data_args->end_index + 1);
+		}
+		return (-1);
+	}
+	else
+	{
+		data_args->start = i;
+		while (cmd_line[i] && cmd_line[i] != ' ' && cmd_line[i] != '\t'
+			&& cmd_line[i] != '"' && cmd_line[i] != '\'')
+			i++;
+		data_args->end_index = i;
+		arguments[j] = alloc_tokens(cmd_line, data_args, n_head);
+		data_args->expand_flags[j] = 0;
+		return (i);
+	}
 }
 
 char	**extract_tokens(char *cmd_line, data_handle_args *data_args,
 		t_list_head *n_head)
 {
 	char	**arguments;
-    char    *quote_flag;
 	int		i;
-    int     j;
+	int		j;
 
-    quote_flag = NULL;
 	arguments = ft_malloc((data_args->count + 1) * sizeof(char *), n_head);
 	if (!arguments)
 		return (NULL);
 	arguments[data_args->count] = NULL;
-    while(cmd_line[i] && j < data_args->count)
-    {
-        if(cmd_line[i] == '"' || cmd_line[i] == '\'')
-        {
-            data_args->start = i + 1;
-            find_closed_quote(cmd_line,&quote_flag,data_args);
-            arguments[j] = alloc_tokens(cmd_line,data_args,n_head);
-        }
-    }
+	i = 0;
+	j = 0;
+	while (cmd_line[i] && j < data_args->count)
+	{
+		while (cmd_line[i] == ' ' || cmd_line[i] == '\t')
+			i++;
+		i = process_token(cmd_line, data_args, arguments, j, n_head, i);
+		if (i == -1)
+			break ;
+		j++;
+	}
+	return (arguments);
 }
 
 char	**splite_token(char *cmd_line, data_handle_args *data_args,
@@ -91,7 +97,7 @@ char	**splite_token(char *cmd_line, data_handle_args *data_args,
 	if (!cmd_line)
 		return (NULL);
 
-	init_data_args(cmd_line, &data_args, n_head);
+	init_data_args(cmd_line, data_args, n_head);
 	arguments = extract_tokens(cmd_line, data_args, n_head);
 	if (!arguments)
 	{

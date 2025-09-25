@@ -12,11 +12,3 @@
 
 #include "header.h"
 
-int find_close_quote(char *str,int position)
-{
-    while(str[position])
-    {
-        
-        position++;
-    }
-}
