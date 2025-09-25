@@ -6,7 +6,7 @@
 /*   By: akoaik <akoaik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/08 18:02:05 by akoaik            #+#    #+#             */
-/*   Updated: 2025/09/25 23:49:29 by akoaik           ###   ########.fr       */
+/*   Updated: 2025/09/26 01:28:28 by akoaik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,12 +80,15 @@ int	main(int argc, char **argv, char **envp)
 		- expand.c file
 		- ft_split.c
 	leaks :
-		echo as built-in still use malloc
-		not ft_malloc
+		echo as built-in still use malloc not ft_malloc
 
 cases :
 		- in echo we have "hello "" world "
 		- export : a=12 after export should change the value of a
 		- export a / export a=
 		- unset env --> the env should display a new line not command not found
+        - cd with no args should go to home
+        - cd with too many args
+        - cd with no HOME set should print error message
+        - heredoc with expansion should work
 */

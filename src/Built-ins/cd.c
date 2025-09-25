@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: msafa <msafa@student.42.fr>                +#+  +:+       +#+        */
+/*   By: akoaik <akoaik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/12 00:40:00 by msafa             #+#    #+#             */
-/*   Updated: 2025/09/24 20:09:46 by msafa            ###   ########.fr       */
+/*   Updated: 2025/09/26 01:22:50 by akoaik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,21 +24,6 @@ char	*get_home_path(t_env *env)
 		printf("cd: HOME not set\n");
 	return (home);
 }
-
-int	is_only_spaces(char *str)
-{
-	int	i;
-
-	i = 0;
-	while (str[i])
-	{
-		if (str[i] != ' ' && str[i] != '\t')
-			return (0);
-		i++;
-	}
-	return (1);
-}
-
 
 char	*get_cd_path(char *arg, t_env *env, t_list_head *n_head)
 {

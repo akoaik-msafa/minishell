@@ -6,7 +6,7 @@
 /*   By: akoaik <akoaik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/18 20:22:28 by msafa             #+#    #+#             */
-/*   Updated: 2025/09/24 04:00:41 by akoaik           ###   ########.fr       */
+/*   Updated: 2025/09/26 01:23:12 by akoaik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,19 +42,6 @@ int here_doc(char *delimiter)
         return(-1);
     unlink(temp_file);
     return(fd_read);
-}
-
-int redirect_append(char *filename)
-{
-    int fd_append;
-
-    fd_append = open(filename,O_WRONLY | O_APPEND | O_CREAT,0644);
-    if(fd_append == -1)
-    {
-        perror("minishell");
-        return(-1);
-    }
-    return(fd_append);
 }
 
 void handle_heredoc_redirection(tree_node *ast, t_env *env, t_list_head *n_head, t_list_head *env_head)

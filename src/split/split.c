@@ -19,10 +19,14 @@ void	init_data_args(char *cmd_line, data_handle_args *data_args,
 	if (data_args->count == -1)
 	{
 		printf("Error: unclosed quote\n");
+		data_args->expand_flags = NULL;
 		return ;
 	}
 	if (data_args->count == 0)
+	{
+		data_args->expand_flags = NULL;
 		return ;
+	}
 	data_args->expand_flags = ft_malloc(data_args->count * sizeof(char),
 			n_head);
 	if (!data_args->expand_flags)
@@ -36,32 +40,30 @@ void	init_data_args(char *cmd_line, data_handle_args *data_args,
 static int	process_token(char *cmd_line, data_handle_args *data_args,
 		char **arguments, int j, t_list_head *n_head, int i)
 {
-	char quote_flag;
+	char	*word;
+	int		end_pos;
 
-	if (cmd_line[i] == '"' || cmd_line[i] == '\'')
+	if (cmd_line[i] == '|' || cmd_line[i] == '<' || cmd_line[i] == '>')
 	{
 		data_args->start = i;
-		find_closed_quote(cmd_line, &quote_flag, data_args);
-		if (data_args->end_index != -1)
+		if ((cmd_line[i] == '<' && cmd_line[i + 1] == '<') 
+			|| (cmd_line[i] == '>' && cmd_line[i + 1] == '>'))
 		{
-			data_args->start = i + 1;
-			arguments[j] = alloc_tokens(cmd_line, data_args, n_head);
-			data_args->expand_flags[j] = 1;
-			return (data_args->end_index + 1);
-		}
-		return (-1);
-	}
-	else
-	{
-		data_args->start = i;
-		while (cmd_line[i] && cmd_line[i] != ' ' && cmd_line[i] != '\t'
-			&& cmd_line[i] != '"' && cmd_line[i] != '\'')
+			data_args->end_index = i + 2;
 			i++;
-		data_args->end_index = i;
+		}
+		else
+			data_args->end_index = i + 1;
 		arguments[j] = alloc_tokens(cmd_line, data_args, n_head);
 		data_args->expand_flags[j] = 0;
-		return (i);
+		return (data_args->end_index);
 	}
+	end_pos = extract_complete_word(cmd_line, i, &word, n_head);
+	if (end_pos == -1)
+		return (-1);
+	arguments[j] = word;
+	data_args->expand_flags[j] = 1;
+	return (end_pos);
 }
 
 char	**extract_tokens(char *cmd_line, data_handle_args *data_args,
@@ -98,6 +100,8 @@ char	**splite_token(char *cmd_line, data_handle_args *data_args,
 		return (NULL);
 
 	init_data_args(cmd_line, data_args, n_head);
+	if (data_args->count == -1)
+		return (NULL);
 	arguments = extract_tokens(cmd_line, data_args, n_head);
 	if (!arguments)
 	{

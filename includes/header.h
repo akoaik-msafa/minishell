@@ -66,6 +66,7 @@ char		*get_cmd_path(char *cmd, t_env *env);
 int	count_tokens(const char *str);
 void		find_closed_quote(char *str, char *quote_flag, data_handle_args *data_args);
 char		*alloc_tokens(char *cmd_line, data_handle_args *data_args, t_list_head *n_head);
+int			extract_complete_word(char *cmd_line, int start, char **result, t_list_head *n_head);
 
 // command_exec.c
 void		exec_cmd(tree_node *node, t_env *env);
