@@ -6,7 +6,7 @@
 /*   By: akoaik <akoaik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/25 22:00:00 by akoaik            #+#    #+#             */
-/*   Updated: 2025/09/25 22:00:00 by akoaik           ###   ########.fr       */
+/*   Updated: 2025/09/26 16:21:20 by akoaik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,13 @@
 
 static int	calculate_word_length(char *cmd_line, int start)
 {
-	int		i, total_len;
-	char	quote_flag;
-	data_handle_args temp_data;
+	char				quote_flag;
+	data_handle_args	temp_data;
 
+	int i, total_len;
 	i = start;
 	total_len = 0;
-	while (cmd_line[i] && cmd_line[i] != ' ' && cmd_line[i] != '\t' 
+	while (cmd_line[i] && cmd_line[i] != ' ' && cmd_line[i] != '\t'
 		&& cmd_line[i] != '|' && cmd_line[i] != '<' && cmd_line[i] != '>')
 	{
 		if (cmd_line[i] == '"' || cmd_line[i] == '\'')
@@ -43,13 +43,13 @@ static int	calculate_word_length(char *cmd_line, int start)
 
 static int	copy_word_content(char *cmd_line, int start, char *word)
 {
-	int		i, result_pos;
-	char	quote_flag;
-	data_handle_args temp_data;
+	char				quote_flag;
+	data_handle_args	temp_data;
 
+	int i, result_pos;
 	i = start;
 	result_pos = 0;
-	while (cmd_line[i] && cmd_line[i] != ' ' && cmd_line[i] != '\t' 
+	while (cmd_line[i] && cmd_line[i] != ' ' && cmd_line[i] != '\t'
 		&& cmd_line[i] != '|' && cmd_line[i] != '<' && cmd_line[i] != '>')
 	{
 		if (cmd_line[i] == '"' || cmd_line[i] == '\'')
@@ -68,10 +68,11 @@ static int	copy_word_content(char *cmd_line, int start, char *word)
 	return (i);
 }
 
-int	extract_complete_word(char *cmd_line, int start, char **result, t_list_head *n_head)
+int	extract_complete_word(char *cmd_line, int start, char **result,
+		t_list_head *n_head)
 {
-	int		total_len, end_pos;
-	char	*word;
+	int total_len, end_pos;
+	char *word;
 
 	total_len = calculate_word_length(cmd_line, start);
 	if (total_len == -1)
