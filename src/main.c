@@ -6,7 +6,7 @@
 /*   By: akoaik <akoaik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/08 18:02:05 by akoaik            #+#    #+#             */
-/*   Updated: 2025/09/26 01:28:28 by akoaik           ###   ########.fr       */
+/*   Updated: 2025/09/26 18:28:04 by akoaik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,11 +37,13 @@ void	while_prompt(t_list_head *n_head, t_list_head *env_head, t_env *env)
 		else
 		{
 			int token_count = count_token_array(tokens);
-			// printf("=== TOKENS ===\n");
-			// print_tokens(tokens, token_count);
-			// printf("===============\n");
+			printf("=== TOKENS ===\n");
+			print_tokens(tokens, token_count);
+			printf("===============\n");
 			ast = parse_tokens(tokens, token_count, n_head, env);
-			// print_tree_structure(ast);
+			printf("=== AST TREE STRUCTURE ===\n");
+			print_tree(ast, 0);
+			printf("===========================\n");
 			if (ast)
 				execute_ast(ast, env, n_head,env_head);
 			free(prompt);
@@ -81,6 +83,7 @@ int	main(int argc, char **argv, char **envp)
 		- ft_split.c
 	leaks :
 		echo as built-in still use malloc not ft_malloc
+	- when run another shell, the SHLVL should increment. 
 
 cases :
 		- in echo we have "hello "" world "

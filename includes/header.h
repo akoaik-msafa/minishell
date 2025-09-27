@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   header.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: msafa <msafa@student.42.fr>                +#+  +:+       +#+        */
+/*   By: akoaik <akoaik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/06 18:36:44 by akoaik            #+#    #+#             */
-/*   Updated: 2025/09/25 18:48:09 by msafa            ###   ########.fr       */
+/*   Updated: 2025/09/26 18:18:15 by akoaik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ char		*my_strdup(const char *s1, struct list_head *n_head);
 char		**get_env(t_env *env);
 tree_node	*parse_tokens(token_t *tokens, int count, t_list_head *n_head,
 				t_env *env);
+tree_node	*new_handle_redirection_parsing(token_t *tokens, token_t *redir_pos, token_t *end, t_list_head *n_head, t_env *env);
 int			init_env(t_env *env, char **envp, t_list_head *head);
 void		execute_ast(tree_node *ast, t_env *env, t_list_head *n_head,t_list_head *env_head);
 char		**split_string(const char *str, data_handle_args *data_args,
@@ -83,10 +84,13 @@ void		print_2d(char **arr);
 void		print_tokens(token_t *tokens, int count);
 void		print_ast(tree_node *node, int depth);
 void		print_tree_structure(tree_node *ast);
+void		print_tree(tree_node *node, int depth);
 
 // redirections.c
 int			here_doc(char *delimiter);
 int			redirect_append(char *filename);
 void		handle_heredoc_redirection(tree_node *ast, t_env *env, t_list_head *n_head, t_list_head *env_head);
+
+int handle_output_redirection(tree_node *ast, t_env *env, t_list_head *n_head, t_list_head *env_head);
 
 #endif

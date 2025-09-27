@@ -6,7 +6,7 @@
 /*   By: akoaik <akoaik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/11 19:30:12 by akoaik            #+#    #+#             */
-/*   Updated: 2025/09/24 03:31:09 by akoaik           ###   ########.fr       */
+/*   Updated: 2025/09/26 21:14:24 by akoaik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,13 +57,14 @@ static tree_node	*handle_pipe_parsing(data_handle_args *args, t_list_head *n_hea
 	return (create_pipe_node(left, right, n_head));
 }
 
-static tree_node	*handle_redirection_parsing(token_t *tokens, token_t *redir_pos, token_t *end, t_list_head *n_head, t_env *env)
+/*static tree_node	*handle_redirection_parsing(token_t *tokens, token_t *redir_pos, token_t *end, t_list_head *n_head, t_env *env)
 {
 	tree_node	*cmd_node;
 	tree_node	*redir_node;
 	int			cmd_count;
 	char		*filename;
 
+	printf("2\n");
 	cmd_count = redir_pos - tokens;
 	if (cmd_count > 0)
 		cmd_node = parse_tokens(tokens, cmd_count, n_head, env);
@@ -77,6 +78,69 @@ static tree_node	*handle_redirection_parsing(token_t *tokens, token_t *redir_pos
 
 	redir_node = create_redir_node(redir_pos->type, filename, cmd_node, n_head);
 	return (redir_node);
+}*/
+
+void print_tree(tree_node *node, int depth)
+{
+	int i;
+
+	if (!node)
+		return;
+
+	for (i = 0; i < depth; i++)
+		printf("  ");
+
+	if (node->type == cmd_node)
+	{
+		printf("CMD_NODE: ");
+		if (node->args && node->args[0])
+			printf("%s\n", node->args[0]);
+		else
+			printf("(empty)\n");
+	}
+	else if (node->type == pipe_node)
+	{
+		printf("PIPE_NODE\n");
+		if (node->left)
+		{
+			for (i = 0; i < depth + 1; i++)
+				printf("  ");
+			printf("left:\n");
+			print_tree(node->left, depth + 2);
+		}
+		if (node->right)
+		{
+			for (i = 0; i < depth + 1; i++)
+				printf("  ");
+			printf("right:\n");
+			print_tree(node->right, depth + 2);
+		}
+	}
+	else if (node->type == redir_node)
+	{
+		printf("REDIR_NODE: ");
+		if (node->redir_type == t_re_heredoc)
+			printf("<<");
+		else if (node->redir_type == t_re_out)
+			printf(">");
+		else if (node->redir_type == t_re_append)
+			printf(">>");
+		else if (node->redir_type == t_re_in)
+			printf("<");
+
+		if (node->filename)
+			printf(" %s\n", node->filename);
+		else
+			printf(" (no file)\n");
+
+		if (node->left)
+		{
+			for (i = 0; i < depth + 1; i++)
+				printf("  ");
+			printf("left:\n");
+			print_tree(node->left, depth + 2);
+		}
+	}
 }
 
 tree_node	*parse_tokens(token_t *tokens, int count, t_list_head *n_head, t_env *env)
@@ -100,7 +164,8 @@ tree_node	*parse_tokens(token_t *tokens, int count, t_list_head *n_head, t_env *
 	redir_position = find_redirection(current, end);
 	if (redir_position)
 	{
-		return (handle_redirection_parsing(current, redir_position, end, n_head, env));
+		printf("=== TESTING NEW REDIRECTION PARSER ===\n");
+		return (new_handle_redirection_parsing(current, redir_position, end, n_head, env));
 	}
 	else
 		return (create_cmd_node(&current, end, n_head, env));

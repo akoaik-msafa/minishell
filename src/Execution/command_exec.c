@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   command_exec.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: msafa <msafa@student.42.fr>                +#+  +:+       +#+        */
+/*   By: akoaik <akoaik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/15 09:45:57 by akoaik            #+#    #+#             */
-/*   Updated: 2025/09/24 19:28:10 by msafa            ###   ########.fr       */
+/*   Updated: 2025/09/26 19:18:54 by akoaik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,6 +108,9 @@ void	execute_ast(tree_node *ast, t_env *env, t_list_head *n_head,
 	}
 	else if (ast->type == redir_node)
 	{
-		handle_heredoc_redirection(ast, env, n_head, env_head);
+		if (ast->redir_type == t_re_heredoc)
+			handle_heredoc_redirection(ast, env, n_head, env_head);
+		else if (ast->redir_type == t_re_out)
+			handle_output_redirection(ast, env, n_head, env_head);
 	}
 }

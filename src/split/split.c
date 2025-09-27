@@ -49,7 +49,7 @@ static int	process_token(char *cmd_line, data_handle_args *data_args,
 		if ((cmd_line[i] == '<' && cmd_line[i + 1] == '<') 
 			|| (cmd_line[i] == '>' && cmd_line[i + 1] == '>'))
 		{
-			data_args->end_index = i + 2;
+			data_args->end_index = i + 2; // append or heredoc
 			i++;
 		}
 		else
