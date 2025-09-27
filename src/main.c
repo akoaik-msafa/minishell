@@ -6,7 +6,7 @@
 /*   By: akoaik <akoaik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/08 18:02:05 by akoaik            #+#    #+#             */
-/*   Updated: 2025/09/27 06:09:49 by akoaik           ###   ########.fr       */
+/*   Updated: 2025/09/27 19:03:25 by akoaik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,11 +17,11 @@ void	while_prompt(t_list_head *n_head, t_list_head *env_head, t_env *env)
 	char		*prompt;
 	token_t		*tokens;
 	tree_node	*ast;
-	static int	loop_count = 0;
+	// static int	loop_count = 0;
 
 	while (1)
 	{
-		loop_count++;
+		// loop_count++;
 		// printf("LOOP %d:\n", loop_count);
 		prompt = get_user_input();
 		if (!prompt)
@@ -86,12 +86,12 @@ int	main(int argc, char **argv, char **envp)
 	- when run another shell, the SHLVL should increment. 
 
 cases :
-		- in echo we have "hello "" world "
+		done - in echo we have "hello "" world "
 		- export : a=12 after export should change the value of a
 		- export a / export a=
-		- unset env --> the env should display a new line not command not found
-        - cd with no args should go to home
-        - cd with too many args
-        - cd with no HOME set should print error message
+		smdone - unset env --> the env should display a new line not command not found
+        done - cd with no args should go to home
+        done - cd with too many args
         - heredoc with expansion should work
+        - echo '""$PATH""' it should print "$PATH"
 */

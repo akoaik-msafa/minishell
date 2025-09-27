@@ -44,7 +44,7 @@ int	ft_cd(char **args, t_env *env, t_list_head *n_head)
 	char	*path;
 	int		result;
 
-	if (args[1] != NULL)
+	if (args[0] && args[1])
 	{
 		printf("cd: too many arguments\n");
 		return (1);
