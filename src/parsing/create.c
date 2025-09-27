@@ -6,7 +6,7 @@
 /*   By: akoaik <akoaik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/10 15:55:37 by akoaik            #+#    #+#             */
-/*   Updated: 2025/09/26 19:17:58 by akoaik           ###   ########.fr       */
+/*   Updated: 2025/09/27 06:10:50 by akoaik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,6 @@ tree_node	*create_cmd_node(token_t **current, token_t *end,
 	tree_node	*node;
 	char		**args;
 
-	printf("3\n");
 	node = ft_malloc(sizeof(tree_node), n_head);
 	if (!node)
 		return (NULL);
