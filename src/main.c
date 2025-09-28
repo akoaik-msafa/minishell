@@ -6,11 +6,21 @@
 /*   By: akoaik <akoaik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/08 18:02:05 by akoaik            #+#    #+#             */
-/*   Updated: 2025/09/28 17:17:27 by akoaik           ###   ########.fr       */
+/*   Updated: 2025/09/28 17:40:47 by akoaik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "header.h"
+
+void	print_all_debug(token_t *tokens, int token_count, tree_node *ast)
+{
+	printf("=== TOKENS ===\n");
+	print_tokens(tokens, token_count);
+	printf("===============\n");
+	printf("=== AST TREE STRUCTURE ===\n");
+	print_tree(ast, 0);
+	printf("===========================\n");
+}
 
 void	while_prompt(t_list_head *n_head, t_list_head *env_head, t_env *env)
 {
@@ -18,14 +28,11 @@ void	while_prompt(t_list_head *n_head, t_list_head *env_head, t_env *env)
 	token_t		*tokens;
 	tree_node	*ast;
 	t_data		data;
-	// static int	loop_count = 0;
 
 	init_data(&data, n_head, env, env_head);
 
 	while (1)
 	{
-		// loop_count++;
-		// printf("LOOP %d:\n", loop_count);
 		prompt = get_user_input();
 		if (!prompt)
 			break ;
@@ -40,13 +47,8 @@ void	while_prompt(t_list_head *n_head, t_list_head *env_head, t_env *env)
 		else
 		{
 			int token_count = count_token_array(tokens);
-			// printf("=== TOKENS ===\n");
-			// print_tokens(tokens, token_count);
-			// printf("===============\n");
 			ast = parse_tokens(tokens, token_count, n_head, env);
-			// printf("=== AST TREE STRUCTURE ===\n");
-			// print_tree(ast, 0);
-			// printf("===========================\n");
+			// print_all_debug(tokens, token_count, ast);
 			if (ast)
 				execute_ast(ast, &data);
 			free(prompt);
