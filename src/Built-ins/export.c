@@ -6,7 +6,7 @@
 /*   By: msafa <msafa@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/23 11:53:42 by msafa             #+#    #+#             */
-/*   Updated: 2025/09/24 18:43:19 by msafa            ###   ########.fr       */
+/*   Updated: 2025/09/28 23:13:47 by msafa            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,6 @@ char *ft_strcat(char *dest, const char *src)
 	dest[i + j] = '\0';
 	return(dest);
 }
-
 
 char *ft_strdup(const char *s)
 {
@@ -170,7 +169,6 @@ void add_var_no_value(char *arg, t_env *env, t_list_head *env_head)
 
 	if (find_env_var(arg, env->export_only) != -1)
 		return;
-
 	if (!env->export_only)
 	{
 		env->export_only = ft_malloc(sizeof(char *) * 2,env_head);
@@ -195,115 +193,167 @@ void add_var_no_value(char *arg, t_env *env, t_list_head *env_head)
 	env->export_only = new_export;
 }
 
-int	ft_export(char **args, t_env *env,t_list_head *n_head,t_list_head *env_head)
+char **bubble_sorting(char **str,t_env *env)
 {
-	int count;
-	int i;
-	int j;
-	char *temp;
-	char **sorted_env;
-    int export_count;
-    int index;
-	char *equal_pos;
-    int k;
+    int i;
+    int j;
+    int total;
+    char *temp;
 
-	if (!args || !args[0])
+    if (env->export_only)
+        total = env->count + array_len(env->export_only);
+    else
+        total = env->count;
+    i = 0;
+    while(i < total)
+    {
+        j = 0;
+        while (j < total - i - 1)
+        {
+            if (ft_strcmp(str[j], str[j + 1]) > 0)
+            {
+                temp = str[j];
+                str[j] = str[j + 1];
+                str[j + 1] = temp;
+            }
+            j++;
+        }
+        i++;
+    }
+    return (str);
+}
+
+char **sorted_env(t_env *env,t_list_head *n_head)
+{
+    char    **str;
+    int     export_count;
+    int     i;
+    int     j;
+    
+    env->count = array_len(env->envp);
+    if (env->export_only)
+        export_count = array_len(env->export_only);
+    else
+        export_count = 0;
+    str = ft_malloc(sizeof(char *) * (env->count + export_count+ 1),n_head);
+    if (!str)
+        return (NULL);
+    i = 0;
+    while (i < env->count)
+    {
+        str[i] = (env->envp)[i];
+        i++;
+    }
+	j = 0;
+	while (j < export_count)
 	{
-        env->count = array_len(env->envp);
-		if (env->export_only)
-			export_count = array_len(env->export_only);
-		else
-			export_count = 0;
-		count = env->count + export_count;
-		sorted_env = ft_malloc(sizeof(char *) * (count + 1),n_head);
-		if (!sorted_env)
-			return (1);
-		i = 0;
-		while (i < env->count)
-		{
-			sorted_env[i] = (env->envp)[i];
-			i++;
-		}
-		j = 0;
-		while (j < export_count)
-		{
-			sorted_env[i + j] = (env->export_only)[j];
-			j++;
-		}
-		sorted_env[count] = NULL;
-		i = 0;
-		while (i < count)
-		{
-			j = 0;
-			while (j < count - i - 1)
-			{
-				if (ft_strcmp(sorted_env[j], sorted_env[j + 1]) > 0)
-				{
-					temp = sorted_env[j];
-					sorted_env[j] = sorted_env[j + 1];
-					sorted_env[j + 1] = temp;
-				}
-				j++;
-			}
-			i++;
-		}
-		i = 0;
-		while (sorted_env[i])
-		{
-			equal_pos = ft_strchr(sorted_env[i],'=');
-			if(equal_pos)
-			{
-				*equal_pos = '\0';
-				printf("declare -x %s=\"%s\"\n",sorted_env[i],equal_pos + 1);
-				*equal_pos = '=';
-			}
-			else
-				printf("declare -x %s\n", sorted_env[i]);
-			i++;
-		}
+        str[i + j] = (env->export_only)[j];
+        j++;
 	}
-	else
+	str[env->count + export_count] = NULL;
+    str = bubble_sorting(str,env);
+    return(str);
+}
+
+void print_sorted(char **sorted)
+{
+    int i;
+    char *equal_pos;
+
+    i = 0;
+    while (sorted[i])
+    {
+        equal_pos = ft_strchr(sorted[i],'=');
+        if(equal_pos)
+        {
+            *equal_pos = '\0';
+            printf("declare -x %s=\"%s\"\n",sorted[i],equal_pos + 1);
+            *equal_pos = '=';
+        }
+        else
+            printf("declare -x %s\n", sorted[i]);
+        i++;
+    }
+}
+
+void handle_existing_var(char *arg, t_env *env, int index, t_list_head *env_head)
+{
+    int i;
+
+    i = 0;
+    while(arg[i] && arg[i] != '=')
+        i++;
+    if (arg[i] == '=' && i > 0 && arg[i - 1] == '+')
+        append_to_env(arg, env, index, env_head);
+    else if (arg[i] == '=')
+        update_env(arg, env, index, env_head);
+}
+
+void handle_new_var(char *arg, t_env *env, t_list_head *env_head)
+{
+    int i;
+    int index;
+
+    i = 0;
+    while(arg[i] && arg[i] != '=')
+        i++;
+    if (arg[i] == '=')
+    {
+        index = find_env_var(arg, env->export_only);
+        if(index != -1)
+        {
+            while(env->export_only[index + 1])
+            {
+                env->export_only[index] = env->export_only[index + 1];
+                index++;
+            }
+            env->export_only[index] = NULL;
+        }
+        add_to_env(arg, env, env_head);
+    }
+    else
+        add_var_no_value(arg, env, env_head);
+}
+
+int process_export_arg(char *arg, t_env *env, t_list_head *env_head)
+{
+    int index;
+
+    if (!validate_identifier(arg))
+    {
+        write(2,"minishell: export: ", 20);
+        printf("`%s': not a valid identifier\n", arg);
+        return (0);
+    }
+    index = find_env_var(arg, env->envp);
+    if (index != -1)
+        handle_existing_var(arg, env, index, env_head);
+    else
+        handle_new_var(arg, env, env_head);
+    return (1);
+}
+
+int ft_export(char **args,t_env *env,t_list_head *n_head,t_list_head *env_head)
+{
+    char    **sorted;
+    int     i;
+    
+    if (!args || !args[0])
 	{
-		k = 0;
-		while(args[k])
-		{
-			if(validate_identifier(args[k]))
-			{
-				i = 0;
-				while(args[k][i] && args[k][i] != '=')
-					i++;
-				index = find_env_var(args[k], env->envp);
-				if (index != -1)
-				{
-					if (args[k][i] == '=' && i > 0 && args[k][i - 1] == '+')
-					{
-						append_to_env(args[k], env, index,env_head);
-					}
-					else if (args[k][i] == '=')
-					{
-						update_env(args[k], env, index,env_head);
-					}
-				}
-				else
-				{
-					if (args[k][i] == '=')
-					{
-						add_to_env(args[k], env,env_head);
-					}
-					else
-					{
-						add_var_no_value(args[k], env,env_head);
-					}
-				}
-			}
-			else
-			{
-				write(2,"minishell: export: ",20);
-				printf("`%s': not a valid identifier\n",args[k]);
-				return(0);
-			}
-			k++;
-		}
-	}
-	return (0);
+        sorted = sorted_env(env,n_head);
+        if (!sorted)
+            return (1);
+        print_sorted(sorted);
+    }
+    else
+    {
+        i = 0;
+        while(args[i])
+        {
+            if (!process_export_arg(args[i], env, env_head))
+                return (0);
+            i++;
+        }
+    }
+    return (0);
 }
