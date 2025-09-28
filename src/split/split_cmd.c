@@ -30,18 +30,18 @@ int	count_token_array(token_t *tokens)
 	return (count);
 }
 
-token_t *tokenize_input(char *cmd_line, t_list_head *n_head)
+token_t *tokenize_input(char *cmd_line, t_data *data)
 {
     token_t *tokens_arr;
     char **arguments;
     data_handle_args data_args ;
 
     data_init(&data_args);
-    arguments = splite_token(cmd_line, &data_args, n_head);
+    arguments = splite_token(cmd_line, &data_args, data);
     if (!arguments)
         return (NULL);
 
-    tokens_arr = ft_malloc((data_args.count + 1) * sizeof(token_t), n_head);
+    tokens_arr = ft_malloc((data_args.count + 1) * sizeof(token_t), data->n_head);
     if (!tokens_arr)
         return (NULL);
 

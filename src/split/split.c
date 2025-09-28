@@ -38,7 +38,7 @@ void	init_data_args(char *cmd_line, data_handle_args *data_args,
 
 
 static int	process_token(char *cmd_line, data_handle_args *data_args,
-		char **arguments, int j, t_list_head *n_head, int i)
+		char **arguments, int j, t_data *data, int i)
 {
 	char	*word;
 	int		end_pos;
@@ -54,26 +54,26 @@ static int	process_token(char *cmd_line, data_handle_args *data_args,
 		}
 		else
 			data_args->end_index = i + 1;
-		arguments[j] = alloc_tokens(cmd_line, data_args, n_head);
+		arguments[j] = alloc_tokens(cmd_line, data_args, data->n_head);
 		data_args->expand_flags[j] = 0;
 		return (data_args->end_index);
 	}
-	end_pos = extract_complete_word(cmd_line, i, &word, n_head);
+	end_pos = extract_complete_word(cmd_line, i, &word, data);
 	if (end_pos == -1)
 		return (-1);
 	arguments[j] = word;
-	data_args->expand_flags[j] = 1;
+	data_args->expand_flags[j] = data->current_expand_flag;
 	return (end_pos);
 }
 
 char	**extract_tokens(char *cmd_line, data_handle_args *data_args,
-		t_list_head *n_head)
+		t_data *data)
 {
 	char	**arguments;
 	int		i;
 	int		j;
 
-	arguments = ft_malloc((data_args->count + 1) * sizeof(char *), n_head);
+	arguments = ft_malloc((data_args->count + 1) * sizeof(char *), data->n_head);
 	if (!arguments)
 		return (NULL);
 	arguments[data_args->count] = NULL;
@@ -83,7 +83,7 @@ char	**extract_tokens(char *cmd_line, data_handle_args *data_args,
 	{
 		while (cmd_line[i] == ' ' || cmd_line[i] == '\t')
 			i++;
-		i = process_token(cmd_line, data_args, arguments, j, n_head, i);
+		i = process_token(cmd_line, data_args, arguments, j, data, i);
 		if (i == -1)
 			break ;
 		j++;
@@ -92,17 +92,17 @@ char	**extract_tokens(char *cmd_line, data_handle_args *data_args,
 }
 
 char	**splite_token(char *cmd_line, data_handle_args *data_args,
-		t_list_head *n_head)
+		t_data *data)
 {
 	char **arguments;
 
 	if (!cmd_line)
 		return (NULL);
 
-	init_data_args(cmd_line, data_args, n_head);
+	init_data_args(cmd_line, data_args, data->n_head);
 	if (data_args->count == -1)
 		return (NULL);
-	arguments = extract_tokens(cmd_line, data_args, n_head);
+	arguments = extract_tokens(cmd_line, data_args, data);
 	if (!arguments)
 	{
 		data_args->count = 0;

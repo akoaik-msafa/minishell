@@ -44,7 +44,7 @@ int here_doc(char *delimiter)
     return(fd_read);
 }
 
-void handle_heredoc_redirection(tree_node *ast, t_env *env, t_list_head *n_head, t_list_head *env_head)
+void handle_heredoc_redirection(tree_node *ast, t_data *data)
 {
     int fd;
     int saved_fd;
@@ -65,7 +65,7 @@ void handle_heredoc_redirection(tree_node *ast, t_env *env, t_list_head *n_head,
         close(fd);
 
         if (ast->left)
-            execute_ast(ast->left, env, n_head, env_head);
+            execute_ast(ast->left, data);
 
         dup2(saved_fd, STDIN_FILENO);
         close(saved_fd);

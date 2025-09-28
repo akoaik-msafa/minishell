@@ -6,7 +6,7 @@
 /*   By: akoaik <akoaik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/08 18:02:05 by akoaik            #+#    #+#             */
-/*   Updated: 2025/09/27 19:03:25 by akoaik           ###   ########.fr       */
+/*   Updated: 2025/09/28 17:17:27 by akoaik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,10 @@ void	while_prompt(t_list_head *n_head, t_list_head *env_head, t_env *env)
 	char		*prompt;
 	token_t		*tokens;
 	tree_node	*ast;
+	t_data		data;
 	// static int	loop_count = 0;
+
+	init_data(&data, n_head, env, env_head);
 
 	while (1)
 	{
@@ -27,7 +30,7 @@ void	while_prompt(t_list_head *n_head, t_list_head *env_head, t_env *env)
 		if (!prompt)
 			break ;
 		temp_exit(prompt, n_head, env_head);
-		tokens = tokenize_input(prompt, n_head);
+		tokens = tokenize_input(prompt, &data);
 		if (!tokens)
 		{
 			free(prompt);
@@ -45,7 +48,7 @@ void	while_prompt(t_list_head *n_head, t_list_head *env_head, t_env *env)
 			// print_tree(ast, 0);
 			// printf("===========================\n");
 			if (ast)
-				execute_ast(ast, env, n_head,env_head);
+				execute_ast(ast, &data);
 			free(prompt);
 			free_all(n_head);
 			n_head->head = NULL;
@@ -86,12 +89,7 @@ int	main(int argc, char **argv, char **envp)
 	- when run another shell, the SHLVL should increment. 
 
 cases :
-		done - in echo we have "hello "" world "
 		- export : a=12 after export should change the value of a
 		- export a / export a=
-		smdone - unset env --> the env should display a new line not command not found
-        done - cd with no args should go to home
-        done - cd with too many args
         - heredoc with expansion should work
-        - echo '""$PATH""' it should print "$PATH"
 */

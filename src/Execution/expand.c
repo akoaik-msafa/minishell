@@ -34,8 +34,7 @@ static int	get_var_name_length(const char *var_name)
 	int	var_len;
 
 	var_len = 0;
-	while (var_name[var_len] && var_name[var_len] != ' '
-		&& var_name[var_len] != '\t')
+	while (var_name[var_len] && (ft_isalnum(var_name[var_len]) || var_name[var_len] == '_'))
 		var_len++;
 	return (var_len);
 }

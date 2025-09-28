@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   redirection_in.c                                    :+:      :+:    :+:   */
+/*   redirection_in.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: akoaik <akoaik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/09/26 00:00:00 by akoaik            #+#    #+#             */
-/*   Updated: 2025/09/26 00:00:00 by akoaik           ###   ########.fr       */
+/*   Created: 2025/09/28 16:23:45 by akoaik            #+#    #+#             */
+/*   Updated: 2025/09/28 16:23:48 by akoaik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/header.h"
 
-int handle_output_redirection(tree_node *ast, t_env *env, t_list_head *n_head, t_list_head *env_head)
+int handle_output_redirection(tree_node *ast, t_data *data)
 {
     int outfile;
     int saved_fd;
@@ -24,10 +24,8 @@ int handle_output_redirection(tree_node *ast, t_env *env, t_list_head *n_head, t
     dup2(outfile, STDOUT_FILENO);
     close(outfile);
     if (ast->left)
-        execute_ast(ast->left, env, n_head, env_head);
+        execute_ast(ast->left, data);
     dup2(saved_fd, STDOUT_FILENO);
     close(saved_fd);
-    (void)n_head;
-    (void)env_head;
     return (0);
 }

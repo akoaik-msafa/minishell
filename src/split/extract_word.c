@@ -6,7 +6,7 @@
 /*   By: akoaik <akoaik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/25 22:00:00 by akoaik            #+#    #+#             */
-/*   Updated: 2025/09/26 16:21:20 by akoaik           ###   ########.fr       */
+/*   Updated: 2025/09/28 16:04:01 by akoaik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ static int	copy_word_content(char *cmd_line, int start, char *word)
 }
 
 int	extract_complete_word(char *cmd_line, int start, char **result,
-		t_list_head *n_head)
+		t_data *data)
 {
 	int total_len, end_pos;
 	char *word;
@@ -77,9 +77,16 @@ int	extract_complete_word(char *cmd_line, int start, char **result,
 	total_len = calculate_word_length(cmd_line, start);
 	if (total_len == -1)
 		return (-1);
-	word = ft_malloc((total_len + 1) * sizeof(char), n_head);
+	word = ft_malloc((total_len + 1) * sizeof(char), data->n_head);
 	if (!word)
 		return (-1);
+
+	// Check the outermost quote context for expansion
+	if (cmd_line[start] == '\'')
+		data->current_expand_flag = 0;  // Single quotes disable expansion
+	else
+		data->current_expand_flag = 1;  // Double quotes or no quotes allow expansion
+
 	end_pos = copy_word_content(cmd_line, start, word);
 	*result = word;
 	return (end_pos);

@@ -91,6 +91,13 @@ typedef struct tree_node
 	struct tree_node	*right;
 }						tree_node;
 
-
+// data struct to hold commonly passed variables
+typedef struct s_data
+{
+	t_list_head			*n_head;
+	t_env				*env;
+	t_list_head			*env_head;
+	int					current_expand_flag;
+}						t_data;
 
 #endif

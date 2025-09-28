@@ -12,7 +12,7 @@
 
 #include "header.h"
 
-int	child1(tree_node *cmd_node, int *pipefd, t_env *env, t_list_head *n_head, t_list_head *env_head)
+int	child1(tree_node *cmd_node, int *pipefd, t_data *data)
 {
 	if (dup2(pipefd[1], 1) < 0)
 	{
@@ -20,11 +20,11 @@ int	child1(tree_node *cmd_node, int *pipefd, t_env *env, t_list_head *n_head, t_
 		exit(1);
 	}
 	close(pipefd[0]);
-	execute_ast(cmd_node, env, n_head, env_head);
+	execute_ast(cmd_node, data);
 	exit(0);
 }
 
-int	child2(tree_node *cmd_node, int *pipefd, t_env *env, t_list_head *n_head, t_list_head *env_head)
+int	child2(tree_node *cmd_node, int *pipefd, t_data *data)
 {
 	if (dup2(pipefd[0], 0) < 0)
 	{
@@ -32,11 +32,11 @@ int	child2(tree_node *cmd_node, int *pipefd, t_env *env, t_list_head *n_head, t_
 		exit(1);
 	}
 	close(pipefd[1]);
-	execute_ast(cmd_node, env, n_head, env_head);
+	execute_ast(cmd_node, data);
 	exit(0);
 }
 
-void	execute_pipe(tree_node *ast, t_env *env, t_list_head *n_head,t_list_head *env_head)
+void	execute_pipe(tree_node *ast, t_data *data)
 {
 	int		pipefd[2];
 	pid_t	pid1;
@@ -58,10 +58,10 @@ void	execute_pipe(tree_node *ast, t_env *env, t_list_head *n_head,t_list_head *e
 	}
 	pid1 = fork();
 	if (pid1 == 0)
-		child1(ast->left, pipefd, env, n_head, env_head);
+		child1(ast->left, pipefd, data);
 	pid2 = fork();
 	if (pid2 == 0)
-		child2(ast->right, pipefd, env, n_head, env_head);
+		child2(ast->right, pipefd, data);
 	close(pipefd[0]);
 	close(pipefd[1]);
 	waitpid(pid1, NULL, 0);

@@ -1,36 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   read_line.c                                        :+:      :+:    :+:   */
+/*   data_init.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: akoaik <akoaik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/09/08 20:13:44 by akoaik            #+#    #+#             */
-/*   Updated: 2025/09/28 17:23:16 by akoaik           ###   ########.fr       */
+/*   Created: 2025/09/28 15:51:40 by akoaik            #+#    #+#             */
+/*   Updated: 2025/09/28 15:51:42 by akoaik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "header.h"
 
-char	*get_user_input(void)
+void	init_data(t_data *data, t_list_head *n_head, t_env *env, t_list_head *env_head)
 {
-	char	*input;
-
-	input = readline("-My_minishell ~>");
-	if (input && *input != '\0')
-	{
-		add_history(input);
-	}
-	return (input);
-}
-
-void	temp_exit(char *str, t_list_head *n_head,
-		t_list_head *env_head)
-{
-	if (!ft_strncmp(str, "exit", 4))
-	{
-		free_all(n_head);
-		free_all(env_head);
-		exit(0);
-	}
+	if (!data)
+		return ;
+	data->n_head = n_head;
+	data->env = env;
+	data->env_head = env_head;
 }
