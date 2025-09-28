@@ -6,7 +6,7 @@
 /*   By: akoaik <akoaik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/15 03:07:05 by akoaik            #+#    #+#             */
-/*   Updated: 2025/09/24 03:37:02 by akoaik           ###   ########.fr       */
+/*   Updated: 2025/09/28 22:19:36 by akoaik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,12 @@ void	execute_pipe(tree_node *ast, t_data *data)
 	{
 		ast->left->heredoc_fd = here_doc(ast->left->filename);
 		if (ast->left->heredoc_fd == -1)
+			return;
+	}
+	if (ast->right && ast->right->type == redir_node && ast->right->redir_type == t_re_heredoc)
+	{
+		ast->right->heredoc_fd = here_doc(ast->right->filename);
+		if (ast->right->heredoc_fd == -1)
 			return;
 	}
 

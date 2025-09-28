@@ -6,7 +6,7 @@
 /*   By: akoaik <akoaik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/13 23:38:12 by akoaik            #+#    #+#             */
-/*   Updated: 2025/09/18 05:07:42 by akoaik           ###   ########.fr       */
+/*   Updated: 2025/09/28 18:39:43 by akoaik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,29 @@ int	init_env(t_env *env, char **envp, t_list_head *head)
 		i++;
 	}
 	env->envp[i] = NULL;
-	env->export_only = NULL;
+	
+
+
+	char **sorted_env = ft_malloc(sizeof(char *) * (env->count + 1),head);
+	if (!sorted_env)
+		return (1);
+	i = 0;
+	while (i < env->count)
+	{
+		sorted_env[i] = (env->envp)[i];
+		i++;
+	}
+	sorted_env[env->count] = NULL;
+	env->export_only = ft_malloc(sizeof(char *) *(env->count + 1), head);
+	if (!env->export_only)
+		return (1);
+	int j = 0;
+	while (j < env->count)
+	{
+		env->export_only[j] = sorted_env[j];
+		j++;
+	}
+	env->export_only[env->count] = NULL;
 	return (1);
 }
 

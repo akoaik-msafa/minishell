@@ -91,6 +91,8 @@ void		print_tree(tree_node *node, int depth);
 int			here_doc(char *delimiter);
 int			redirect_append(char *filename);
 void		handle_heredoc_redirection(tree_node *ast, t_data *data);
+int			handle_append_redirection(tree_node *ast, t_data *data);
+int			handle_redirection_input(tree_node *ast, t_data *data);
 
 int handle_output_redirection(tree_node *ast, t_data *data);
 

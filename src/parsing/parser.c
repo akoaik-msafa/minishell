@@ -6,7 +6,7 @@
 /*   By: akoaik <akoaik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/11 19:30:12 by akoaik            #+#    #+#             */
-/*   Updated: 2025/09/26 21:14:24 by akoaik           ###   ########.fr       */
+/*   Updated: 2025/09/28 22:21:00 by akoaik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -164,7 +164,6 @@ tree_node	*parse_tokens(token_t *tokens, int count, t_list_head *n_head, t_env *
 	redir_position = find_redirection(current, end);
 	if (redir_position)
 	{
-		printf("=== TESTING NEW REDIRECTION PARSER ===\n");
 		return (new_handle_redirection_parsing(current, redir_position, end, n_head, env));
 	}
 	else
