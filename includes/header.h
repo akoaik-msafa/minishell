@@ -6,7 +6,7 @@
 /*   By: msafa <msafa@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/06 18:36:44 by akoaik            #+#    #+#             */
-/*   Updated: 2025/09/29 01:42:16 by msafa            ###   ########.fr       */
+/*   Updated: 2025/09/30 02:07:55 by msafa            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,11 +36,13 @@ tree_node	*create_pipe_node(tree_node *left, tree_node *right,
 tree_node	*create_cmd_node(token_t **current, token_t *end,
 				t_list_head *n_head, t_env *env);
 tree_node	*create_redir_node(token_type redir_type, char *filename,
-				tree_node *cmd, t_list_head *n_head);
+				tree_node *cmd, t_list_head *n_head, int expand_flag);
 char		*expand_variable(const char *str, t_env *env,
 				struct list_head *head);
 char		*my_strdup(const char *s1, struct list_head *n_head);
 char		**get_env(t_env *env);
+void		add_to_export_only(char *arg, t_env *env, t_list_head *env_head);
+char		*ft_itoa_with_head(int n, t_list_head *head);
 tree_node	*parse_tokens(token_t *tokens, int count, t_list_head *n_head,
 				t_env *env);
 tree_node	*new_handle_redirection_parsing(token_t *tokens, token_t *redir_pos, token_t *end, t_list_head *n_head, t_env *env);
@@ -88,7 +90,7 @@ void		print_tree_structure(tree_node *ast);
 void		print_tree(tree_node *node, int depth);
 
 // redirections.c
-int			here_doc(char *delimiter, t_data *data);
+int			here_doc(char *delimiter, t_data *data, int expand_flag);
 int			redirect_append(char *filename);
 void		handle_heredoc_redirection(tree_node *ast, t_data *data);
 int			handle_append_redirection(tree_node *ast, t_data *data);

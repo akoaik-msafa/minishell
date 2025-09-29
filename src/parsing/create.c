@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   create.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akoaik <akoaik@student.42.fr>              +#+  +:+       +#+        */
+/*   By: msafa <msafa@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/10 15:55:37 by akoaik            #+#    #+#             */
-/*   Updated: 2025/09/27 06:10:50 by akoaik           ###   ########.fr       */
+/*   Updated: 2025/09/29 23:16:01 by msafa            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,7 @@ tree_node	*create_cmd_node(token_t **current, token_t *end,
 	node->filename = NULL;
 	node->redir_type = t_eof;
 	node->heredoc_fd = -1;
+	node->expand_flags = NULL;
 	return (node);
 }
 
@@ -81,11 +82,12 @@ tree_node	*create_pipe_node(tree_node *left, tree_node *right,
 	node->filename = NULL;
 	node->redir_type = t_eof;
 	node->heredoc_fd = -1;
+	node->expand_flags = NULL;
 	return (node);
 }
 
 tree_node	*create_redir_node(token_type redir_type, char *filename,
-		tree_node *cmd, t_list_head *n_head)
+		tree_node *cmd, t_list_head *n_head, int expand_flag)
 {
 	tree_node	*node;
 
@@ -99,6 +101,12 @@ tree_node	*create_redir_node(token_type redir_type, char *filename,
 	node->filename = my_strdup(filename, n_head);
 	node->redir_type = redir_type;
 	node->heredoc_fd = -1;
+	node->expand_flags = ft_malloc(2 * sizeof(char), n_head);
+	if (node->expand_flags)
+	{
+		node->expand_flags[0] = expand_flag;  // Store expand flag for filename/delimiter
+		node->expand_flags[1] = '\0';
+	}
 	return (node);
 }
 

@@ -6,12 +6,25 @@
 /*   By: msafa <msafa@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/15 09:45:57 by akoaik            #+#    #+#             */
-/*   Updated: 2025/09/29 02:47:02 by msafa            ###   ########.fr       */
+/*   Updated: 2025/09/30 02:08:00 by msafa            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "header.h"
 
+// void 	increment_shell_level(t_env *env,t_data *data)
+// {
+// 	int index;
+// 	int old_value;
+// 	int new_value;
+// 	char *new_shlvl;
+	
+// 	index = find_env_var("SHLVL=",env->export_only);
+// 	old_value = ft_atoi(env->export_only[index] + 6);
+// 	new_value = old_value + 1;
+// 	new_shlvl = ft_strjoin("SHLVL=",ft_itoa(new_value));
+// 	update_export(new_shlvl,env,index,data->env_head);
+// }
 void	exec_cmd(tree_node *node, t_env *env)
 {
 	char	*cmd_path;
@@ -24,6 +37,8 @@ void	exec_cmd(tree_node *node, t_env *env)
 		printf("minishell: %s: No such file or directory\n", node->args[0]);
 		exit(127);
 	}
+	// if(ft_strncmp(node->args[0],"./minishell",ft_strlen(node->args[0]) + 1) == 0)
+	// 		increment_shell_level(env,data);
 	execve(cmd_path, node->args, get_env(env));
 	perror(cmd_path);
 	free(cmd_path);

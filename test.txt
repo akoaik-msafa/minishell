@@ -1,0 +1,9 @@
+bash zsh fish to see if it works well
+increment SHELVEL at every execution
+./minishel and minishell should work becaues ./minishell we have the binary file and minishell in PATH
+
+only increse in expor , env keep the parent SHELVEL
+
+env and export can have different values for the same variable
+export shows what gets exported to child processes
+env shows the current environment

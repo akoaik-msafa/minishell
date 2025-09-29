@@ -6,7 +6,7 @@
 /*   By: msafa <msafa@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/12 00:40:00 by msafa             #+#    #+#             */
-/*   Updated: 2025/09/23 14:07:08 by msafa            ###   ########.fr       */
+/*   Updated: 2025/09/29 22:53:56 by msafa            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,58 +63,6 @@ int	count_words(char *str)
 	return (count);
 }
 
-void	skip_spaces(char *str, int *i)
-{
-	while (str[*i] && (str[*i] == ' ' || str[*i] == '\t'))
-		(*i)++;
-}
-
-char	*extract_word(char *str, int *i)
-{
-	int		start;
-	int		len;
-	char	*word;
-
-	start = *i;
-	while (str[*i] && str[*i] != ' ' && str[*i] != '\t')
-		(*i)++;
-	len = *i - start;
-	word = malloc(sizeof(char) * (len + 1));
-	if (!word)
-		return (NULL);
-	ft_strncpy(word, str + start, len);
-	word[len] = '\0';
-	return (word);
-}
-
-char	**echo_split(char *str)
-{
-	char	**result;
-	int		word_count;
-	int		i;
-	int		j;
-
-	if (!str)
-		return (NULL);
-	word_count = count_words(str);
-	result = malloc(sizeof(char *) * (word_count + 1));
-	if (!result)
-		return (NULL);
-	i = 0;
-	j = 0;
-	while (str[i] && j < word_count)
-	{
-		skip_spaces(str, &i);
-		result[j] = extract_word(str, &i);
-		if (!result[j])
-			return (NULL);
-		j++;
-	}
-	result[j] = NULL;
-	return (result);
-}
-
-
 int	calculate_total_length(char **args)
 {
 	int	total_len;
@@ -130,24 +78,6 @@ int	calculate_total_length(char **args)
 		i++;
 	}
 	return (total_len);
-}
-
-void	copy_args_to_result(char **args, char *result)
-{
-	int	pos;
-	int	i;
-
-	pos = 0;
-	i = 0;
-	while (args[i])
-	{
-		ft_strcpy(result + pos, args[i]);
-		pos += ft_strlen(args[i]);
-		if (args[i + 1])
-			result[pos++] = ' ';
-		i++;
-	}
-	result[pos] = '\0';
 }
 
 int	check_options(char *arg)
@@ -195,22 +125,6 @@ void	print_echo_args(char **args, int start_index)
 		i++;
 	}
 }
-
-char	*join_args(char **args)
-{
-	int		total_len;
-	char	*result;
-
-	if (!args || !args[0])
-		return (NULL);
-	total_len = calculate_total_length(args);
-	result = malloc(total_len + 1);
-	if (!result)
-		return (NULL);
-	copy_args_to_result(args, result);
-	return (result);
-}
-
 
 int	ft_echo(char **args)
 {

@@ -30,11 +30,35 @@ void	print_tokens(token_t *tokens, int count)
 			"REDIR_IN", "REDIR_OUT", "REDIR_APPEND", "REDIR_HEREDOC", "EOF"};
 	int			i;
 
+	printf("=== TOKEN EXPAND FLAG ANALYSIS ===\n");
 	i = 0;
 	while (i < count)
 	{
-		printf("Token %d: %s -> %s (expand: %d)\n", i, tokens[i].str,
-			type_names[tokens[i].type], tokens[i].expand_flag);
+		printf("Token %d: '%s' -> %s\n", i, tokens[i].str, type_names[tokens[i].type]);
+		printf("  char expand_flag = %d ", tokens[i].expand_flag);
+		if (tokens[i].expand_flag == 0)
+			printf("(NO expansion - quoted or operator)\n");
+		else
+			printf("(expansion ENABLED - unquoted)\n");
+
+		// Special case for heredoc delimiters
+		if (i > 0 && tokens[i-1].type == t_re_heredoc)
+		{
+			printf("  -> This is a HEREDOC DELIMITER\n");
+			printf("  -> Will be stored in AST node's expand_flags[0]\n");
+		}
+		printf("\n");
+		i++;
+	}
+	printf("=====================================\n");
+}
+
+void	print_indent(int depth)
+{
+	int i = 0;
+	while (i < depth)
+	{
+		printf("  ");
 		i++;
 	}
 }
@@ -48,21 +72,30 @@ void	print_ast(tree_node *node, int depth)
 
 	if (!node)
 		return ;
-	i = 0;
-	while (i < depth)
-	{
-		printf("  ");
-		i++;
-	}
+
+	print_indent(depth);
 	printf("Node: %s\n", node_types[node->type]);
+
+	// Show expand_flags information for all nodes
+	print_indent(depth);
+	printf("expand_flags: ");
+	if (node->expand_flags)
+	{
+		printf("allocated -> [0]=%d", node->expand_flags[0]);
+		if (node->expand_flags[0] == 0)
+			printf(" (NO expansion)");
+		else
+			printf(" (expansion ENABLED)");
+		printf("\n");
+	}
+	else
+	{
+		printf("NULL (no expand info stored)\n");
+	}
+
 	if (node->type == cmd_node && node->args)
 	{
-		i = 0;
-		while (i < depth + 1)
-		{
-			printf("  ");
-			i++;
-		}
+		print_indent(depth + 1);
 		printf("Args: ");
 		i = 0;
 		while (node->args[i])
@@ -71,18 +104,38 @@ void	print_ast(tree_node *node, int depth)
 			i++;
 		}
 		printf("\n");
-		if (node->redir_type != t_eof && node->filename)
+	}
+
+	// Show redirection details with expand flag analysis
+	if (node->type == redir_node)
+	{
+		print_indent(depth + 1);
+		printf("Redirection: %s -> '%s'\n", redir_types[node->redir_type], node->filename);
+
+		if (node->redir_type == t_re_heredoc)
 		{
-			i = 0;
-			while (i < depth + 1)
+			print_indent(depth + 1);
+			printf("*** HEREDOC DELIMITER ANALYSIS ***\n");
+			print_indent(depth + 1);
+			printf("Delimiter: '%s'\n", node->filename);
+			print_indent(depth + 1);
+			if (node->expand_flags)
 			{
-				printf("  ");
-				i++;
+				printf("expand_flags[0] = %d -> ", node->expand_flags[0]);
+				if (node->expand_flags[0] == 0)
+					printf("Content will NOT be expanded (quoted delimiter)\n");
+				else
+					printf("Content WILL be expanded (unquoted delimiter)\n");
 			}
-			printf("Redirection: %s -> '%s'\n", redir_types[node->redir_type],
-				node->filename);
+			else
+			{
+				printf("expand_flags = NULL -> Will default to expansion\n");
+			}
+			print_indent(depth + 1);
+			printf("**********************************\n");
 		}
 	}
+
 	if (node->left)
 		print_ast(node->left, depth + 1);
 	if (node->right)

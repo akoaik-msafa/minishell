@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   new_redirection_parser.c                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: msafa <msafa@student.42.fr>                +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/09/29 23:14:12 by msafa             #+#    #+#             */
+/*   Updated: 2025/09/29 23:14:13 by msafa            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 
 #include "header.h"
 
@@ -54,11 +66,11 @@ tree_node *new_handle_redirection_parsing(token_t *tokens, token_t *redir_pos, t
         if (!temp_rihgt_node->left)
             temp_rihgt_node->left = left_node; // the replacment
 
-        result_node = create_redir_node(redir_pos->type, filename, right_node, n_head);
+        result_node = create_redir_node(redir_pos->type, filename, right_node, n_head, (redir_pos + 1)->expand_flag);
     }
     else
     {
-        result_node = create_redir_node(redir_pos->type, filename, left_node, n_head);
+        result_node = create_redir_node(redir_pos->type, filename, left_node, n_head, (redir_pos + 1)->expand_flag);
     }
 
     return result_node;

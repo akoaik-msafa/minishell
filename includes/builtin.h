@@ -6,7 +6,7 @@
 /*   By: msafa <msafa@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/07 15:31:25 by msafa             #+#    #+#             */
-/*   Updated: 2025/09/28 22:36:49 by msafa            ###   ########.fr       */
+/*   Updated: 2025/09/30 01:31:55 by msafa            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,7 @@ void		update_env(char *arg, t_env *env, int index, t_list_head *env_head);
 void		add_to_env(char *arg, t_env *env, t_list_head *env_head);
 void		add_var_no_value(char *arg, t_env *env, t_list_head *env_head);
 int			ft_export(char **args, t_env *env, t_list_head *n_head, t_list_head *env_head);
+void update_export(char *arg, t_env *env, int index, t_list_head *env_head);
 
 // unset.c
 int	ft_unset(char **args, t_env *env);

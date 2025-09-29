@@ -6,7 +6,7 @@
 /*   By: msafa <msafa@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/23 11:53:42 by msafa             #+#    #+#             */
-/*   Updated: 2025/09/29 18:13:52 by msafa            ###   ########.fr       */
+/*   Updated: 2025/09/30 02:00:40 by msafa            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,6 +116,11 @@ void update_env(char *arg, t_env *env, int index, t_list_head *env_head)
 	env->envp[index] = my_strdup(arg,env_head);
 }
 
+void update_export(char *arg, t_env *env, int index, t_list_head *env_head)
+{
+	env->export_only[index] = my_strdup(arg,env_head);
+}
+
 void add_to_env(char *arg, t_env *env, t_list_head *env_head)
 {
 	int count;
@@ -177,9 +182,9 @@ char **bubble_sorting(char **str,t_env *env)
     char *temp;
 
     if (env->export_only)
-        total = env->count + array_len(env->export_only);
+        total = array_len(env->export_only);
     else
-        total = env->count;
+        total = 0;
     i = 0;
     while(i < total)
     {
@@ -204,29 +209,21 @@ char **sorted_env(t_env *env,t_list_head *n_head)
     char    **str;
     int     export_count;
     int     i;
-    int     j;
-    
-    env->count = array_len(env->envp);
+
     if (env->export_only)
         export_count = array_len(env->export_only);
     else
         export_count = 0;
-    str = ft_malloc(sizeof(char *) * (env->count + export_count+ 1),n_head);
+    str = ft_malloc(sizeof(char *) * (export_count + 1),n_head);
     if (!str)
         return (NULL);
     i = 0;
-    while (i < env->count)
+    while (i < export_count)
     {
-        str[i] = (env->envp)[i];
+        str[i] = (env->export_only)[i];
         i++;
     }
-	j = 0;
-	while (j < export_count)
-	{
-        str[i + j] = (env->export_only)[j];
-        j++;
-	}
-	str[env->count + export_count] = NULL;
+	str[export_count] = NULL;
     str = bubble_sorting(str,env);
     return(str);
 }
@@ -286,6 +283,7 @@ void handle_new_var(char *arg, t_env *env, t_list_head *env_head)
             env->export_only[index] = NULL;
         }
         add_to_env(arg, env, env_head);
+        add_to_export_only(arg, env, env_head);
     }
     else
         add_var_no_value(arg, env, env_head);

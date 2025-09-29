@@ -12,7 +12,7 @@
 
 #include "../includes/header.h"
 
-int here_doc(char *delimiter, t_data *data)
+int here_doc(char *delimiter, t_data *data, int expand_flag)
 {
     char *temp_file = "/tmp/heredoc_tmp";
     int fd_write;
@@ -52,8 +52,7 @@ int here_doc(char *delimiter, t_data *data)
         free(temp_line);
         if((delimiter && ft_strcmp(line,delimiter) == 0) || (!delimiter && line[0] == '\0'))
             break;
-        printf("%d\n",data->current_expand_flag);
-        if(data->current_expand_flag)
+        if(expand_flag)
             line = expand_variable(line,data->env,data->n_head);
         write(fd_write,line,ft_strlen(line));
         write(fd_write,"\n",1);
@@ -86,7 +85,30 @@ void handle_heredoc_redirection(tree_node *ast, t_data *data)
     if (ast->heredoc_fd != -1)
         fd = ast->heredoc_fd;
     else
-        fd = here_doc(ast->filename, data);
+    {
+        int expand_flag;
+        printf("\n=== HEREDOC EXPAND FLAG CONVERSION ===\n");
+        printf("AST node filename: '%s'\n", ast->filename);
+        printf("AST node expand_flags: ");
+        if (ast->expand_flags)
+        {
+            printf("allocated\n");
+            printf("  char expand_flags[0] = %d\n", ast->expand_flags[0]);
+            expand_flag = ast->expand_flags[0];  // char -> int conversion
+            printf("  Converting to int expand_flag = %d\n", expand_flag);
+            printf("  Source: This came from the delimiter token's expand_flag\n");
+        }
+        else
+        {
+            printf("NULL\n");
+            expand_flag = 1;
+            printf("  Using default int expand_flag = %d\n", expand_flag);
+            printf("  Source: Default fallback (should not happen for heredoc)\n");
+        }
+        printf("  Result: Heredoc content will%s be expanded\n", expand_flag ? "" : " NOT");
+        printf("=====================================\n");
+        fd = here_doc(ast->filename, data, expand_flag);
+    }
 
     if (fd != -1)
     {
