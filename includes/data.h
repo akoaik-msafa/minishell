@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   data.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akoaik <akoaik@student.42.fr>              +#+  +:+       +#+        */
+/*   By: msafa <msafa@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/08 18:15:33 by akoaik            #+#    #+#             */
-/*   Updated: 2025/09/25 23:17:38 by akoaik           ###   ########.fr       */
+/*   Updated: 2025/09/29 03:14:12 by msafa            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,7 @@ typedef struct data_handle_args
 	int				start;
 	int				end_index;
 	char			*expand_flags;
+	char			*heredoc_flags;
 }					data_handle_args;
 
 // enum to indecate the type inside the tree node

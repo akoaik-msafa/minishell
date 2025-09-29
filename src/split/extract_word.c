@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   extract_word.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akoaik <akoaik@student.42.fr>              +#+  +:+       +#+        */
+/*   By: msafa <msafa@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/25 22:00:00 by akoaik            #+#    #+#             */
-/*   Updated: 2025/09/28 16:04:01 by akoaik           ###   ########.fr       */
+/*   Updated: 2025/09/29 03:30:17 by msafa            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ static int	copy_word_content(char *cmd_line, int start, char *word)
 }
 
 int	extract_complete_word(char *cmd_line, int start, char **result,
-		t_data *data)
+		t_data *data, int is_heredoc_delimiter)
 {
 	int total_len, end_pos;
 	char *word;
@@ -82,11 +82,23 @@ int	extract_complete_word(char *cmd_line, int start, char **result,
 		return (-1);
 
 	// Check the outermost quote context for expansion
-	if (cmd_line[start] == '\'')
-		data->current_expand_flag = 0;  // Single quotes disable expansion
+	if (is_heredoc_delimiter)
+	{
+		// For heredoc delimiters: quotes disable expansion, no quotes enable it
+		if (cmd_line[start] == '\'' || cmd_line[start] == '"')
+			data->current_expand_flag = 0; // Quoted delimiter = no expansion
+		else
+			data->current_expand_flag = 1; // Unquoted delimiter = expansion
+	}
+	else if (cmd_line[start] == '\'')
+	{
+		data->current_expand_flag = 0; // Single quotes disable expansion
+	}
 	else
-		data->current_expand_flag = 1;  // Double quotes or no quotes allow expansion
-
+	{
+		data->current_expand_flag = 1; // No quotes allow expansion
+	}
+	
 	end_pos = copy_word_content(cmd_line, start, word);
 	*result = word;
 	return (end_pos);

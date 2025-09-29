@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   header.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akoaik <akoaik@student.42.fr>              +#+  +:+       +#+        */
+/*   By: msafa <msafa@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/06 18:36:44 by akoaik            #+#    #+#             */
-/*   Updated: 2025/09/26 18:18:15 by akoaik           ###   ########.fr       */
+/*   Updated: 2025/09/29 01:42:16 by msafa            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ char		*get_cmd_path(char *cmd, t_env *env);
 int	count_tokens(const char *str);
 void		find_closed_quote(char *str, char *quote_flag, data_handle_args *data_args);
 char		*alloc_tokens(char *cmd_line, data_handle_args *data_args, t_list_head *n_head);
-int			extract_complete_word(char *cmd_line, int start, char **result, t_data *data);
+int			extract_complete_word(char *cmd_line, int start, char **result, t_data *data, int is_heredoc_delimiter);
 
 // command_exec.c
 void		exec_cmd(tree_node *node, t_env *env);
@@ -88,7 +88,7 @@ void		print_tree_structure(tree_node *ast);
 void		print_tree(tree_node *node, int depth);
 
 // redirections.c
-int			here_doc(char *delimiter);
+int			here_doc(char *delimiter, t_data *data);
 int			redirect_append(char *filename);
 void		handle_heredoc_redirection(tree_node *ast, t_data *data);
 int			handle_append_redirection(tree_node *ast, t_data *data);

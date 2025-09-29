@@ -20,16 +20,20 @@ void	init_data_args(char *cmd_line, data_handle_args *data_args,
 	{
 		printf("Error: unclosed quote\n");
 		data_args->expand_flags = NULL;
+		data_args->heredoc_flags = NULL;
 		return ;
 	}
 	if (data_args->count == 0)
 	{
 		data_args->expand_flags = NULL;
+		data_args->heredoc_flags = NULL;
 		return ;
 	}
 	data_args->expand_flags = ft_malloc(data_args->count * sizeof(char),
 			n_head);
-	if (!data_args->expand_flags)
+	data_args->heredoc_flags = ft_malloc(data_args->count * sizeof(char),
+			n_head);
+	if (!data_args->expand_flags || !data_args->heredoc_flags)
 	{
 		data_args->count = 0;
 		return ;
@@ -38,7 +42,7 @@ void	init_data_args(char *cmd_line, data_handle_args *data_args,
 
 
 static int	process_token(char *cmd_line, data_handle_args *data_args,
-		char **arguments, int j, t_data *data, int i)
+		char **arguments, int j, t_data *data, int i, int *is_next_heredoc_delimiter)
 {
 	char	*word;
 	int		end_pos;
@@ -46,23 +50,28 @@ static int	process_token(char *cmd_line, data_handle_args *data_args,
 	if (cmd_line[i] == '|' || cmd_line[i] == '<' || cmd_line[i] == '>')
 	{
 		data_args->start = i;
-		if ((cmd_line[i] == '<' && cmd_line[i + 1] == '<') 
+		if ((cmd_line[i] == '<' && cmd_line[i + 1] == '<')
 			|| (cmd_line[i] == '>' && cmd_line[i + 1] == '>'))
 		{
 			data_args->end_index = i + 2; // append or heredoc
+			if (cmd_line[i] == '<' && cmd_line[i + 1] == '<')
+				*is_next_heredoc_delimiter = 1; // Next token is heredoc delimiter
 			i++;
 		}
 		else
 			data_args->end_index = i + 1;
 		arguments[j] = alloc_tokens(cmd_line, data_args, data->n_head);
 		data_args->expand_flags[j] = 0;
+		data_args->heredoc_flags[j] = 0;
 		return (data_args->end_index);
 	}
-	end_pos = extract_complete_word(cmd_line, i, &word, data);
+	end_pos = extract_complete_word(cmd_line, i, &word, data, *is_next_heredoc_delimiter);
 	if (end_pos == -1)
 		return (-1);
 	arguments[j] = word;
 	data_args->expand_flags[j] = data->current_expand_flag;
+	data_args->heredoc_flags[j] = *is_next_heredoc_delimiter;
+	*is_next_heredoc_delimiter = 0; // Reset flag after processing
 	return (end_pos);
 }
 
@@ -72,6 +81,7 @@ char	**extract_tokens(char *cmd_line, data_handle_args *data_args,
 	char	**arguments;
 	int		i;
 	int		j;
+	int		is_next_heredoc_delimiter;
 
 	arguments = ft_malloc((data_args->count + 1) * sizeof(char *), data->n_head);
 	if (!arguments)
@@ -79,11 +89,12 @@ char	**extract_tokens(char *cmd_line, data_handle_args *data_args,
 	arguments[data_args->count] = NULL;
 	i = 0;
 	j = 0;
+	is_next_heredoc_delimiter = 0;
 	while (cmd_line[i] && j < data_args->count)
 	{
 		while (cmd_line[i] == ' ' || cmd_line[i] == '\t')
 			i++;
-		i = process_token(cmd_line, data_args, arguments, j, data, i);
+		i = process_token(cmd_line, data_args, arguments, j, data, i, &is_next_heredoc_delimiter);
 		if (i == -1)
 			break ;
 		j++;

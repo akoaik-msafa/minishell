@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   command_exec.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akoaik <akoaik@student.42.fr>              +#+  +:+       +#+        */
+/*   By: msafa <msafa@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/15 09:45:57 by akoaik            #+#    #+#             */
-/*   Updated: 2025/09/28 23:33:31 by akoaik           ###   ########.fr       */
+/*   Updated: 2025/09/29 02:47:02 by msafa            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,8 +84,7 @@ void	execute_command(tree_node *node, t_data *data)
 	}
 }
 
-void	
-execute_ast(tree_node *ast, t_data *data)
+void	execute_ast(tree_node *ast, t_data *data)
 {
 	if (!ast)
 		return ;

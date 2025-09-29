@@ -3,39 +3,69 @@
 /*                                                        :::      ::::::::   */
 /*   redirections.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akoaik <akoaik@student.42.fr>              +#+  +:+       +#+        */
+/*   By: msafa <msafa@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/18 20:22:28 by msafa             #+#    #+#             */
-/*   Updated: 2025/09/26 01:23:12 by akoaik           ###   ########.fr       */
+/*   Updated: 2025/09/29 18:59:50 by msafa            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/header.h"
 
-int here_doc(char *delimiter)
+int here_doc(char *delimiter, t_data *data)
 {
     char *temp_file = "/tmp/heredoc_tmp";
     int fd_write;
     int fd_read;
     char *line;
+    int tty_fd = -1;
+    int saved_stdin = -1;
+
+    // If stdin is redirected, use /dev/tty for readline
+    if (!isatty(STDIN_FILENO))
+    {
+        tty_fd = open("/dev/tty", O_RDONLY);
+        if (tty_fd != -1)
+        {
+            saved_stdin = dup(STDIN_FILENO);
+            dup2(tty_fd, STDIN_FILENO);
+            close(tty_fd);
+        }
+    }
 
     fd_write = open(temp_file, O_CREAT | O_WRONLY | O_TRUNC, 0600);
     if(fd_write == -1)
+    {
+        if (saved_stdin != -1)
+        {
+            dup2(saved_stdin, STDIN_FILENO);
+            close(saved_stdin);
+        }
         return(-1);
+    }
     while(1)
     {
-        line = readline("heredoc>");
-        if(!line)
+        char *temp_line = readline("heredoc> ");
+        if(!temp_line)
             break;
+        line = my_strdup(temp_line, data->n_head);
+        free(temp_line);
         if((delimiter && ft_strcmp(line,delimiter) == 0) || (!delimiter && line[0] == '\0'))
-        {
-            free(line);
             break;
-        }
+        printf("%d\n",data->current_expand_flag);
+        if(data->current_expand_flag)
+            line = expand_variable(line,data->env,data->n_head);
         write(fd_write,line,ft_strlen(line));
         write(fd_write,"\n",1);
-        free(line);
     }
+
+    // Restore original stdin if we changed it
+    if (saved_stdin != -1)
+    {
+        dup2(saved_stdin, STDIN_FILENO);
+        close(saved_stdin);
+    }
+
     close(fd_write);
     fd_read = open(temp_file,O_RDONLY);
     if(fd_read == -1)
@@ -56,7 +86,7 @@ void handle_heredoc_redirection(tree_node *ast, t_data *data)
     if (ast->heredoc_fd != -1)
         fd = ast->heredoc_fd;
     else
-        fd = here_doc(ast->filename);
+        fd = here_doc(ast->filename, data);
 
     if (fd != -1)
     {

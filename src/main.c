@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akoaik <akoaik@student.42.fr>              +#+  +:+       +#+        */
+/*   By: msafa <msafa@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/08 18:02:05 by akoaik            #+#    #+#             */
-/*   Updated: 2025/09/28 17:40:47 by akoaik           ###   ########.fr       */
+/*   Updated: 2025/09/29 18:52:57 by msafa            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,18 +80,14 @@ int	main(int argc, char **argv, char **envp)
 /*
 
 	I still have :
-		- expanding
-		- quotes
+		- Signals handling
 		- exit codes
-	to check it :
-		- expand.c file
-		- ft_split.c
 	leaks :
 		echo as built-in still use malloc not ft_malloc
 	- when run another shell, the SHLVL should increment. 
 
 cases :
-		- export : a=12 after export should change the value of a
-		- export a / export a=
         - heredoc with expansion should work
+		- on the heredoc, if the delemiter is unclosed it should print error ;
+		and if the delimiter is "WORD' also shoud print a error 
 */

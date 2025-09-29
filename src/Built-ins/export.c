@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akoaik <akoaik@student.42.fr>              +#+  +:+       +#+        */
+/*   By: msafa <msafa@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/23 11:53:42 by msafa             #+#    #+#             */
-/*   Updated: 2025/09/28 23:33:17 by akoaik           ###   ########.fr       */
+/*   Updated: 2025/09/29 18:13:52 by msafa            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,30 +28,6 @@ char *ft_strcat(char *dest, const char *src)
 	}
 	dest[i + j] = '\0';
 	return(dest);
-}
-
-char *ft_strdup(const char *s)
-{
-	int		len;
-	int		i;
-	char	*dup;
-
-	if (!s)
-		return (NULL);
-	len = 0;
-	while (s[len])
-		len++;
-	dup = malloc(len + 1);
-	if (!dup)
-		return (NULL);
-	i = 0;
-	while (s[i])
-	{
-		dup[i] = s[i];
-		i++;
-	}
-	dup[i] = '\0';
-	return (dup);
 }
 
 int ft_strcmp(const char *s1, const char *s2)
