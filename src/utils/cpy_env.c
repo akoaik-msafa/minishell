@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cpy_env.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: msafa <msafa@student.42.fr>                +#+  +:+       +#+        */
+/*   By: akoaik <akoaik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/13 23:38:12 by akoaik            #+#    #+#             */
-/*   Updated: 2025/09/30 02:37:52 by msafa            ###   ########.fr       */
+/*   Updated: 2025/09/30 16:24:07 by akoaik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,13 +83,21 @@ int init_env(t_env *env, char **envp, t_list_head *head)
 
     if (env_index == -1)
     {
-        add_to_env("SHLVL=0", env, head);
+        add_to_env("SHLVL=1", env, head);
         add_to_export_only("SHLVL=1", env, head);
     }
     else
     {
         int current_shlvl = ft_atoi(env->envp[env_index] + 6);
         char *new_shlvl_str = ft_itoa_with_head(current_shlvl + 1, head);
+
+        char *new_env_entry = ft_malloc(ft_strlen("SHLVL=") + ft_strlen(new_shlvl_str) + 1, head);
+        if (new_env_entry)
+        {
+            ft_strcpy(new_env_entry, "SHLVL=");
+            ft_strcat(new_env_entry, new_shlvl_str);
+            env->envp[env_index] = new_env_entry;
+        }
 
         if (export_index != -1)
         {

@@ -1,0 +1,13 @@
+EXPAND_FLAG_EXPLANATION.md
+Makefile
+Notes
+RME.md
+f1
+f2
+f3
+includes
+libft
+ls
+minishell
+src
+test.txt

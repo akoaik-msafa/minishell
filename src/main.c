@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: msafa <msafa@student.42.fr>                +#+  +:+       +#+        */
+/*   By: akoaik <akoaik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/08 18:02:05 by akoaik            #+#    #+#             */
-/*   Updated: 2025/09/30 00:25:43 by msafa            ###   ########.fr       */
+/*   Updated: 2025/09/30 17:02:22 by akoaik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,4 +84,7 @@ int	main(int argc, char **argv, char **envp)
 	leaks :
 	- when run another shell, the SHLVL should increment. 
 	export contains two lines of each variable
+
+    test : 
+    echo "m"y H"ome i"s $"HOME" > f1 | cat <<EOF > f2 | cat <<"EOF" > f3 | ls > ls | cat f1 | cat f2 | cat f3 | cat ls > ls | cat ls`
 */
