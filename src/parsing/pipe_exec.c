@@ -112,4 +112,5 @@ void	execute_pipe(tree_node *ast, t_data *data)
 	close(pipefd[1]);
 	waitpid(pid1, NULL, 0);
 	waitpid(pid2, &status, 0);
+	set_exit_code_from_status(data, status);
 }

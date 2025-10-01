@@ -34,7 +34,7 @@ void	exec_cmd(tree_node *node, t_env *env)
 	cmd_path = get_cmd_path(node->args[0], env);
 	if (!cmd_path)
 	{
-		printf("minishell: %s: No such file or directory\n", node->args[0]);
+		printf("minishell: %s: command not found\n", node->args[0]);
 		exit(127);
 	}
 	// if(ft_strncmp(node->args[0],"./minishell",ft_strlen(node->args[0]) + 1) == 0)
@@ -83,7 +83,10 @@ void	execute_command(tree_node *node, t_data *data)
 		return ;
 	builtin_result = execute_builtin(node, data);
 	if (builtin_result != -1)
+	{
+		data->exit_code = builtin_result;
 		return ;
+	}
 	pid = fork();
 	if (pid == 0)
 	{
@@ -92,10 +95,12 @@ void	execute_command(tree_node *node, t_data *data)
 	else if (pid > 0)
 	{
 		waitpid(pid, &status, 0);
+		set_exit_code_from_status(data, status);
 	}
 	else
 	{
 		perror("fork");
+		data->exit_code = 1;
 	}
 }
 

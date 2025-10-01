@@ -99,6 +99,7 @@ typedef struct s_data
 	t_env				*env;
 	t_list_head			*env_head;
 	int					current_expand_flag;
+	int					exit_code;
 }						t_data;
 
 #endif

@@ -47,7 +47,7 @@ void	while_prompt(t_list_head *n_head, t_list_head *env_head, t_env *env)
 		else
 		{
 			token_count = count_token_array(tokens);
-			ast = parse_tokens(tokens, token_count, n_head, env);
+			ast = parse_tokens(tokens, token_count, n_head, &data);
 			// print_all_debug(tokens, token_count, ast);
 			if (ast)
 				execute_ast(ast, &data);

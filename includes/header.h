@@ -42,11 +42,10 @@ token_t		*tokenize_input(char *cmd_line, t_data *data);
 tree_node	*create_pipe_node(tree_node *left, tree_node *right,
 				t_list_head *n_head);
 tree_node	*create_cmd_node(token_t **current, token_t *end,
-				t_list_head *n_head, t_env *env);
+				t_list_head *n_head, t_data *data);
 tree_node	*create_redir_node(token_type redir_type, char *filename,
 				tree_node *cmd, t_list_head *n_head, int expand_flag);
-char		*expand_variable(const char *str, t_env *env,
-				struct list_head *head);
+char		*expand_variable(const char *str, t_data *data);
 char		*my_strdup(const char *s1, struct list_head *n_head);
 char		**get_env(t_env *env);
 void		add_to_export_only(char *arg, t_env *env, t_list_head *env_head);
@@ -58,9 +57,9 @@ void		update_shlvl_entries(t_env *env, int env_index, int export_index,
 				char *new_shlvl_str, t_list_head *head);
 void		handle_shlvl_init(t_env *env, t_list_head *head);
 tree_node	*parse_tokens(token_t *tokens, int count, t_list_head *n_head,
-				t_env *env);
+				t_data *data);
 tree_node	*new_handle_redirection_parsing(token_t *tokens, token_t *redir_pos,
-				token_t *end, t_list_head *n_head, t_env *env);
+				token_t *end, t_list_head *n_head, t_data *data);
 int			init_env(t_env *env, char **envp, t_list_head *head);
 void		execute_ast(tree_node *ast, t_data *data);
 char		**split_string(const char *str, data_handle_args *data_args,
@@ -94,6 +93,9 @@ int			extract_complete_word(char *cmd_line, int start, char **result,
 void		exec_cmd(tree_node *node, t_env *env);
 int			execute_builtin(tree_node *node, t_data *data);
 void		execute_command(tree_node *node, t_data *data);
+
+// exit_code.c
+void		set_exit_code_from_status(t_data *data, int status);
 
 // pipe_exec.c
 int			child1(tree_node *cmd_node, int *pipefd, t_data *data);

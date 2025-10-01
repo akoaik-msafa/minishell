@@ -13,7 +13,7 @@
 
 #include "header.h"
 
-static tree_node *parse_left_side(token_t *tokens, token_t *redir_pos, t_list_head *n_head, t_env *env)
+static tree_node *parse_left_side(token_t *tokens, token_t *redir_pos, t_list_head *n_head, t_data *data)
 {
     int cmd_count;
 
@@ -21,12 +21,12 @@ static tree_node *parse_left_side(token_t *tokens, token_t *redir_pos, t_list_he
 
     if (cmd_count > 0)
     {
-        return parse_tokens(tokens, cmd_count, n_head, env);
+        return parse_tokens(tokens, cmd_count, n_head, data);
     }
     return NULL;
 }
 
-static tree_node *parse_right_side(token_t *redir_pos, token_t *end, t_list_head *n_head, t_env *env)
+static tree_node *parse_right_side(token_t *redir_pos, token_t *end, t_list_head *n_head, t_data *data)
 {
     int remaining_count;
     token_t *remaining_start;
@@ -36,12 +36,12 @@ static tree_node *parse_right_side(token_t *redir_pos, token_t *end, t_list_head
 
     if (remaining_count > 0)
     {
-        return parse_tokens(remaining_start, remaining_count, n_head, env);
+        return parse_tokens(remaining_start, remaining_count, n_head, data);
     }
     return NULL;
 }
 
-tree_node *new_handle_redirection_parsing(token_t *tokens, token_t *redir_pos, token_t *end, t_list_head *n_head, t_env *env)
+tree_node *new_handle_redirection_parsing(token_t *tokens, token_t *redir_pos, token_t *end, t_list_head *n_head, t_data *data)
 {
     tree_node *left_node;
     tree_node *right_node;
@@ -54,8 +54,8 @@ tree_node *new_handle_redirection_parsing(token_t *tokens, token_t *redir_pos, t
     }
 
     filename = (redir_pos + 1)->str;
-    left_node = parse_left_side(tokens, redir_pos, n_head, env);
-    right_node = parse_right_side(redir_pos, end, n_head, env);
+    left_node = parse_left_side(tokens, redir_pos, n_head, data);
+    right_node = parse_right_side(redir_pos, end, n_head, data);
 
     if (right_node && right_node->type == redir_node)
     {

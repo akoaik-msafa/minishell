@@ -41,7 +41,7 @@ static token_t	*find_redirection(token_t *current, token_t *end)
 	return (NULL);
 }
 
-static tree_node	*handle_pipe_parsing(data_handle_args *args, t_list_head *n_head, t_env *env)
+static tree_node	*handle_pipe_parsing(data_handle_args *args, t_list_head *n_head, t_data *data)
 {
 	tree_node	*left;
 	tree_node	*right;
@@ -50,8 +50,8 @@ static tree_node	*handle_pipe_parsing(data_handle_args *args, t_list_head *n_hea
 
 	left_count = args->pipe_position - args->tokens;
 	right_count = args->end - args->pipe_position - 1;
-	left = parse_tokens(args->tokens, left_count, n_head, env);
-	right = parse_tokens(args->pipe_position + 1, right_count, n_head, env);
+	left = parse_tokens(args->tokens, left_count, n_head, data);
+	right = parse_tokens(args->pipe_position + 1, right_count, n_head, data);
 	if (!left || !right)
 		return (NULL);
 	return (create_pipe_node(left, right, n_head));
@@ -143,7 +143,7 @@ void print_tree(tree_node *node, int depth)
 	}
 }
 
-tree_node	*parse_tokens(token_t *tokens, int count, t_list_head *n_head, t_env *env)
+tree_node	*parse_tokens(token_t *tokens, int count, t_list_head *n_head, t_data *data)
 {
 	token_t	*current;
 	token_t	*end;
@@ -159,15 +159,15 @@ tree_node	*parse_tokens(token_t *tokens, int count, t_list_head *n_head, t_env *
 	if (pipe_position)
 	{
 		args = (data_handle_args){current, pipe_position, end, 0, 0, 0, NULL, NULL};
-		return (handle_pipe_parsing(&args, n_head, env));
+		return (handle_pipe_parsing(&args, n_head, data));
 	}
 	redir_position = find_redirection(current, end);
 	if (redir_position)
 	{
-		return (new_handle_redirection_parsing(current, redir_position, end, n_head, env));
+		return (new_handle_redirection_parsing(current, redir_position, end, n_head, data));
 	}
 	else
-		return (create_cmd_node(&current, end, n_head, env));
+		return (create_cmd_node(&current, end, n_head, data));
 }
 /*
   find_pipe (line 15): Iterates through token array from start to end,

@@ -13,7 +13,7 @@
 #include "header.h"
 
 static char	**create_cmd_args(token_t **current, token_t *end,
-		struct list_head *head, t_env *env)
+		struct list_head *head, t_data *data)
 {
 	char	**args;
 	token_t	*temp;
@@ -34,7 +34,7 @@ static char	**create_cmd_args(token_t **current, token_t *end,
 	while (i < arg_count)
 	{
 		if ((*current)->expand_flag == 1)
-			args[i] = expand_variable((*current)->str, env, head);
+			args[i] = expand_variable((*current)->str, data);
 		else
 			args[i] = my_strdup((*current)->str, head);
 		(*current)++;
@@ -45,7 +45,7 @@ static char	**create_cmd_args(token_t **current, token_t *end,
 }
 
 tree_node	*create_cmd_node(token_t **current, token_t *end,
-		t_list_head *n_head, t_env *env)
+		t_list_head *n_head, t_data *data)
 {
 	tree_node	*node;
 	char		**args;
@@ -53,7 +53,7 @@ tree_node	*create_cmd_node(token_t **current, token_t *end,
 	node = ft_malloc(sizeof(tree_node), n_head);
 	if (!node)
 		return (NULL);
-	args = create_cmd_args(current, end, n_head, env);
+	args = create_cmd_args(current, end, n_head, data);
 	if (!args)
 		return (NULL);
 	node->type = cmd_node;

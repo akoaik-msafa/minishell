@@ -57,7 +57,7 @@ int	here_doc(char *delimiter, t_data *data, int expand_flag)
 				&& line[0] == '\0'))
 			break ;
 		if (expand_flag)
-			line = expand_variable(line, data->env, data->n_head);
+			line = expand_variable(line, data);
 		write(fd_write, line, ft_strlen(line));
 		write(fd_write, "\n", 1);
 	}

@@ -12,8 +12,7 @@
 
 #include "header.h"
 
-static char	*extract_prefix(const char *str, int *dollar_pos,
-		struct list_head *head)
+static char	*extract_prefix(const char *str, int *dollar_pos, t_data *data)
 {
 	char	*prefix;
 	int		j;
@@ -23,8 +22,8 @@ static char	*extract_prefix(const char *str, int *dollar_pos,
 		j++;
 	*dollar_pos = j;
 	if (!str[j])
-		return (my_strdup(str, head));
-	prefix = ft_malloc(((j + 1) * sizeof(char)), head);
+		return (my_strdup(str, data->n_head));
+	prefix = ft_malloc(((j + 1) * sizeof(char)), data->n_head);
 	ft_strlcpy(prefix, str, j + 1);
 	return (prefix);
 }
@@ -34,6 +33,8 @@ static int	get_var_name_length(const char *var_name)
 	int	var_len;
 
 	var_len = 0;
+	if (var_name[0] == '?')
+		return (1);
 	while (var_name[var_len] && (ft_isalnum(var_name[var_len]) || var_name[var_len] == '_'))
 		var_len++;
 	return (var_len);
@@ -57,13 +58,13 @@ static char	*find_env_value(const char *var_name, int var_len, t_env *env)
 }
 
 static char	*build_result(char *prefix, char *var_value, char *suffix,
-		struct list_head *head)
+		t_data *data)
 {
 	char	*result;
 	int		total_len;
 
 	total_len = ft_strlen(prefix) + ft_strlen(suffix) + ft_strlen(var_value);
-	result = ft_malloc((total_len + 1) * sizeof(char), head);
+	result = ft_malloc((total_len + 1) * sizeof(char), data->n_head);
 	if (!result)
 		return (NULL);
 	ft_strcpy(result, prefix);
@@ -72,7 +73,7 @@ static char	*build_result(char *prefix, char *var_value, char *suffix,
 	return (result);
 }
 
-char	*expand_variable(const char *str, t_env *env, struct list_head *head) // "hello $PATH world"
+char	*expand_variable(const char *str, t_data *data)
 {
 	char	*var_name;
 	char	*var_value;
@@ -82,15 +83,18 @@ char	*expand_variable(const char *str, t_env *env, struct list_head *head) // "h
 	int		var_len;
 
 	if (!str)
-		return (my_strdup("", head));
-	prefix = extract_prefix(str, &dollar_pos, head);
+		return (my_strdup("", data->n_head));
+	prefix = extract_prefix(str, &dollar_pos, data);
 	if (!str[dollar_pos])
 		return (prefix);
 	var_name = (char *)(str + dollar_pos + 1);
 	var_len = get_var_name_length(var_name);
-	suffix = expand_variable(var_name + var_len,env,head);
-	var_value = find_env_value(var_name, var_len, env);
+	suffix = expand_variable(var_name + var_len, data);
+	if (var_len == 1 && var_name[0] == '?')
+		var_value = ft_itoa_with_head(data->exit_code, data->n_head);
+	else
+		var_value = find_env_value(var_name, var_len, data->env);
 	if (var_value)
-		return (build_result(prefix, var_value, suffix, head));
-	return (build_result(prefix, "", suffix, head));
+		return (build_result(prefix, var_value, suffix, data));
+	return (build_result(prefix, "", suffix, data));
 }
