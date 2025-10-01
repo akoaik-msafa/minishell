@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: msafa <msafa@student.42.fr>                +#+  +:+       +#+        */
+/*   By: akoaik <akoaik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 19:17:18 by msafa             #+#    #+#             */
-/*   Updated: 2025/09/24 19:29:49 by msafa            ###   ########.fr       */
+/*   Updated: 2025/10/01 05:27:17 by akoaik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,14 +14,14 @@
 
 int	ft_env(char **arg, t_env *env)
 {
-	int	i;
+	int i;
 
 	(void)arg;
 	if (!env || !env->envp)
-    {
-        printf("minishell: env: No such file or directory\n");
+	{
+		printf("minishell: env: No such file or directory\n");
 		return (-1);
-    }
+	}
 	i = 0;
 	while (env->envp[i])
 	{

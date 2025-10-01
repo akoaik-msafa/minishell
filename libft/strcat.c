@@ -1,29 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pwd.c                                              :+:      :+:    :+:   */
+/*   strcat.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: akoaik <akoaik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/09/21 21:24:31 by msafa             #+#    #+#             */
-/*   Updated: 2025/10/01 05:27:24 by akoaik           ###   ########.fr       */
+/*   Created: 2025/10/01 04:05:08 by akoaik            #+#    #+#             */
+/*   Updated: 2025/10/01 04:06:16 by akoaik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "header.h"
+#include "libft.h"
 
-int	ft_pwd(char **args)
+char *ft_strcat(char *dest, const char *src)
 {
-	char *cwd;
+	int i;
+	int j;
 
-	(void)args;
-	cwd = getcwd(NULL, 0);
-	if (!cwd)
+	i = 0;
+	while(dest[i])
+		i++;
+	j = 0;
+	while(src[j])
 	{
-		perror("pwd");
-		return (1);
+		dest[i + j] = src[j];
+		j++;
 	}
-	printf("%s\n", cwd);
-	free(cwd);
-	return (0);
+	dest[i + j] = '\0';
+	return(dest);
 }

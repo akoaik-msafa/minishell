@@ -1,0 +1,60 @@
+================================================================================
+                        NORMINETTE & FUNCTION VIOLATIONS
+================================================================================
+
+┌──────────────────────────────────────────────────────────────────────────────┐
+│ 1. FILES WITH MORE THAN 5 FUNCTIONS                                         │
+└──────────────────────────────────────────────────────────────────────────────┘
+
+  File                              Functions Count
+  ────────────────────────────────  ───────────────
+  src/Built-ins/export.c            20 functions
+  src/Built-ins/echo.c              7 functions
+  src/utils/cpy_env.c               7 functions
+  src/parsing/parser.c              6 functions
+
+
+┌──────────────────────────────────────────────────────────────────────────────┐
+│ 2. FUNCTIONS WITH MORE THAN 25 LINES                                        │
+└──────────────────────────────────────────────────────────────────────────────┘
+
+  Function                          Location                          Lines
+  ────────────────────────────────  ────────────────────────────────  ─────
+  print_ast                         src/utils/Printing.c:66           73
+  init_env                          src/utils/cpy_env.c:47            73
+  execute_pipe                      src/parsing/pipe_exec.c:39        71
+  print_tree                        src/parsing/parser.c:83           57
+  here_doc                          src/Built-ins/redirections.c:15   53
+  handle_heredoc_redirection        src/Built-ins/redirections.c:76   44
+  ft_unset                          src/Built-ins/unset.c:15          32
+  extract_complete_word             src/split/extract_word.c:71       32
+  process_token                     src/split/split.c:44              30
+  while_prompt                      src/main.c:25                     28
+  create_cmd_args                   src/parsing/create.c:15           27
+  add_var_no_value                  src/Built-ins/export.c:145        26
+  bubble_sorting                    src/Built-ins/export.c:177        26
+  print_tokens                      src/utils/Printing.c:27           26
+  calculate_word_length             src/split/extract_word.c:15       26
+
+
+┌──────────────────────────────────────────────────────────────────────────────┐
+│ 3. FUNCTIONS WITH MORE THAN 4 ARGUMENTS                                     │
+└──────────────────────────────────────────────────────────────────────────────┘
+
+  Function                          Location                                Args
+  ────────────────────────────────  ──────────────────────────────────────  ────
+  process_token                     src/split/split.c:44                    7
+  handle_char                       src/split/count.c:46                    6
+  new_handle_redirection_parsing    src/parsing/new_redirection_parser.c:44 5
+  create_redir_node                 src/parsing/create.c:89                 5
+  handle_quote_start                src/split/count.c:24                    5
+  extract_complete_word             src/split/extract_word.c:71             5
+
+
+================================================================================
+                                  SUMMARY
+================================================================================
+  Total files with >5 functions:     4 files
+  Total functions with >25 lines:    15 functions
+  Total functions with >4 args:      6 functions
+================================================================================

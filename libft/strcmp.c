@@ -1,29 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pwd.c                                              :+:      :+:    :+:   */
+/*   strcmp.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: akoaik <akoaik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/09/21 21:24:31 by msafa             #+#    #+#             */
-/*   Updated: 2025/10/01 05:27:24 by akoaik           ###   ########.fr       */
+/*   Created: 2025/10/01 04:05:48 by akoaik            #+#    #+#             */
+/*   Updated: 2025/10/01 04:06:00 by akoaik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "header.h"
+#include "libft.h"
 
-int	ft_pwd(char **args)
+int ft_strcmp(const char *s1, const char *s2)
 {
-	char *cwd;
+	unsigned int	i;
 
-	(void)args;
-	cwd = getcwd(NULL, 0);
-	if (!cwd)
+	i = 0;
+	while (s1[i] && s2[i])
 	{
-		perror("pwd");
-		return (1);
+		if ((unsigned char)s1[i] != (unsigned char)s2[i])
+			return ((unsigned char)s1[i] - (unsigned char)s2[i]);
+		i++;
 	}
-	printf("%s\n", cwd);
-	free(cwd);
-	return (0);
+	return ((unsigned char)s1[i] - (unsigned char)s2[i]);
 }

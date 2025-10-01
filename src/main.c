@@ -6,7 +6,7 @@
 /*   By: akoaik <akoaik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/08 18:02:05 by akoaik            #+#    #+#             */
-/*   Updated: 2025/09/30 17:02:22 by akoaik           ###   ########.fr       */
+/*   Updated: 2025/10/01 05:04:54 by akoaik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,9 +28,9 @@ void	while_prompt(t_list_head *n_head, t_list_head *env_head, t_env *env)
 	token_t		*tokens;
 	tree_node	*ast;
 	t_data		data;
+	int			token_count;
 
 	init_data(&data, n_head, env, env_head);
-
 	while (1)
 	{
 		prompt = get_user_input();
@@ -46,7 +46,7 @@ void	while_prompt(t_list_head *n_head, t_list_head *env_head, t_env *env)
 		}
 		else
 		{
-			int token_count = count_token_array(tokens);
+			token_count = count_token_array(tokens);
 			ast = parse_tokens(tokens, token_count, n_head, env);
 			// print_all_debug(tokens, token_count, ast);
 			if (ast)
@@ -81,10 +81,14 @@ int	main(int argc, char **argv, char **envp)
 	I still have :
 		- Signals handling
 		- exit codes
+
+	Cases :
+		- in the export when i add export a= and after that i change the value
+		if a using export a=12 it is not change
 	leaks :
-	- when run another shell, the SHLVL should increment. 
+	- when run another shell, the SHLVL should increment.
 	export contains two lines of each variable
 
-    test : 
-    echo "m"y H"ome i"s $"HOME" > f1 | cat <<EOF > f2 | cat <<"EOF" > f3 | ls > ls | cat f1 | cat f2 | cat f3 | cat ls > ls | cat ls`
+	test :
+	echo "m"y H"ome i"s $"HOME" > f1 | cat <<EOF > f2 | cat <<"EOF" > f3 | ls > ls | cat f1 | cat f2 | cat f3 | cat ls > ls | cat ls`
 */
