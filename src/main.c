@@ -3,24 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akoaik <akoaik@student.42.fr>              +#+  +:+       +#+        */
+/*   By: msafa <msafa@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/08 18:02:05 by akoaik            #+#    #+#             */
-/*   Updated: 2025/10/02 19:14:30 by akoaik           ###   ########.fr       */
+/*   Updated: 2025/10/03 00:13:04 by msafa            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "header.h"
-
-void	print_all_debug(token_t *tokens, int token_count, tree_node *ast)
-{
-	printf("=== TOKENS ===\n");
-	print_tokens(tokens, token_count);
-	printf("===============\n");
-	printf("=== AST TREE STRUCTURE ===\n");
-	print_tree(ast, 0);
-	printf("===========================\n");
-}
 
 void	while_prompt(t_list_head *n_head, t_list_head *env_head, t_env *env)
 {
@@ -85,8 +75,7 @@ int	main(int argc, char **argv, char **envp)
 		- in the export when i add export a= and after that i change the value
 		if a using export a=12 it is not change
 	leaks :
-	- when run another shell, the SHLVL should increment.
-	export contains two lines of each variable
+	export not changed
 
 	test :
 	1- echo "m"y H"ome i"s $"HOME" > f1 | cat <<EOF > f2 | cat <<"EOF" > f3 | ls > ls | cat f1 | cat f2 | cat f3 | cat ls > ls | cat ls

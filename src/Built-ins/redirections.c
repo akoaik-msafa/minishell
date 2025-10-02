@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirections.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akoaik <akoaik@student.42.fr>              +#+  +:+       +#+        */
+/*   By: msafa <msafa@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/18 20:22:28 by msafa             #+#    #+#             */
-/*   Updated: 2025/10/01 05:27:42 by akoaik           ###   ########.fr       */
+/*   Updated: 2025/10/02 02:16:46 by msafa            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ void	handle_heredoc_redirection(tree_node *ast, t_data *data)
 {
 	int	fd;
 	int	saved_fd;
-		int expand_flag;
+	int expand_flag;
 
 	if (!ast || ast->redir_type != t_re_heredoc || !ast->filename)
 		return ;
@@ -88,27 +88,14 @@ void	handle_heredoc_redirection(tree_node *ast, t_data *data)
 		fd = ast->heredoc_fd;
 	else
 	{
-		printf("\n=== HEREDOC EXPAND FLAG CONVERSION ===\n");
-		printf("AST node filename: '%s'\n", ast->filename);
-		printf("AST node expand_flags: ");
 		if (ast->expand_flags)
 		{
-			printf("allocated\n");
-			printf("  char expand_flags[0] = %d\n", ast->expand_flags[0]);
-			expand_flag = ast->expand_flags[0]; // char -> int conversion
-			printf("  Converting to int expand_flag = %d\n", expand_flag);
-			printf("  Source: This came from the delimiter token's expand_flag\n");
+			expand_flag = ast->expand_flags[0];
 		}
 		else
 		{
-			printf("NULL\n");
 			expand_flag = 1;
-			printf("  Using default int expand_flag = %d\n", expand_flag);
-			printf("  Source: Default fallback (should not happen for heredoc)\n");
 		}
-		printf("  Result: Heredoc content will%s be expanded\n",
-			expand_flag ? "" : " NOT");
-		printf("=====================================\n");
 		fd = here_doc(ast->filename, data, expand_flag);
 	}
 	if (fd != -1)
