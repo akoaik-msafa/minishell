@@ -41,6 +41,27 @@ static token_t	*find_redirection(token_t *current, token_t *end)
 	return (NULL);
 }
 
+static int	validate_syntax(token_t *current, token_t *end, token_t *pipe_pos, token_t *redir_pos)
+{
+	if (pipe_pos)
+	{
+		if (pipe_pos == current || pipe_pos == end - 1)
+		{
+			printf("syntax error near unexpected token `|'\n");
+			return (0);
+		}
+	}
+	if (redir_pos)
+	{
+		if (redir_pos + 1 >= end || (redir_pos + 1)->type != t_word)
+		{
+			printf("syntax error near unexpected token `newline'\n");
+			return (0);
+		}
+	}
+	return (1);
+}
+
 static tree_node	*handle_pipe_parsing(data_handle_args *args, t_list_head *n_head, t_data *data)
 {
 	tree_node	*left;
@@ -156,12 +177,14 @@ tree_node	*parse_tokens(token_t *tokens, int count, t_list_head *n_head, t_data 
 	current = tokens;
 	end = tokens + count;
 	pipe_position = find_pipe(current, end);
+	redir_position = find_redirection(current, end);
+	if (!validate_syntax(current, end, pipe_position, redir_position))
+		return (NULL);
 	if (pipe_position)
 	{
-		args = (data_handle_args){current, pipe_position, end, 0, 0, 0, NULL, NULL};
+		args = (data_handle_args){current, pipe_position, end, 0, 0, 0, NULL, NULL, 0};
 		return (handle_pipe_parsing(&args, n_head, data));
 	}
-	redir_position = find_redirection(current, end);
 	if (redir_position)
 	{
 		return (new_handle_redirection_parsing(current, redir_position, end, n_head, data));

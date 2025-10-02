@@ -67,6 +67,7 @@ typedef struct data_handle_args
 	int				end_index;
 	char			*expand_flags;
 	char			*heredoc_flags;
+	int				j;
 }					data_handle_args;
 
 // enum to indecate the type inside the tree node

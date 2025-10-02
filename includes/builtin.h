@@ -58,4 +58,7 @@ int	ft_unset(char **args, t_env *env);
 
 int	ft_env(char **arg, t_env *env);
 
+// exit.c
+int	ft_exit(char **args, t_data *data);
+
 #endif

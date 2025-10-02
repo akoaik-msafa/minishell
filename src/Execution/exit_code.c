@@ -12,6 +12,13 @@
 
 #include "header.h"
 
+/*
+** Sets the exit code in the data structure based on a process status.
+** Handles two cases:
+** 1. Normal exit: extracts the exit status code (0-255)
+** 2. Signal termination: calculates exit code as 128 + signal number
+**    (e.g., SIGINT (2) becomes 130, SIGTERM (15) becomes 143)
+*/
 void	set_exit_code_from_status(t_data *data, int status)
 {
 	if (!data)

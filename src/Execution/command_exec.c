@@ -66,6 +66,10 @@ int	execute_builtin(tree_node *node, t_data *data)
 	{
 		result = ft_env(node->args + 1, data->env);
 	}
+	else if (ft_strcmp(node->args[0], "exit") == 0)
+	{
+		result = ft_exit(node->args, data);
+	}
 	else
 	{
 		result = -1;

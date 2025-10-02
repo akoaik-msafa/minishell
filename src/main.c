@@ -6,7 +6,7 @@
 /*   By: akoaik <akoaik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/08 18:02:05 by akoaik            #+#    #+#             */
-/*   Updated: 2025/10/01 21:54:34 by akoaik           ###   ########.fr       */
+/*   Updated: 2025/10/02 19:14:30 by akoaik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,6 @@ void	while_prompt(t_list_head *n_head, t_list_head *env_head, t_env *env)
 		prompt = get_user_input();
 		if (!prompt)
 			break ;
-		temp_exit(prompt, n_head, env_head);
 		tokens = tokenize_input(prompt, &data);
 		if (!tokens)
 		{
