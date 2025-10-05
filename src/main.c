@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: msafa <msafa@student.42.fr>                +#+  +:+       +#+        */
+/*   By: akoaik <akoaik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/08 18:02:05 by akoaik            #+#    #+#             */
-/*   Updated: 2025/10/05 17:56:35 by msafa            ###   ########.fr       */
+/*   Updated: 2025/10/05 21:08:55 by akoaik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	g_signal;
 
-void	while_prompt(t_list_head *n_head, t_list_head *env_head, t_env *env)
+int	while_prompt(t_list_head *n_head, t_list_head *env_head, t_env *env)
 {
 	char		*prompt;
 	token_t		*tokens;
@@ -52,6 +52,7 @@ void	while_prompt(t_list_head *n_head, t_list_head *env_head, t_env *env)
 		}
 	}
 	free_all(env_head);
+	return (data.exit_code);
 }
 
 void handle_signals(int signum)
@@ -87,6 +88,7 @@ int	main(int argc, char **argv, char **envp)
 	t_list_head	env_head;
 	t_env		env;
 	struct sigaction sa;
+	int code =  0;
 
 	n_head.head = NULL;
 	env_head.head = NULL;
@@ -98,9 +100,9 @@ int	main(int argc, char **argv, char **envp)
 		return (1);
 	}
 	init_sigaction(&sa);
-	while_prompt(&n_head, &env_head, &env);
+	code  = while_prompt(&n_head, &env_head, &env);
 	free_all(&env_head);
-	return (0);
+	return (code);
 }
 
 /*

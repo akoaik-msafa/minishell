@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   command_exec.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: msafa <msafa@student.42.fr>                +#+  +:+       +#+        */
+/*   By: akoaik <akoaik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/15 09:45:57 by akoaik            #+#    #+#             */
-/*   Updated: 2025/10/05 17:33:02 by msafa            ###   ########.fr       */
+/*   Updated: 2025/10/05 21:21:01 by akoaik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ void	exec_cmd(tree_node *node, t_env *env)
 	cmd_path = get_cmd_path(node->args[0], env);
 	if (!cmd_path)
 	{
-		printf("minishell: %s: command not found\n", node->args[0]);
+		printf("%s: command not found", node->args[0]);
 		exit(127);
 	}
 	// if(ft_strncmp(node->args[0],"./minishell",ft_strlen(node->args[0]) + 1) == 0)
