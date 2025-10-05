@@ -6,14 +6,14 @@
 /*   By: msafa <msafa@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/31 20:38:15 by msafa             #+#    #+#             */
-/*   Updated: 2025/09/01 21:26:38 by msafa            ###   ########.fr       */
+/*   Updated: 2025/10/04 17:36:30 by msafa            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 /*
 
 1. Syntax : 
-		Char *readline(const cha *prompt)
+		Char *readline(const char *prompt)
 2. Return value:
 		-A pointer to the string the user entered(without the new line\n)
 		-NULL if end of file(Ctrl+D) is reached || an error occurs

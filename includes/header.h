@@ -3,16 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   header.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akoaik <akoaik@student.42.fr>              +#+  +:+       +#+        */
+/*   By: msafa <msafa@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/06 18:36:44 by akoaik            #+#    #+#             */
-/*   Updated: 2025/10/01 05:20:41 by akoaik           ###   ########.fr       */
+/*   Updated: 2025/10/05 04:06:04 by msafa            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef HEADER_H
 # define HEADER_H
 
+# include "gv.h"
 # include "builtin.h"
 # include "data.h"
 # include "libft.h"
@@ -24,6 +25,7 @@
 # include <stdlib.h>
 # include <sys/wait.h>
 # include <unistd.h>
+
 
 char		*get_user_input(void);
 char		*copy_env(char *src, t_list_head *head);
@@ -74,6 +76,7 @@ int			count_token_array(token_t *tokens);
 char		*join_args(char **args);
 char		*ft_strcpy(char *dest, const char *src);
 char		*ft_strcat(char *dest, const char *src);
+void		init_sigaction(struct sigaction *signals);
 
 // path_utils.c
 void		free_split(char **strs);

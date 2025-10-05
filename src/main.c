@@ -6,11 +6,13 @@
 /*   By: msafa <msafa@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/08 18:02:05 by akoaik            #+#    #+#             */
-/*   Updated: 2025/10/03 00:13:04 by msafa            ###   ########.fr       */
+/*   Updated: 2025/10/05 04:33:44 by msafa            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "header.h"
+
+int	g_signal;
 
 void	while_prompt(t_list_head *n_head, t_list_head *env_head, t_env *env)
 {
@@ -48,22 +50,51 @@ void	while_prompt(t_list_head *n_head, t_list_head *env_head, t_env *env)
 	free_all(env_head);
 }
 
+void handle_signals(int signum)
+{
+	if (signum == SIGINT)
+	{
+		printf("\n");
+		rl_on_new_line();
+		rl_replace_line("", 0);
+		rl_redisplay();
+	}
+	else if (signum == SIGQUIT)
+	{
+		// Do nothing - ignore SIGQUIT
+	}
+}
+
+void init_sigaction(struct sigaction *sa)
+{
+	sa->sa_handler = handle_signals;
+	sigemptyset(&sa->sa_mask);
+	sa->sa_flags = 0;
+
+	sigaction(SIGINT,sa,NULL);
+	sigaction(SIGQUIT,sa,NULL);
+	
+}
 int	main(int argc, char **argv, char **envp)
 {
 	t_list_head	n_head;
 	t_list_head	env_head;
 	t_env		env;
+	struct sigaction sa;
 
 	n_head.head = NULL;
 	env_head.head = NULL;
+	g_signal = 0;
 	(void)argc;
 	(void)argv;
 	if (!init_env(&env, envp, &env_head))
 	{
 		return (1);
 	}
+	init_sigaction(&sa);
 	while_prompt(&n_head, &env_head, &env);
 	free_all(&env_head);
+	return (0);
 }
 
 /*

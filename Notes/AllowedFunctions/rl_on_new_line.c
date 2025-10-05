@@ -6,7 +6,7 @@
 /*   By: msafa <msafa@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/31 21:31:34 by msafa             #+#    #+#             */
-/*   Updated: 2025/09/01 22:03:33 by msafa            ###   ########.fr       */
+/*   Updated: 2025/10/04 17:42:41 by msafa            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,8 +36,8 @@ void    sigint_handler(int sig)
     printf("\nCaught SIGINT!\n");
 
     // If you comment out the 2 lines below, you'll see the messy prompt
-    rl_on_new_line();      // tell readline: cursor is now on a fresh line
-    rl_replace_line("", 0); // clear the current buffer
+    // rl_on_new_line();      // tell readline: cursor is now on a fresh line
+    // rl_replace_line("", 0); // clear the current buffer
     rl_redisplay();        // redraw the prompt properly
 }
 
