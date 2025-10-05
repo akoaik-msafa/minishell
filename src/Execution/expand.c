@@ -6,7 +6,7 @@
 /*   By: msafa <msafa@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/16 21:42:30 by akoaik            #+#    #+#             */
-/*   Updated: 2025/09/29 03:11:19 by msafa            ###   ########.fr       */
+/*   Updated: 2025/10/05 18:35:47 by msafa            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@ static char	*extract_prefix(const char *str, int *dollar_pos, t_data *data)
 {
 	char	*prefix;
 	int		j;
+	int i;
 
 	j = 0;
 	while (str[j] && str[j] != '$')
@@ -23,6 +24,19 @@ static char	*extract_prefix(const char *str, int *dollar_pos, t_data *data)
 	*dollar_pos = j;
 	if (!str[j])
 		return (my_strdup(str, data->n_head));
+	if(!str[j + 1])
+		return (my_strdup(str, data->n_head));
+	if(str[j + 1] == 32 || (str[j + 1] >= 9 && str[j + 1] <= 13))
+	{
+		i = j + 1;
+		while(str[i] == 32 || (str[i] >= 9 && str[i] <= 13))
+		{
+			i++;
+		}
+		prefix = ft_malloc(((i - 1) * sizeof(char)), data->n_head);
+		ft_strlcpy(prefix, str, i - 1);
+		return (prefix);
+	}
 	prefix = ft_malloc(((j + 1) * sizeof(char)), data->n_head);
 	ft_strlcpy(prefix, str, j + 1);
 	return (prefix);

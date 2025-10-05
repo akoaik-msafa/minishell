@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit_code.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akoaik <akoaik@student.42.fr>              +#+  +:+       +#+        */
+/*   By: msafa <msafa@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/02 00:00:00 by akoaik            #+#    #+#             */
-/*   Updated: 2025/10/02 00:00:00 by akoaik           ###   ########.fr       */
+/*   Updated: 2025/10/05 17:33:53 by msafa            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,5 +26,11 @@ void	set_exit_code_from_status(t_data *data, int status)
 	if (WIFEXITED(status))
 		data->exit_code = WEXITSTATUS(status);
 	else if (WIFSIGNALED(status))
+	{
+		if (WTERMSIG(status) == SIGINT)
+			printf("\n");
+		else if (WTERMSIG(status) == SIGQUIT)
+			printf("Quit (core dumped)\n");
 		data->exit_code = 128 + WTERMSIG(status);
+	}
 }

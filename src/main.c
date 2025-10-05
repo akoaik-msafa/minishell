@@ -6,7 +6,7 @@
 /*   By: msafa <msafa@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/08 18:02:05 by akoaik            #+#    #+#             */
-/*   Updated: 2025/10/05 04:33:44 by msafa            ###   ########.fr       */
+/*   Updated: 2025/10/05 17:56:35 by msafa            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,11 @@ void	while_prompt(t_list_head *n_head, t_list_head *env_head, t_env *env)
 		prompt = get_user_input();
 		if (!prompt)
 			break ;
+		if (g_signal != 0)
+		{
+			data.exit_code = g_signal;
+			g_signal = 0;
+		}
 		tokens = tokenize_input(prompt, &data);
 		if (!tokens)
 		{
@@ -39,7 +44,6 @@ void	while_prompt(t_list_head *n_head, t_list_head *env_head, t_env *env)
 		{
 			token_count = count_token_array(tokens);
 			ast = parse_tokens(tokens, token_count, n_head, &data);
-			// print_all_debug(tokens, token_count, ast);
 			if (ast)
 				execute_ast(ast, &data);
 			free(prompt);
@@ -54,6 +58,7 @@ void handle_signals(int signum)
 {
 	if (signum == SIGINT)
 	{
+		g_signal = 130;
 		printf("\n");
 		rl_on_new_line();
 		rl_replace_line("", 0);
@@ -61,7 +66,7 @@ void handle_signals(int signum)
 	}
 	else if (signum == SIGQUIT)
 	{
-		// Do nothing - ignore SIGQUIT
+		return ;
 	}
 }
 
@@ -70,8 +75,9 @@ void init_sigaction(struct sigaction *sa)
 	sa->sa_handler = handle_signals;
 	sigemptyset(&sa->sa_mask);
 	sa->sa_flags = 0;
-
 	sigaction(SIGINT,sa,NULL);
+	
+	sa->sa_handler = SIG_IGN;
 	sigaction(SIGQUIT,sa,NULL);
 	
 }

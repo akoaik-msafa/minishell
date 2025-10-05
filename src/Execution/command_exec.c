@@ -6,7 +6,7 @@
 /*   By: msafa <msafa@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/15 09:45:57 by akoaik            #+#    #+#             */
-/*   Updated: 2025/10/05 04:36:34 by msafa            ###   ########.fr       */
+/*   Updated: 2025/10/05 17:33:02 by msafa            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,9 +79,10 @@ int	execute_builtin(tree_node *node, t_data *data)
 
 void	execute_command(tree_node *node, t_data *data)
 {
-	pid_t	pid;
-	int		status;
-	int		builtin_result;
+	pid_t				pid;
+	int					status;
+	int					builtin_result;
+	struct sigaction	sa;
 
 	if (!node || !node->args || !node->args[0])
 		return ;
@@ -94,11 +95,16 @@ void	execute_command(tree_node *node, t_data *data)
 	pid = fork();
 	if (pid == 0)
 	{
+		signal(SIGINT, SIG_DFL);
+		signal(SIGQUIT, SIG_DFL);
 		exec_cmd(node, data->env);
 	}
 	else if (pid > 0)
 	{
+		signal(SIGINT, SIG_IGN);
+		signal(SIGQUIT, SIG_IGN);
 		waitpid(pid, &status, 0);
+		init_sigaction(&sa);
 		set_exit_code_from_status(data, status);
 	}
 	else
