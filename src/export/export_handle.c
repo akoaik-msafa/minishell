@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export_handle.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akoaik <akoaik@student.42.fr>              +#+  +:+       +#+        */
+/*   By: msafa <msafa@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/01 04:13:19 by akoaik            #+#    #+#             */
-/*   Updated: 2025/10/01 04:13:42 by akoaik           ###   ########.fr       */
+/*   Updated: 2025/10/06 21:16:16 by msafa            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ void print_sorted(char **sorted)
     }
 }
 
-void handle_existing_var(char *arg, t_env *env, int index, t_list_head *env_head)
+void handle_existing_var(char *arg, t_env *env, int index_env, int index_export, t_list_head *env_head)
 {
     int i;
 
@@ -41,9 +41,12 @@ void handle_existing_var(char *arg, t_env *env, int index, t_list_head *env_head
     while(arg[i] && arg[i] != '=')
         i++;
     if (arg[i] == '=' && i > 0 && arg[i - 1] == '+')
-        append_to_env(arg, env, index, env_head);
+        append_to_env(arg, env, index_env, env_head);
     else if (arg[i] == '=')
-        update_env(arg, env, index, env_head);
+    {
+        update_env(arg, env, index_env, env_head);
+        update_export(arg,env,index_export,env_head);
+    }
 }
 
 void handle_new_var(char *arg, t_env *env, t_list_head *env_head)

@@ -127,8 +127,8 @@ char		**sorted_env(t_env *env, t_list_head *n_head);
 
 // export_handle.c
 void		print_sorted(char **sorted);
-void		handle_existing_var(char *arg, t_env *env, int index,
-				t_list_head *env_head);
+void		handle_existing_var(char *arg, t_env *env, int index_env,
+				int index_export, t_list_head *env_head);
 void		handle_new_var(char *arg, t_env *env, t_list_head *env_head);
 
 // add_append_env.c

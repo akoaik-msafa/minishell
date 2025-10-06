@@ -6,7 +6,7 @@
 /*   By: msafa <msafa@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/23 11:53:42 by msafa             #+#    #+#             */
-/*   Updated: 2025/09/30 02:00:40 by msafa            ###   ########.fr       */
+/*   Updated: 2025/10/06 21:15:40 by msafa            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,8 @@ void add_var_no_value(char *arg, t_env *env, t_list_head *env_head)
 
 int process_export_arg(char *arg, t_env *env, t_list_head *env_head)
 {
-    int index;
+    int index_env;
+    int index_export;
 
     if (!validate_identifier(arg))
     {
@@ -59,9 +60,10 @@ int process_export_arg(char *arg, t_env *env, t_list_head *env_head)
         printf("`%s': not a valid identifier\n", arg);
         return (0);
     }
-    index = find_env_var(arg, env->envp);
-    if (index != -1)
-        handle_existing_var(arg, env, index, env_head);
+    index_env = find_env_var(arg, env->envp);
+    index_export = find_env_var(arg,env->export_only);
+    if (index_env != -1 || index_export != -1)
+        handle_existing_var(arg, env, index_env, index_export,env_head);
     else
         handle_new_var(arg, env, env_head);
     return (1);
