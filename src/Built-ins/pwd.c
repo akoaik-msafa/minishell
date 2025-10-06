@@ -23,7 +23,8 @@ int	ft_pwd(char **args)
 		perror("pwd");
 		return (1);
 	}
-	printf("%s\n", cwd);
+	write(1, cwd, ft_strlen(cwd));
+	write(1, "\n", 1);
 	free(cwd);
 	return (0);
 }

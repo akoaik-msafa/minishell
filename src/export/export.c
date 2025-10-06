@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: msafa <msafa@student.42.fr>                +#+  +:+       +#+        */
+/*   By: akoaik <akoaik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/23 11:53:42 by msafa             #+#    #+#             */
-/*   Updated: 2025/10/06 21:15:40 by msafa            ###   ########.fr       */
+/*   Updated: 2025/10/06 21:33:47 by akoaik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,34 +49,35 @@ void add_var_no_value(char *arg, t_env *env, t_list_head *env_head)
 	expand_export_only(arg, env, env_head);
 }
 
-int process_export_arg(char *arg, t_env *env, t_list_head *env_head)
+int process_export_arg(char *arg, t_data *data)
 {
     int index_env;
     int index_export;
 
     if (!validate_identifier(arg))
     {
-        write(2,"minishell: export: ", 20);
-        printf("`%s': not a valid identifier\n", arg);
-        return (0);
+        write(2, "minishell: export: `", 20);
+        write(2, arg, ft_strlen(arg));
+        write(2, "': not a valid identifier\n", 26);
+        return (1);
     }
-    index_env = find_env_var(arg, env->envp);
-    index_export = find_env_var(arg,env->export_only);
+    index_env = find_env_var(arg, data->env->envp);
+    index_export = find_env_var(arg, data->env->export_only);
     if (index_env != -1 || index_export != -1)
-        handle_existing_var(arg, env, index_env, index_export,env_head);
+        handle_existing_var(arg, data->env, index_env, index_export, data->env_head);
     else
-        handle_new_var(arg, env, env_head);
-    return (1);
+        handle_new_var(arg, data->env, data->env_head);
+    return (0);
 }
 
-int ft_export(char **args,t_env *env,t_list_head *n_head,t_list_head *env_head)
+int ft_export(char **args, t_data *data)
 {
     char    **sorted;
     int     i;
-    
+
     if (!args || !args[0])
 	{
-        sorted = sorted_env(env,n_head);
+        sorted = sorted_env(data->env, data->n_head);
         if (!sorted)
             return (1);
         print_sorted(sorted);
@@ -86,10 +87,10 @@ int ft_export(char **args,t_env *env,t_list_head *n_head,t_list_head *env_head)
         i = 0;
         while(args[i])
         {
-            if (!process_export_arg(args[i], env, env_head))
-                return (0);
+            if (process_export_arg(args[i], data))
+                data->exit_code = 1;
             i++;
         }
     }
-    return (0);
+    return (data->exit_code);
 }

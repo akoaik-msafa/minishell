@@ -6,7 +6,7 @@
 /*   By: akoaik <akoaik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/15 09:45:57 by akoaik            #+#    #+#             */
-/*   Updated: 2025/10/05 21:21:01 by akoaik           ###   ########.fr       */
+/*   Updated: 2025/10/06 23:00:05 by akoaik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,8 @@ void	exec_cmd(tree_node *node, t_env *env)
 	cmd_path = get_cmd_path(node->args[0], env);
 	if (!cmd_path)
 	{
-		printf("%s: command not found", node->args[0]);
+		write(2, node->args[0], ft_strlen(node->args[0]));
+		write(2, ": command not found\n", 20);
 		exit(127);
 	}
 	// if(ft_strncmp(node->args[0],"./minishell",ft_strlen(node->args[0]) + 1) == 0)
@@ -56,8 +57,7 @@ int	execute_builtin(tree_node *node, t_data *data)
 	else if (ft_strcmp(node->args[0], "echo") == 0)
 		result = ft_echo(node->args + 1);
 	else if (ft_strcmp(node->args[0], "export") == 0)
-		result = ft_export(node->args + 1, data->env, data->n_head,
-				data->env_head);
+		result = ft_export(node->args + 1, data);
 	else if (ft_strcmp(node->args[0], "unset") == 0)
 	{
 		result = ft_unset(node->args + 1, data->env);
@@ -68,7 +68,7 @@ int	execute_builtin(tree_node *node, t_data *data)
 	}
 	else if (ft_strcmp(node->args[0], "exit") == 0)
 	{
-		result = ft_exit(node->args, data);
+		result = ft_exit(node->args + 1, data);
 	}
 	else
 	{

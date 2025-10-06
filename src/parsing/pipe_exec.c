@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipe_exec.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: msafa <msafa@student.42.fr>                +#+  +:+       +#+        */
+/*   By: akoaik <akoaik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/15 03:07:05 by akoaik            #+#    #+#             */
-/*   Updated: 2025/10/02 23:31:19 by msafa            ###   ########.fr       */
+/*   Updated: 2025/10/06 22:37:40 by akoaik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int	child1(tree_node *cmd_node, int *pipefd, t_data *data)
 	}
 	close(pipefd[0]);
 	execute_ast(cmd_node, data);
-	exit(0);
+	exit(data->exit_code);
 }
 
 int	child2(tree_node *cmd_node, int *pipefd, t_data *data)
@@ -33,7 +33,7 @@ int	child2(tree_node *cmd_node, int *pipefd, t_data *data)
 	}
 	close(pipefd[1]);
 	execute_ast(cmd_node, data);
-	exit(0);
+	exit(data->exit_code);
 }
 
 void	collect_heredocs(tree_node *node, t_data *data)

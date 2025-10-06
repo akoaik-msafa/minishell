@@ -68,9 +68,9 @@ void	print_echo_args(char **args, int start_index)
 	i = start_index;
 	while (args[i])
 	{
-		printf("%s", args[i]);
+		write(1, args[i], ft_strlen(args[i]));
 		if (args[i + 1])
-			printf(" ");
+			write(1, " ", 1);
 		i++;
 	}
 }
@@ -79,10 +79,10 @@ int	ft_echo(char **args)
 {
 	int	option;
 	int	start_index;
-	
+
 	if (!args || !args[0])
 	{
-		printf("\n");
+		write(1, "\n", 1);
 		return (0);
 	}
 	option = process_echo_options(args);
@@ -91,6 +91,6 @@ int	ft_echo(char **args)
 		start_index++;
 	print_echo_args(args, start_index);
 	if (!option)
-		printf("\n");
+		write(1, "\n", 1);
 	return (0);
 }

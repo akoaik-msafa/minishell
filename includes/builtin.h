@@ -48,7 +48,7 @@ void		append_to_env(char *arg, t_env *env, int index, t_list_head *env_head);
 void		update_env(char *arg, t_env *env, int index, t_list_head *env_head);
 void		add_to_env(char *arg, t_env *env, t_list_head *env_head);
 void		add_var_no_value(char *arg, t_env *env, t_list_head *env_head);
-int			ft_export(char **args, t_env *env, t_list_head *n_head, t_list_head *env_head);
+int			ft_export(char **args, t_data *data);
 void update_export(char *arg, t_env *env, int index, t_list_head *env_head);
 
 // unset.c

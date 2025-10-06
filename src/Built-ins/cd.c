@@ -6,7 +6,7 @@
 /*   By: akoaik <akoaik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/12 00:40:00 by msafa             #+#    #+#             */
-/*   Updated: 2025/10/01 05:27:06 by akoaik           ###   ########.fr       */
+/*   Updated: 2025/10/06 21:36:40 by akoaik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ int	ft_cd(char **args, t_env *env, t_list_head *n_head)
 
 	if (args[0] && args[1])
 	{
-		printf("cd: too many arguments\n");
+		write(2, "minishell: cd: too many arguments\n", 34);
 		return (1);
 	}
 	path = get_cd_path(args[0], env, n_head);
