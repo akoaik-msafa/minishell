@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirections.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akoaik <akoaik@student.42.fr>              +#+  +:+       +#+        */
+/*   By: msafa <msafa@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/28 16:23:45 by akoaik            #+#    #+#             */
-/*   Updated: 2025/10/06 22:42:49 by akoaik           ###   ########.fr       */
+/*   Updated: 2025/10/07 18:19:16 by msafa            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,12 @@ int	handle_output_redirection(tree_node *ast, t_data *data)
 
 	saved_fd = dup(STDOUT_FILENO);
 	outfile = open(ast->filename, O_CREAT | O_TRUNC | O_WRONLY, 0666);
+	if (outfile == -1)
+	{
+		perror("open");
+		data->exit_code = 1 ;
+		return (0);
+	}
 	dup2(outfile, STDOUT_FILENO);
 	close(outfile);
 	if (ast->left)
@@ -28,7 +34,7 @@ int	handle_output_redirection(tree_node *ast, t_data *data)
 	return (0);
 }
 
-int	redirect_append(char *filename)
+int	redirect_append(char *filename, t_data *data)
 {
 	int	outfile;
 	int	saved_fd;
@@ -38,6 +44,7 @@ int	redirect_append(char *filename)
 	if (outfile == -1)
 	{
 		perror("open");
+		data->exit_code = 1 ;
 		return (-1);
 	}
 	dup2(outfile, STDOUT_FILENO);
@@ -49,7 +56,7 @@ int	handle_append_redirection(tree_node *ast, t_data *data)
 {
 	int	saved_fd;
 
-	saved_fd = redirect_append(ast->filename);
+	saved_fd = redirect_append(ast->filename, data);
 	if (saved_fd == -1)
 		return (-1);
 	if (ast->left)

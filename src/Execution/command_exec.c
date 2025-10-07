@@ -3,34 +3,23 @@
 /*                                                        :::      ::::::::   */
 /*   command_exec.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akoaik <akoaik@student.42.fr>              +#+  +:+       +#+        */
+/*   By: msafa <msafa@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/15 09:45:57 by akoaik            #+#    #+#             */
-/*   Updated: 2025/10/06 23:00:05 by akoaik           ###   ########.fr       */
+/*   Updated: 2025/10/07 20:20:25 by msafa            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "header.h"
 
-// void 	increment_shell_level(t_env *env,t_data *data)
-// {
-// 	int index;
-// 	int old_value;
-// 	int new_value;
-// 	char *new_shlvl;
-	
-// 	index = find_env_var("SHLVL=",env->export_only);
-// 	old_value = ft_atoi(env->export_only[index] + 6);
-// 	new_value = old_value + 1;
-// 	new_shlvl = ft_strjoin("SHLVL=",ft_itoa(new_value));
-// 	update_export(new_shlvl,env,index,data->env_head);
-// }
 void	exec_cmd(tree_node *node, t_env *env)
 {
-	char	*cmd_path;
+	char			*cmd_path;
+	struct stat		path_stat;
 
 	if (!node || !node->args || !node->args[0])
 		exit(127);
+		
 	cmd_path = get_cmd_path(node->args[0], env);
 	if (!cmd_path)
 	{
@@ -38,8 +27,24 @@ void	exec_cmd(tree_node *node, t_env *env)
 		write(2, ": command not found\n", 20);
 		exit(127);
 	}
-	// if(ft_strncmp(node->args[0],"./minishell",ft_strlen(node->args[0]) + 1) == 0)
-	// 		increment_shell_level(env,data);
+	if (access(cmd_path, F_OK) != 0)
+	{
+		perror(cmd_path);
+		exit(127);		
+	}
+	if (access(cmd_path, X_OK) != 0)
+	{
+		perror(cmd_path);
+		free(cmd_path);
+		exit(126);
+	}
+	if (stat(cmd_path, &path_stat) == 0 && S_ISDIR(path_stat.st_mode))
+	{
+		write(2, cmd_path, ft_strlen(cmd_path));
+		write(2, ": Is a directory\n", 17);
+		free(cmd_path);
+		exit(126);
+	}
 	execve(cmd_path, node->args, get_env(env));
 	perror(cmd_path);
 	free(cmd_path);
@@ -120,6 +125,10 @@ void	execute_ast(tree_node *ast, t_data *data)
 		return ;
 	if (ast->type == cmd_node)
 	{
+		if (ast->args[0] && !ast->args[0][0])
+		{
+			ast->args = ast->args +  1;
+		}
 		execute_command(ast, data);
 	}
 	else if (ast->type == pipe_node)

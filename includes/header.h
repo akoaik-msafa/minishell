@@ -6,7 +6,7 @@
 /*   By: msafa <msafa@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/06 18:36:44 by akoaik            #+#    #+#             */
-/*   Updated: 2025/10/05 04:06:04 by msafa            ###   ########.fr       */
+/*   Updated: 2025/10/07 18:19:40 by msafa            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@
 # include <readline/readline.h>
 # include <stdio.h>
 # include <stdlib.h>
+# include <sys/stat.h>
 # include <sys/wait.h>
 # include <unistd.h>
 
@@ -114,7 +115,7 @@ void		print_tree(tree_node *node, int depth);
 
 // redirections.c
 int			here_doc(char *delimiter, t_data *data, int expand_flag);
-int			redirect_append(char *filename);
+int			redirect_append(char *filename, t_data *data);
 void		handle_heredoc_redirection(tree_node *ast, t_data *data);
 int			handle_append_redirection(tree_node *ast, t_data *data);
 int			handle_redirection_input(tree_node *ast, t_data *data);

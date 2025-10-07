@@ -6,7 +6,7 @@
 /*   By: msafa <msafa@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/21 21:24:31 by msafa             #+#    #+#             */
-/*   Updated: 2025/10/02 02:56:47 by msafa            ###   ########.fr       */
+/*   Updated: 2025/10/07 18:21:38 by msafa            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ int	ft_pwd(char **args)
 	if (!cwd)
 	{
 		perror("pwd");
+		
 		return (1);
 	}
 	write(1, cwd, ft_strlen(cwd));
