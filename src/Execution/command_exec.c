@@ -45,7 +45,7 @@ void	exec_cmd(tree_node *node, t_env *env)
 		free(cmd_path);
 		exit(126);
 	}
-	execve(cmd_path, node->args, get_env(env));
+	execve(cmd_path, node->args, env->export_only);
 	perror(cmd_path);
 	free(cmd_path);
 	exit(127);

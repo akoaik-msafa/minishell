@@ -46,12 +46,9 @@ char	*create_shlvl_entry(char *new_shlvl_str, t_list_head *head)
 void	update_shlvl_entries(t_env *env, int env_index, int export_index,
 		char *new_shlvl_str, t_list_head *head)
 {
-	char	*new_env_entry;
 	char	*new_export_entry;
 
-	new_env_entry = create_shlvl_entry(new_shlvl_str, head);
-	if (new_env_entry)
-		env->envp[env_index] = new_env_entry;
+	(void)env_index;
 	if (export_index != -1)
 	{
 		new_export_entry = create_shlvl_entry(new_shlvl_str, head);

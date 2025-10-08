@@ -6,7 +6,7 @@
 /*   By: akoaik <akoaik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/05 03:27:21 by akoaik            #+#    #+#             */
-/*   Updated: 2025/09/12 21:19:32 by akoaik           ###   ########.fr       */
+/*   Updated: 2025/10/08 00:01:54 by akoaik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,16 @@ void in_order(struct tree *node)
 	if (node == NULL)
 		return ;
 	in_order(node->left);
-	printf("%d", node->value);
+	printf("%d\n", node->value);
+	in_order(node->right);
+}
+
+void pre_order(struct tree *node)
+{
+	if (node == NULL)
+		return ;
+	printf("%d\n", node->value);
+	in_order(node->left);
 	in_order(node->right);
 }
 
@@ -56,6 +65,12 @@ int main (void)
 	insert(root, 7);
 	insert(root, 6);
 	insert(root, 5);
+	insert(root, 12);
+	insert(root, 56);
+	insert(root, -12);
+	insert(root, 0);
 	
-	in_order(root);
+	
+	// in_order(root);
+	pre_order(root);
 }
