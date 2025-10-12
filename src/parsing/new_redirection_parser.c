@@ -92,7 +92,10 @@ tree_node *new_handle_redirection_parsing(token_t *tokens, token_t *redir_pos, t
     }
     else
     {
-        result_node = create_redir_node(redir_pos->type, filename, left_node, n_head, (redir_pos + 1)->expand_flag);
+        if (!left_node && right_node)
+            result_node = create_redir_node(redir_pos->type, filename, right_node, n_head, (redir_pos + 1)->expand_flag);
+        else
+            result_node = create_redir_node(redir_pos->type, filename, left_node, n_head, (redir_pos + 1)->expand_flag);
     }
 
     return result_node;
