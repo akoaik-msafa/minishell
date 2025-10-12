@@ -6,7 +6,7 @@
 /*   By: akoaik <akoaik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/15 03:07:05 by akoaik            #+#    #+#             */
-/*   Updated: 2025/10/06 22:37:40 by akoaik           ###   ########.fr       */
+/*   Updated: 2025/10/12 17:21:43 by akoaik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,10 +38,10 @@ int	child2(tree_node *cmd_node, int *pipefd, t_data *data)
 
 void	collect_heredocs(tree_node *node, t_data *data)
 {
-	int expand_flag;
+	int	expand_flag;
 
 	if (!node)
-		return;
+		return ;
 	if (node->type == redir_node && node->redir_type == t_re_heredoc)
 	{
 		if (node->heredoc_fd == -1)
@@ -72,9 +72,7 @@ void	execute_pipe(tree_node *ast, t_data *data)
 	pid_t	pid2;
 	int		status;
 
-	// Collect all heredocs in the entire tree before forking
 	collect_heredocs(ast, data);
-
 	if (pipe(pipefd) < 0)
 	{
 		perror("pipe failed");

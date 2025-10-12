@@ -6,7 +6,7 @@
 /*   By: akoaik <akoaik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/18 02:06:12 by akoaik            #+#    #+#             */
-/*   Updated: 2025/09/26 19:28:51 by akoaik           ###   ########.fr       */
+/*   Updated: 2025/10/12 16:43:35 by akoaik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -152,4 +152,69 @@ void	print_tree_structure(tree_node *ast)
 	printf("=== COMMAND TREE STRUCTURE ===\n");
 	print_ast(ast, 0);
 	printf("===============================\n");
+}
+
+
+
+void print_tree(tree_node *node, int depth)
+{
+	int i;
+
+	if (!node)
+		return;
+
+	for (i = 0; i < depth; i++)
+		printf("  ");
+
+	if (node->type == cmd_node)
+	{
+		printf("CMD_NODE: ");
+		if (node->args && node->args[0])
+			printf("%s\n", node->args[0]);
+		else
+			printf("(empty)\n");
+	}
+	else if (node->type == pipe_node)
+	{
+		printf("PIPE_NODE\n");
+		if (node->left)
+		{
+			for (i = 0; i < depth + 1; i++)
+				printf("  ");
+			printf("left:\n");
+			print_tree(node->left, depth + 2);
+		}
+		if (node->right)
+		{
+			for (i = 0; i < depth + 1; i++)
+				printf("  ");
+			printf("right:\n");
+			print_tree(node->right, depth + 2);
+		}
+	}
+	else if (node->type == redir_node)
+	{
+		printf("REDIR_NODE: ");
+		if (node->redir_type == t_re_heredoc)
+			printf("<<");
+		else if (node->redir_type == t_re_out)
+			printf(">");
+		else if (node->redir_type == t_re_append)
+			printf(">>");
+		else if (node->redir_type == t_re_in)
+			printf("<");
+
+		if (node->filename)
+			printf(" %s\n", node->filename);
+		else
+			printf(" (no file)\n");
+
+		if (node->left)
+		{
+			for (i = 0; i < depth + 1; i++)
+				printf("  ");
+			printf("left:\n");
+			print_tree(node->left, depth + 2);
+		}
+	}
 }

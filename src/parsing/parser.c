@@ -6,7 +6,7 @@
 /*   By: akoaik <akoaik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/11 19:30:12 by akoaik            #+#    #+#             */
-/*   Updated: 2025/09/28 22:21:00 by akoaik           ###   ########.fr       */
+/*   Updated: 2025/10/12 19:32:35 by akoaik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,22 +26,8 @@ static token_t	*find_pipe(token_t *current, token_t *end)
 	return (NULL);
 }
 
-static token_t	*find_redirection(token_t *current, token_t *end)
-{
-	token_t	*start;
-
-	start = current;
-	while (start < end)
-	{
-		if (start->type == t_re_heredoc || start->type == t_re_in ||
-			start->type == t_re_out || start->type == t_re_append)
-			return (start);
-		start++;
-	}
-	return (NULL);
-}
-
-static int	validate_syntax(token_t *current, token_t *end, token_t *pipe_pos, token_t *redir_pos)
+static int	validate_syntax(token_t *current, token_t *end, token_t *pipe_pos,
+		token_t *redir_pos)
 {
 	if (pipe_pos)
 	{
@@ -62,7 +48,25 @@ static int	validate_syntax(token_t *current, token_t *end, token_t *pipe_pos, to
 	return (1);
 }
 
-static tree_node	*handle_pipe_parsing(data_handle_args *args, t_list_head *n_head, t_data *data)
+static int	init_parse_positions(token_t *tokens, int count, token_t **pipe_pos,
+		token_t **redir_pos)
+{
+	token_t	*current;
+	token_t	*end;
+
+	if (!tokens || count == 0)
+		return (0);
+	current = tokens;
+	end = tokens + count;
+	*pipe_pos = find_pipe(current, end);
+	*redir_pos = find_redirection(current, end);
+	if (!validate_syntax(current, end, *pipe_pos, *redir_pos))
+		return (0);
+	return (1);
+}
+
+static tree_node	*handle_pipe_parsing(data_handle_args *args,
+		t_list_head *n_head, t_data *data)
 {
 	tree_node	*left;
 	tree_node	*right;
@@ -78,130 +82,41 @@ static tree_node	*handle_pipe_parsing(data_handle_args *args, t_list_head *n_hea
 	return (create_pipe_node(left, right, n_head));
 }
 
-/*static tree_node	*handle_redirection_parsing(token_t *tokens, token_t *redir_pos, token_t *end, t_list_head *n_head, t_env *env)
+tree_node	*parse_tokens(token_t *tokens, int count, t_list_head *n_head,
+		t_data *data)
 {
-	tree_node	*cmd_node;
-	tree_node	*redir_node;
-	int			cmd_count;
-	char		*filename;
+	token_t				*pipe_position;
+	token_t				*redir_position;
+	data_handle_args	args;
 
-	printf("2\n");
-	cmd_count = redir_pos - tokens;
-	if (cmd_count > 0)
-		cmd_node = parse_tokens(tokens, cmd_count, n_head, env);
-	else
-		cmd_node = NULL;
-
-	if (redir_pos + 1 < end && (redir_pos + 1)->type == t_word)
-		filename = (redir_pos + 1)->str;
-	else
-		return (NULL);
-
-	redir_node = create_redir_node(redir_pos->type, filename, cmd_node, n_head);
-	return (redir_node);
-}*/
-
-void print_tree(tree_node *node, int depth)
-{
-	int i;
-
-	if (!node)
-		return;
-
-	for (i = 0; i < depth; i++)
-		printf("  ");
-
-	if (node->type == cmd_node)
-	{
-		printf("CMD_NODE: ");
-		if (node->args && node->args[0])
-			printf("%s\n", node->args[0]);
-		else
-			printf("(empty)\n");
-	}
-	else if (node->type == pipe_node)
-	{
-		printf("PIPE_NODE\n");
-		if (node->left)
-		{
-			for (i = 0; i < depth + 1; i++)
-				printf("  ");
-			printf("left:\n");
-			print_tree(node->left, depth + 2);
-		}
-		if (node->right)
-		{
-			for (i = 0; i < depth + 1; i++)
-				printf("  ");
-			printf("right:\n");
-			print_tree(node->right, depth + 2);
-		}
-	}
-	else if (node->type == redir_node)
-	{
-		printf("REDIR_NODE: ");
-		if (node->redir_type == t_re_heredoc)
-			printf("<<");
-		else if (node->redir_type == t_re_out)
-			printf(">");
-		else if (node->redir_type == t_re_append)
-			printf(">>");
-		else if (node->redir_type == t_re_in)
-			printf("<");
-
-		if (node->filename)
-			printf(" %s\n", node->filename);
-		else
-			printf(" (no file)\n");
-
-		if (node->left)
-		{
-			for (i = 0; i < depth + 1; i++)
-				printf("  ");
-			printf("left:\n");
-			print_tree(node->left, depth + 2);
-		}
-	}
-}
-
-tree_node	*parse_tokens(token_t *tokens, int count, t_list_head *n_head, t_data *data)
-{
-	token_t	*current;
-	token_t	*end;
-	token_t	*pipe_position;
-	token_t	*redir_position;
-    data_handle_args args;
-
-	if (!tokens || count == 0)
-		return (NULL);
-	current = tokens;
-	end = tokens + count;
-	pipe_position = find_pipe(current, end);
-	redir_position = find_redirection(current, end);
-	if (!validate_syntax(current, end, pipe_position, redir_position))
+	if (!init_parse_positions(tokens, count, &pipe_position, &redir_position))
 		return (NULL);
 	if (pipe_position)
 	{
-		args = (data_handle_args){current, pipe_position, end, 0, 0, 0, NULL, NULL, 0};
+		args = (data_handle_args){tokens, pipe_position, tokens + count, 0, 0,
+			0, NULL, NULL, 0};
 		return (handle_pipe_parsing(&args, n_head, data));
 	}
 	if (redir_position)
-	{
-		return (new_handle_redirection_parsing(current, redir_position, end, n_head, data));
-	}
-	else
-		return (create_cmd_node(&current, end, n_head, data));
+		return (new_handle_redirection_parsing(tokens, redir_position,
+				tokens + count, data));
+	return (create_cmd_node(&tokens, tokens + count, n_head, data));
 }
-/*
-  find_pipe (line 15): Iterates through token array from start to end,
-	returns pointer to first pipe token found, or NULL if none exists.
 
-  handle_pipe_parsing (line 29): Splits tokens at pipe position into left and right parts,
+/*
+  find_pipe (line 15): Iterates through token array from 
+  start to end,
+	returns pointer to first pipe token found, or NULL if 
+	none exists.
+
+  handle_pipe_parsing (line 29): Splits tokens at pipe 
+  position into left and right parts,
 	recursively calls parse_tokens on each side,
 		creates pipe node connecting the results.
 
-  parse_tokens (line 46): Main parsing entry point that validates input,
+  parse_tokens (line 46): Main parsing entry point that 
+  validates input,
 	searches for pipes,
-	and either delegates to handle_pipe_parsing or creates command node directly.
-
+	and either delegates to handle_pipe_parsing or creates command 
+	node directly.
 */
