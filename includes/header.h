@@ -46,8 +46,8 @@ tree_node	*create_pipe_node(tree_node *left, tree_node *right,
 				t_list_head *n_head);
 tree_node	*create_cmd_node(token_t **current, token_t *end,
 				t_list_head *n_head, t_data *data);
-tree_node	*create_redir_node(token_type redir_type, char *filename,
-				tree_node *cmd, t_list_head *n_head, int expand_flag);
+tree_node	*create_redir_node(token_t *redir_pos, tree_node *cmd,
+				t_data *data);
 char		*expand_variable(const char *str, t_data *data);
 char		*my_strdup(const char *s1, struct list_head *n_head);
 char		**get_env(t_env *env);
@@ -62,7 +62,14 @@ void		handle_shlvl_init(t_env *env, t_list_head *head);
 tree_node	*parse_tokens(token_t *tokens, int count, t_list_head *n_head,
 				t_data *data);
 tree_node	*new_handle_redirection_parsing(token_t *tokens, token_t *redir_pos,
-				token_t *end, t_list_head *n_head, t_data *data);
+				token_t *end, t_data *data);
+token_t		*find_redirection(token_t *current, token_t *end);
+char		**merge_args(tree_node *left_node, tree_node *right_node,
+				t_list_head *n_head);
+tree_node	*handle_cmd_node_case(tree_node *left_node, tree_node *right_node,
+				token_t *redir_pos, t_data *data);
+tree_node	*handle_default_case(tree_node *left_node, tree_node *right_node,
+				token_t *redir_pos, t_data *data);
 int			init_env(t_env *env, char **envp, t_list_head *head);
 void		execute_ast(tree_node *ast, t_data *data);
 char		**split_string(const char *str, data_handle_args *data_args,
@@ -97,6 +104,21 @@ int			extract_complete_word(char *cmd_line, int start, char **result,
 void		exec_cmd(tree_node *node, t_env *env);
 int			execute_builtin(tree_node *node, t_data *data);
 void		execute_command(tree_node *node, t_data *data);
+
+// cmd_validation.c
+void		handle_cmd_not_found(char *cmd_name);
+int			validate_cmd_path(char *cmd_path);
+
+// builtin_exec.c (already declared above in command_exec.c)
+
+// cmd_fork.c
+void		fork_and_execute(tree_node *node, t_data *data);
+
+// expand_helpers.c
+int			get_var_name_length(const char *var_name);
+char		*find_env_value(const char *var_name, int var_len, t_env *env);
+char		*build_result(char *prefix, char *var_value, char *suffix,
+				t_data *data);
 
 // exit_code.c
 void		set_exit_code_from_status(t_data *data, int status);
