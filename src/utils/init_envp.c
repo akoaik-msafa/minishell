@@ -6,7 +6,7 @@
 /*   By: akoaik <akoaik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/01 05:18:29 by akoaik            #+#    #+#             */
-/*   Updated: 2025/10/07 22:40:08 by akoaik           ###   ########.fr       */
+/*   Updated: 2025/10/13 17:00:58 by akoaik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ char	*ft_itoa_with_head(int n, t_list_head *head)
 
 int	init_envp_array(t_env *env, char **envp, t_list_head *head)
 {
-	int i;
+	int	i;
 
 	env->envp = ft_malloc((env->count + 1) * sizeof(char *), head);
 	if (!env->envp)

@@ -38,6 +38,20 @@ void	init_data_args(char *cmd_line, data_handle_args *data_args,
 	}
 }
 
+static void	init_operator_token(char *cmd_line, data_handle_args *data_args,
+		int i)
+{
+	if ((cmd_line[i] == '<' && cmd_line[i + 1] == '<')
+		|| (cmd_line[i] == '>' && cmd_line[i + 1] == '>'))
+	{
+		data_args->end_index = i + 2;
+		if (cmd_line[i] == '<' && cmd_line[i + 1] == '<')
+			data_args->is_delimiter = 1;
+	}
+	else
+		data_args->end_index = i + 1;
+}
+
 static int	find_token_end(char *cmd_line, data_handle_args *data_args,
 		char **arguments, t_data *data)
 {
@@ -48,16 +62,7 @@ static int	find_token_end(char *cmd_line, data_handle_args *data_args,
 	i = data_args->start;
 	if (cmd_line[i] == '|' || cmd_line[i] == '<' || cmd_line[i] == '>')
 	{
-		if ((cmd_line[i] == '<' && cmd_line[i + 1] == '<')
-			|| (cmd_line[i] == '>' && cmd_line[i + 1] == '>'))
-		{
-			data_args->end_index = i + 2;
-			if (cmd_line[i] == '<' && cmd_line[i + 1] == '<')
-				data_args->is_delimiter = 1;
-			i++;
-		}
-		else
-			data_args->end_index = i + 1;
+		init_operator_token(cmd_line, data_args, i);
 		arguments[data_args->token_index] = alloc_tokens(cmd_line, data_args,
 				data->n_head);
 		data_args->expansion[data_args->token_index] = 0;

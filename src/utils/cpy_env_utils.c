@@ -6,7 +6,7 @@
 /*   By: akoaik <akoaik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/01 00:00:00 by akoaik            #+#    #+#             */
-/*   Updated: 2025/10/01 05:19:04 by akoaik           ###   ########.fr       */
+/*   Updated: 2025/10/13 16:56:05 by akoaik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,12 +43,11 @@ char	*create_shlvl_entry(char *new_shlvl_str, t_list_head *head)
 	return (new_entry);
 }
 
-void	update_shlvl_entries(t_env *env, int env_index, int export_index,
+void	update_shlvl_entries(t_env *env, int export_index,
 		char *new_shlvl_str, t_list_head *head)
 {
 	char	*new_export_entry;
 
-	(void)env_index;
 	if (export_index != -1)
 	{
 		new_export_entry = create_shlvl_entry(new_shlvl_str, head);
@@ -81,8 +80,7 @@ void	handle_shlvl_init(t_env *env, t_list_head *head)
 	{
 		current_shlvl = ft_atoi(env->envp[env_index] + 6);
 		new_shlvl_str = ft_itoa_with_head(current_shlvl + 1, head);
-		update_shlvl_entries(env, env_index, export_index, new_shlvl_str,
-			head);
+		update_shlvl_entries(env, export_index, new_shlvl_str, head);
 	}
 }
 

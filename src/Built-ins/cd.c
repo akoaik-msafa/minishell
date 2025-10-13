@@ -6,11 +6,11 @@
 /*   By: akoaik <akoaik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/12 00:40:00 by msafa             #+#    #+#             */
-/*   Updated: 2025/10/13 15:36:26 by akoaik           ###   ########.fr       */
+/*   Updated: 2025/10/13 17:01:18 by akoaik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/header.h"
+#include "header.h"
 
 char	*get_home_path(t_env *env)
 {

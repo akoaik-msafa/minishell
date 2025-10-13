@@ -56,7 +56,7 @@ char		*ft_itoa_with_head(int n, t_list_head *head);
 int			init_envp_array(t_env *env, char **envp, t_list_head *head);
 int			init_export_array(t_env *env, t_list_head *head);
 char		*create_shlvl_entry(char *new_shlvl_str, t_list_head *head);
-void		update_shlvl_entries(t_env *env, int env_index, int export_index,
+void		update_shlvl_entries(t_env *env, int export_index,
 				char *new_shlvl_str, t_list_head *head);
 void		handle_shlvl_init(t_env *env, t_list_head *head);
 tree_node	*parse_tokens(token_t *tokens, int count, t_list_head *n_head,
