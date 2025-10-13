@@ -6,7 +6,7 @@
 /*   By: akoaik <akoaik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/06 18:36:44 by akoaik            #+#    #+#             */
-/*   Updated: 2025/10/13 12:55:00 by akoaik           ###   ########.fr       */
+/*   Updated: 2025/10/13 14:27:43 by akoaik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,12 +93,25 @@ char		*build_full_path(char *dir, char *cmd);
 char		*search_in_paths(char **paths, char *cmd);
 char		*get_cmd_path(char *cmd, t_env *env);
 int			count_tokens(const char *str);
-void		find_closed_quote(char *str, char *quote_flag,
-				data_handle_args *data_args);
+int			count_refactored(const char *str);
+int			is_operator(char c1, char c2);
+int			is_whitespace(char c);
+int			is_opening_quote(char c, t_token_state *state);
+int			is_closing_quote(char c, t_token_state *state);
+int			is_operator_char(const char *str, int i, t_token_state *state);
+int			is_whitespace_char(char c, t_token_state *state);
+int			is_regular_char(char c, t_token_state *state);
+void		handle_quote_start(int *count, t_token_state *state, char c);
+void		handle_operator(const char *str, int *i, int *count,
+				t_token_state *state);
+void		handle_whitespace(t_token_state *state);
+void		handle_regular_char(int *count, t_token_state *state);
+int			process_string(const char *str, int *count);
+int			find_closed_quote(char *str, int start, char *quote_flag);
 char		*alloc_tokens(char *cmd_line, data_handle_args *data_args,
 				t_list_head *n_head);
-int			extract_complete_word(char *cmd_line, int start, char **result,
-				t_data *data, int is_heredoc_delimiter);
+int			extract_complete_word(char *cmd_line, data_handle_args *data_args,
+				char **result, t_data *data);
 
 // command_exec.c
 void		exec_cmd(tree_node *node, t_env *env);
@@ -158,5 +171,6 @@ void		handle_new_var(char *arg, t_env *env, t_list_head *env_head);
 void		append_to_env(char *arg, t_env *env, int index,
 				t_list_head *env_head);
 void		add_to_env(char *arg, t_env *env, t_list_head *env_head);
+
 
 #endif

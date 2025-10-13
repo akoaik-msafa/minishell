@@ -94,7 +94,7 @@ tree_node	*parse_tokens(token_t *tokens, int count, t_list_head *n_head,
 	if (pipe_position)
 	{
 		args = (data_handle_args){tokens, pipe_position, tokens + count, 0, 0,
-			0, NULL, NULL, 0};
+			0, NULL, NULL, 0, 0};
 		return (handle_pipe_parsing(&args, n_head, data));
 	}
 	if (redir_position)

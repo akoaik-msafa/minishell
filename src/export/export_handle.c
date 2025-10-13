@@ -42,7 +42,7 @@ void	handle_existing_var(char *arg, int index_env,
 	while (arg[i] && arg[i] != '=')
 		i++;
 	if (arg[i] == '=' && i > 0 && arg[i - 1] == '+')
-		append_to_env(arg, data->env, index_env, data->env);
+		append_to_env(arg, data->env, index_env, data->env_head);
 	else if (arg[i] == '=')
 	{
 		update_env(arg, data->env, index_env, data->env_head);

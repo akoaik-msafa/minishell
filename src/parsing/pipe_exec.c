@@ -46,8 +46,8 @@ void	collect_heredocs(tree_node *node, t_data *data)
 	{
 		if (node->heredoc_fd == -1)
 		{
-			if (node->expand_flags)
-				expand_flag = node->expand_flags[0];
+			if (node->expansion)
+				expand_flag = node->expansion[0];
 			else
 				expand_flag = 1;
 			node->heredoc_fd = here_doc(node->filename, data, expand_flag);

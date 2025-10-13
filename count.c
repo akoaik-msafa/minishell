@@ -6,7 +6,7 @@
 /*   By: akoaik <akoaik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/25 18:44:40 by msafa             #+#    #+#             */
-/*   Updated: 2025/09/26 01:21:56 by akoaik           ###   ########.fr       */
+/*   Updated: 2025/10/13 14:01:52 by akoaik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,8 @@ static int	is_operator(char c1, char c2)
 	return (0);
 }
 
-static void	handle_quote_start(int *count, int *in_word, int *in_quotes, 
-					char *quote_char, char c)
+static void	handle_quote_start(int *count, int *in_word, int *in_quotes,
+		char *quote_char, char c)
 {
 	if (!*in_word)
 	{
@@ -43,10 +43,12 @@ static void	handle_operator(const char *str, int *i, int *count, int *in_word)
 	*i += op_len - 1;
 }
 
-static void	handle_char(const char *str, int *i, int *count,
-						int *in_quotes, char *quote_char, int *in_word)
+static void	handle_char(const char *str, int *i, int *count, int *in_quotes,
+		char *quote_char, int *in_word)
 {
-	int		op_len;
+
+	// while () 
+	int	op_len;
 
 	if (!*in_quotes && (str[*i] == '"' || str[*i] == '\''))
 		handle_quote_start(count, in_word, in_quotes, quote_char, str[*i]);
@@ -64,6 +66,7 @@ static void	handle_char(const char *str, int *i, int *count,
 			*in_word = 1;
 		}
 	}
+	return ;
 }
 
 int	count_tokens(const char *str)
@@ -80,6 +83,25 @@ int	count_tokens(const char *str)
 	in_word = 0;
 	while (str[i])
 	{
+		if (quote(str[i]))
+		{
+			handle_quote_start();
+		}
+		else if (closed_quote(str[i]))
+		{
+			in_quotes = 0 ;
+		}
+		else if (is_operator(str[i]))
+		{
+			handle_operator();
+		}
+		else if (white_space(str[i]))
+		{
+			
+		}
+
+		return ;
+		
 		handle_char(str, &i, &count, &in_quotes, &quote_char, &in_word);
 		i++;
 	}

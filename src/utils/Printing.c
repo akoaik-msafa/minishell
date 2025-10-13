@@ -45,7 +45,7 @@ void	print_tokens(token_t *tokens, int count)
 		if (i > 0 && tokens[i-1].type == t_re_heredoc)
 		{
 			printf("  -> This is a HEREDOC DELIMITER\n");
-			printf("  -> Will be stored in AST node's expand_flags[0]\n");
+			printf("  -> Will be stored in AST node's expansion[0]\n");
 		}
 		printf("\n");
 		i++;
@@ -79,10 +79,10 @@ void	print_ast(tree_node *node, int depth)
 	// Show expand_flags information for all nodes
 	print_indent(depth);
 	printf("expand_flags: ");
-	if (node->expand_flags)
+	if (node->expansion)
 	{
-		printf("allocated -> [0]=%d", node->expand_flags[0]);
-		if (node->expand_flags[0] == 0)
+		printf("allocated -> [0]=%d", node->expansion[0]);
+		if (node->expansion[0] == 0)
 			printf(" (NO expansion)");
 		else
 			printf(" (expansion ENABLED)");
@@ -119,17 +119,17 @@ void	print_ast(tree_node *node, int depth)
 			print_indent(depth + 1);
 			printf("Delimiter: '%s'\n", node->filename);
 			print_indent(depth + 1);
-			if (node->expand_flags)
+			if (node->expansion)
 			{
-				printf("expand_flags[0] = %d -> ", node->expand_flags[0]);
-				if (node->expand_flags[0] == 0)
+				printf("expansion[0] = %d -> ", node->expansion[0]);
+				if (node->expansion[0] == 0)
 					printf("Content will NOT be expanded (quoted delimiter)\n");
 				else
 					printf("Content WILL be expanded (unquoted delimiter)\n");
 			}
 			else
 			{
-				printf("expand_flags = NULL -> Will default to expansion\n");
+				printf("expansion = NULL -> Will default to expansion\n");
 			}
 			print_indent(depth + 1);
 			printf("**********************************\n");

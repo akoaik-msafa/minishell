@@ -70,7 +70,7 @@ tree_node	*create_cmd_node(token_t **current, token_t *end,
 	node->filename = NULL;
 	node->redir_type = t_eof;
 	node->heredoc_fd = -1;
-	node->expand_flags = NULL;
+	node->expansion = NULL;
 	return (node);
 }
 
@@ -89,7 +89,7 @@ tree_node	*create_pipe_node(tree_node *left, tree_node *right,
 	node->filename = NULL;
 	node->redir_type = t_eof;
 	node->heredoc_fd = -1;
-	node->expand_flags = NULL;
+	node->expansion = NULL;
 	return (node);
 }
 
@@ -107,11 +107,11 @@ tree_node	*create_redir_node(token_t *redir_pos, tree_node *cmd, t_data *data)
 	node->filename = my_strdup((redir_pos + 1)->str, data->n_head);
 	node->redir_type = redir_pos->type;
 	node->heredoc_fd = -1;
-	node->expand_flags = ft_malloc(2 * sizeof(char), data->n_head);
-	if (node->expand_flags)
+	node->expansion = ft_malloc(2 * sizeof(char), data->n_head);
+	if (node->expansion)
 	{
-		node->expand_flags[0] = (redir_pos + 1)->expand_flag;
-		node->expand_flags[1] = '\0';
+		node->expansion[0] = (redir_pos + 1)->expand_flag;
+		node->expansion[1] = '\0';
 	}
 	return (node);
 }

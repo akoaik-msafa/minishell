@@ -3,15 +3,22 @@
 /*                                                        :::      ::::::::   */
 /*   data.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: msafa <msafa@student.42.fr>                +#+  +:+       +#+        */
+/*   By: akoaik <akoaik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/08 18:15:33 by akoaik            #+#    #+#             */
-/*   Updated: 2025/09/29 03:14:12 by msafa            ###   ########.fr       */
+/*   Updated: 2025/10/13 14:23:07 by akoaik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef DATA_H
 # define DATA_H
+
+typedef struct s_token_state
+{
+	int		in_quotes;
+	int		in_word;
+	char	quote_char;
+}			t_token_state;
 
 // holding the env copied
 typedef struct s_env
@@ -65,9 +72,10 @@ typedef struct data_handle_args
 	int				count;
 	int				start;
 	int				end_index;
-	char			*expand_flags;
-	char			*heredoc_flags;
-	int				j;
+	char			*expansion;
+	char			*delimiter;
+	int				token_index;
+	int				is_delimiter;
 }					data_handle_args;
 
 // enum to indecate the type inside the tree node
@@ -85,7 +93,7 @@ typedef struct tree_node
 {
 	node_type			type;
 	char				**args;
-	char				*expand_flags;
+	char				*expansion;
 	char				*filename;
 	token_type			redir_type;
 	int					heredoc_fd;

@@ -60,7 +60,7 @@ void	fill_tokens_array(token_t *tokens, char **strs,
 	{
 		tokens[i].str = strs[i];
 		tokens[i].type = identify_token_type(strs[i]);
-		tokens[i].expand_flag = data_args->expand_flags[i];
+		tokens[i].expand_flag = data_args->expansion[i];
 		i++;
 	}
 	tokens[data_args->count].type = t_eof;
