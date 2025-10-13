@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   redirections.c                                     :+:      :+:    :+:   */
+/*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: msafa <msafa@student.42.fr>                +#+  +:+       +#+        */
+/*   By: akoaik <akoaik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/18 20:22:28 by msafa             #+#    #+#             */
-/*   Updated: 2025/10/02 02:16:46 by msafa            ###   ########.fr       */
+/*   Updated: 2025/10/13 12:57:46 by akoaik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ void	handle_heredoc_redirection(tree_node *ast, t_data *data)
 {
 	int	fd;
 	int	saved_fd;
-	int expand_flag;
+	int	expand_flag;
 
 	if (!ast || ast->redir_type != t_re_heredoc || !ast->filename)
 		return ;

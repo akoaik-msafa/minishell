@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: msafa <msafa@student.42.fr>                +#+  +:+       +#+        */
+/*   By: akoaik <akoaik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/01 04:07:50 by akoaik            #+#    #+#             */
-/*   Updated: 2025/10/06 19:52:20 by msafa            ###   ########.fr       */
+/*   Updated: 2025/10/13 12:53:38 by akoaik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ int	find_env_var(char *var_name, char **env)
 	while (env[i])
 	{
 		if (ft_strncmp(env[i], var_name, len) == 0 && (env[i][len] == '='
-				|| env[i][len] == '\0'))
+			|| env[i][len] == '\0'))
 			return (i);
 		i++;
 	}

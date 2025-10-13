@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   bubble_sort.c                                      :+:      :+:    :+:   */
+/*   sort.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: akoaik <akoaik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/01 04:10:25 by akoaik            #+#    #+#             */
-/*   Updated: 2025/10/01 04:12:13 by akoaik           ###   ########.fr       */
+/*   Updated: 2025/10/13 12:52:36 by akoaik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,26 +46,26 @@ char	**bubble_sorting(char **str, t_env *env)
 	return (str);
 }
 
-char **sorted_env(t_env *env,t_list_head *n_head)
+char	**sorted_env(t_env *env, t_list_head *n_head)
 {
-    char    **str;
-    int     export_count;
-    int     i;
+	char	**str;
+	int		export_count;
+	int		i;
 
-    if (env->export_only)
-        export_count = array_len(env->export_only);
-    else
-        export_count = 0;
-    str = ft_malloc(sizeof(char *) * (export_count + 1),n_head);
-    if (!str)
-        return (NULL);
-    i = 0;
-    while (i < export_count)
-    {
-        str[i] = (env->export_only)[i];
-        i++;
-    }
+	if (env->export_only)
+		export_count = array_len(env->export_only);
+	else
+		export_count = 0;
+	str = ft_malloc(sizeof(char *) * (export_count + 1), n_head);
+	if (!str)
+		return (NULL);
+	i = 0;
+	while (i < export_count)
+	{
+		str[i] = (env->export_only)[i];
+		i++;
+	}
 	str[export_count] = NULL;
-    str = bubble_sorting(str,env);
-    return(str);
+	str = bubble_sorting(str, env);
+	return (str);
 }

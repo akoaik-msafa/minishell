@@ -6,7 +6,7 @@
 /*   By: akoaik <akoaik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/12 00:40:00 by msafa             #+#    #+#             */
-/*   Updated: 2025/10/06 21:36:40 by akoaik           ###   ########.fr       */
+/*   Updated: 2025/10/13 12:57:31 by akoaik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,8 +41,8 @@ char	*get_cd_path(char *arg, t_env *env, t_list_head *n_head)
 
 int	ft_cd(char **args, t_env *env, t_list_head *n_head)
 {
-	char *path;
-	int result;
+	char	*path;
+	int		result;
 
 	if (args[0] && args[1])
 	{

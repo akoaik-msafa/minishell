@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   header.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: msafa <msafa@student.42.fr>                +#+  +:+       +#+        */
+/*   By: akoaik <akoaik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/06 18:36:44 by akoaik            #+#    #+#             */
-/*   Updated: 2025/10/07 18:19:40 by msafa            ###   ########.fr       */
+/*   Updated: 2025/10/13 12:55:00 by akoaik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -150,8 +150,8 @@ char		**sorted_env(t_env *env, t_list_head *n_head);
 
 // export_handle.c
 void		print_sorted(char **sorted);
-void		handle_existing_var(char *arg, t_env *env, int index_env,
-				int index_export, t_list_head *env_head);
+void		handle_existing_var(char *arg, int index_env,
+				int index_export, t_data *data);
 void		handle_new_var(char *arg, t_env *env, t_list_head *env_head);
 
 // add_append_env.c

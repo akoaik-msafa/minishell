@@ -6,7 +6,7 @@
 /*   By: akoaik <akoaik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 19:17:18 by msafa             #+#    #+#             */
-/*   Updated: 2025/10/01 05:27:17 by akoaik           ###   ########.fr       */
+/*   Updated: 2025/10/13 12:57:40 by akoaik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	ft_env(char **arg, t_env *env)
 {
-	int i;
+	int	i;
 
 	(void)arg;
 	if (!env || !env->envp)
