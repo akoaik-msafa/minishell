@@ -6,7 +6,7 @@
 /*   By: akoaik <akoaik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/08 18:02:05 by akoaik            #+#    #+#             */
-/*   Updated: 2025/10/14 16:36:37 by akoaik           ###   ########.fr       */
+/*   Updated: 2025/10/15 00:06:45 by akoaik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,9 +30,14 @@ static void	process_prompt(char *prompt, t_list_head *n_head, t_data *data)
 	else
 	{
 		token_count = count_token_array(tokens);
+		// print_tokens(tokens, token_count);
 		ast = parse_tokens(tokens, token_count, n_head, data);
 		if (ast)
+		{
+			// print_tree_structure(ast);
+			// print_tree(ast, 0);
 			execute_ast(ast, data);
+		}
 		free(prompt);
 		free_all(n_head);
 		n_head->head = NULL;
