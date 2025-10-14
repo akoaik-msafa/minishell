@@ -6,21 +6,43 @@
 /*   By: akoaik <akoaik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/08 18:02:05 by akoaik            #+#    #+#             */
-/*   Updated: 2025/10/13 15:38:20 by akoaik           ###   ########.fr       */
+/*   Updated: 2025/10/14 16:36:37 by akoaik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "header.h"
 
-int	g_signal;
+int			g_signal;
+
+static void	process_prompt(char *prompt, t_list_head *n_head, t_data *data)
+{
+	token_t		*tokens;
+	tree_node	*ast;
+	int			token_count;
+
+	tokens = tokenize_input(prompt, data);
+	if (!tokens)
+	{
+		free(prompt);
+		free_all(n_head);
+		n_head->head = NULL;
+	}
+	else
+	{
+		token_count = count_token_array(tokens);
+		ast = parse_tokens(tokens, token_count, n_head, data);
+		if (ast)
+			execute_ast(ast, data);
+		free(prompt);
+		free_all(n_head);
+		n_head->head = NULL;
+	}
+}
 
 int	while_prompt(t_list_head *n_head, t_list_head *env_head, t_env *env)
 {
-	char		*prompt;
-	token_t		*tokens;
-	tree_node	*ast;
-	t_data		data;
-	int			token_count;
+	char	*prompt;
+	t_data	data;
 
 	init_data(&data, n_head, env, env_head);
 	while (1)
@@ -33,62 +55,18 @@ int	while_prompt(t_list_head *n_head, t_list_head *env_head, t_env *env)
 			data.exit_code = g_signal;
 			g_signal = 0;
 		}
-		tokens = tokenize_input(prompt, &data);
-		if (!tokens)
-		{
-			free(prompt);
-			free_all(n_head);
-			n_head->head = NULL;
-		}
-		else
-		{
-			token_count = count_token_array(tokens);
-			ast = parse_tokens(tokens, token_count, n_head, &data);
-			if (ast)
-				execute_ast(ast, &data);
-			free(prompt);
-			free_all(n_head);
-			n_head->head = NULL;
-		}
+		process_prompt(prompt, n_head, &data);
 	}
 	free_all(env_head);
 	return (data.exit_code);
 }
 
-void handle_signals(int signum)
-{
-	if (signum == SIGINT)
-	{
-		g_signal = 130;
-		printf("\n");
-		rl_on_new_line();
-		rl_replace_line("", 0);
-		rl_redisplay();
-	}
-	else if (signum == SIGQUIT)
-	{
-		return ;
-	}
-}
-
-void init_sigaction(struct sigaction *sa)
-{
-	sa->sa_handler = handle_signals;
-	sigemptyset(&sa->sa_mask);
-	sa->sa_flags = 0;
-	sigaction(SIGINT,sa,NULL);
-	
-	sa->sa_handler = SIG_IGN;
-	sigaction(SIGQUIT,sa,NULL);
-	
-}
 int	main(int argc, char **argv, char **envp)
 {
-	t_list_head	n_head;
-	t_list_head	env_head;
-	t_env		env;
-	struct sigaction sa;
-	int code =  0;
+	t_list_head			n_head;
+	t_list_head			env_head;
+	t_env				env;
+	struct sigaction	sa;
 
 	n_head.head = NULL;
 	env_head.head = NULL;
@@ -100,9 +78,9 @@ int	main(int argc, char **argv, char **envp)
 		return (1);
 	}
 	init_sigaction(&sa);
-	code  = while_prompt(&n_head, &env_head, &env);
+	while_prompt(&n_head, &env_head, &env);
 	free_all(&env_head);
-	return (code);
+	return (0);
 }
 
 /*
@@ -111,12 +89,16 @@ int	main(int argc, char **argv, char **envp)
 		- exit codes
 
 	Cases :
-		- in the export when i add export a= and after that i change the value
+		- in the export when i add export a= and 
+		after that i change the value
 		if a using export a=12 it is not change
 	leaks :
 	export not changed
 
 	test :
-	1- echo "m"y H"ome i"s $"HOME" > f1 | cat <<EOF > f2 | cat <<"EOF" > f3 | ls > ls | cat f1 | cat f2 | cat f3 | cat ls > ls | cat ls
-	2- ls > test1 | cat << test2 << test3 | pwd | pwd | cat << $HOME > test4
+	1- echo "m"y H"ome i"s $"HOME" > f1 | cat <<EOF > f2 
+	| cat <<"EOF" > f3 | ls > ls | cat f1 | cat f2 | cat f3 | cat 
+	ls > ls | cat ls
+	2- ls > test1 | cat << test2 << test3 | pwd | pwd | cat << 
+	$HOME > test4
 */
