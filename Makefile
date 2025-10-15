@@ -41,8 +41,8 @@ silent_header:
 	@clear
 	@echo "$(CYAN)╔══════════════════════════════════════════════════════════════╗$(RESET)"
 	@echo "$(CYAN)║                                                              ║$(RESET)"
-	@echo "$(CYAN)║$(BOLD)         PROJECT: $(YELLOW)$(NAME)$(RESET)$(CYAN) - SHELL IMPLEMENTATION$(CYAN)           ║$(RESET)"
-	@echo "$(CYAN)║$(BOLD)         AUTHORS: $(MAGENTA)akoaik$(RESET)$(CYAN), $(MAGENTA)msafa$(RESET)$(CYAN)                             ║$(RESET)"
+	@echo "$(CYAN)║$(BOLD)         PROJECT: $(YELLOW)$(NAME)$(RESET)$(CYAN) - SHELL IMPLEMENTATION$(CYAN)            ║$(RESET)"
+	@echo "$(CYAN)║$(BOLD)         AUTHORS: $(MAGENTA)akoaik$(RESET)$(CYAN), $(MAGENTA)msafa$(RESET)$(CYAN)                               ║$(RESET)"
 	@echo "$(CYAN)║                                                              ║$(RESET)"
 	@echo "$(CYAN)╚══════════════════════════════════════════════════════════════╝$(RESET)"
 	@echo ""
