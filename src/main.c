@@ -6,7 +6,7 @@
 /*   By: akoaik <akoaik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/08 18:02:05 by akoaik            #+#    #+#             */
-/*   Updated: 2025/10/15 00:06:45 by akoaik           ###   ########.fr       */
+/*   Updated: 2025/10/15 21:20:17 by akoaik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,12 +30,9 @@ static void	process_prompt(char *prompt, t_list_head *n_head, t_data *data)
 	else
 	{
 		token_count = count_token_array(tokens);
-		// print_tokens(tokens, token_count);
 		ast = parse_tokens(tokens, token_count, n_head, data);
 		if (ast)
 		{
-			// print_tree_structure(ast);
-			// print_tree(ast, 0);
 			execute_ast(ast, data);
 		}
 		free(prompt);
@@ -94,16 +91,20 @@ int	main(int argc, char **argv, char **envp)
 		- exit codes
 
 	Cases :
-		- in the export when i add export a= and 
+		- in the export when i add export a= and
 		after that i change the value
 		if a using export a=12 it is not change
 	leaks :
 	export not changed
 
 	test :
-	1- echo "m"y H"ome i"s $"HOME" > f1 | cat <<EOF > f2 
-	| cat <<"EOF" > f3 | ls > ls | cat f1 | cat f2 | cat f3 | cat 
+	1- echo "m"y H"ome i"s $"HOME" > f1 | cat <<EOF > f2
+	| cat <<"EOF" > f3 | ls > ls | cat f1 | cat f2 | cat f3 | cat
 	ls > ls | cat ls
-	2- ls > test1 | cat << test2 << test3 | pwd | pwd | cat << 
+	2- ls > test1 | cat << test2 << test3 | pwd | pwd | cat <<
 	$HOME > test4
+
+				// print_tree_structure(ast);
+			// print_tree(ast, 0);
+					// print_tokens(tokens, token_count);
 */
