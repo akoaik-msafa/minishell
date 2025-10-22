@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   unset.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akoaik <akoaik@student.42.fr>              +#+  +:+       +#+        */
+/*   By: msafa <msafa@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 17:48:37 by msafa             #+#    #+#             */
-/*   Updated: 2025/10/13 13:02:18 by akoaik           ###   ########.fr       */
+/*   Updated: 2025/10/22 22:31:36 by msafa            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@ static void	remove_env_var(char *var_name, char **env_array)
 	index = find_env_var(var_name, env_array);
 	if (index != -1)
 	{
-		free(env_array[index]);
 		while (env_array[index + 1])
 		{
 			env_array[index] = env_array[index + 1];

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   data.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akoaik <akoaik@student.42.fr>              +#+  +:+       +#+        */
+/*   By: msafa <msafa@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/08 18:15:33 by akoaik            #+#    #+#             */
-/*   Updated: 2025/10/13 14:23:07 by akoaik           ###   ########.fr       */
+/*   Updated: 2025/10/22 20:40:50 by msafa            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,7 @@ typedef enum
 // tree_node (each node compose of :
 typedef struct tree_node
 {
-	node_type			type;
+	node_type			type ;
 	char				**args;
 	char				*expansion;
 	char				*filename;
