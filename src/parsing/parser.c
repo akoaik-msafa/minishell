@@ -98,7 +98,7 @@ tree_node	*parse_tokens(token_t *tokens, int count, t_list_head *n_head,
 		return (handle_pipe_parsing(&args, n_head, data));
 	}
 	if (redir_position)
-		return (new_handle_redirection_parsing(tokens, redir_position,
+		return (handle_redirection_parsing(tokens, redir_position,
 				tokens + count, data));
 	return (create_cmd_node(&tokens, tokens + count, n_head, data));
 }

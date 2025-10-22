@@ -61,7 +61,7 @@ void		update_shlvl_entries(t_env *env, int export_index,
 void		handle_shlvl_init(t_env *env, t_list_head *head);
 tree_node	*parse_tokens(token_t *tokens, int count, t_list_head *n_head,
 				t_data *data);
-tree_node	*new_handle_redirection_parsing(token_t *tokens, token_t *redir_pos,
+tree_node	*handle_redirection_parsing(token_t *tokens, token_t *redir_pos,
 				token_t *end, t_data *data);
 token_t		*find_redirection(token_t *current, token_t *end);
 char		**merge_args(tree_node *left_node, tree_node *right_node,

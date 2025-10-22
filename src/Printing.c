@@ -6,7 +6,7 @@
 /*   By: akoaik <akoaik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/18 02:06:12 by akoaik            #+#    #+#             */
-/*   Updated: 2025/10/12 16:43:35 by akoaik           ###   ########.fr       */
+/*   Updated: 2025/10/22 17:48:50 by akoaik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,15 +34,15 @@ void	print_tokens(token_t *tokens, int count)
 	i = 0;
 	while (i < count)
 	{
-		printf("Token %d: '%s' -> %s\n", i, tokens[i].str, type_names[tokens[i].type]);
+		printf("Token %d: '%s' -> %s\n", i, tokens[i].str,
+			type_names[tokens[i].type]);
 		printf("  char expand_flag = %d ", tokens[i].expand_flag);
 		if (tokens[i].expand_flag == 0)
 			printf("(NO expansion - quoted or operator)\n");
 		else
 			printf("(expansion ENABLED - unquoted)\n");
-
 		// Special case for heredoc delimiters
-		if (i > 0 && tokens[i-1].type == t_re_heredoc)
+		if (i > 0 && tokens[i - 1].type == t_re_heredoc)
 		{
 			printf("  -> This is a HEREDOC DELIMITER\n");
 			printf("  -> Will be stored in AST node's expansion[0]\n");
@@ -55,7 +55,9 @@ void	print_tokens(token_t *tokens, int count)
 
 void	print_indent(int depth)
 {
-	int i = 0;
+	int	i;
+
+	i = 0;
 	while (i < depth)
 	{
 		printf("  ");
@@ -72,10 +74,8 @@ void	print_ast(tree_node *node, int depth)
 
 	if (!node)
 		return ;
-
 	print_indent(depth);
 	printf("Node: %s\n", node_types[node->type]);
-
 	// Show expand_flags information for all nodes
 	print_indent(depth);
 	printf("expand_flags: ");
@@ -92,7 +92,6 @@ void	print_ast(tree_node *node, int depth)
 	{
 		printf("NULL (no expand info stored)\n");
 	}
-
 	if (node->type == cmd_node && node->args)
 	{
 		print_indent(depth + 1);
@@ -105,13 +104,12 @@ void	print_ast(tree_node *node, int depth)
 		}
 		printf("\n");
 	}
-
 	// Show redirection details with expand flag analysis
 	if (node->type == redir_node)
 	{
 		print_indent(depth + 1);
-		printf("Redirection: %s -> '%s'\n", redir_types[node->redir_type], node->filename);
-
+		printf("Redirection: %s -> '%s'\n", redir_types[node->redir_type],
+			node->filename);
 		if (node->redir_type == t_re_heredoc)
 		{
 			print_indent(depth + 1);
@@ -135,7 +133,6 @@ void	print_ast(tree_node *node, int depth)
 			printf("**********************************\n");
 		}
 	}
-
 	if (node->left)
 		print_ast(node->left, depth + 1);
 	if (node->right)
@@ -154,14 +151,12 @@ void	print_tree_structure(tree_node *ast)
 	printf("===============================\n");
 }
 
-
-
-void print_tree(tree_node *node, int depth)
+void	print_tree(tree_node *node, int depth)
 {
 	int i;
 
 	if (!node)
-		return;
+		return ;
 
 	for (i = 0; i < depth; i++)
 		printf("  ");
