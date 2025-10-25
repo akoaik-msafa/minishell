@@ -40,10 +40,10 @@ static char	**create_cmd_args(token_t **current, token_t *end,
 	i = 0;
 	while (i < arg_count)
 	{
-		if ((*current)->expand_flag == 1)
+		if (has_unescaped_dollar((*current)->str))
 			args[i] = expand_variable((*current)->str, data);
 		else
-			args[i] = my_strdup((*current)->str, head);
+			args[i] = remove_escape_dollar((*current)->str, data);
 		(*current)++;
 		i++;
 	}

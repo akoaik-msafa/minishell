@@ -17,8 +17,15 @@ static int	find_dollar_position(const char *str)
 	int	j;
 
 	j = 0;
-	while (str[j] && str[j] != '$')
-		j++;
+	while (str[j])
+	{
+		if (str[j] == '\\' && str[j + 1] == '$')
+			j += 2;
+		else if (str[j] == '$')
+			break ;
+		else
+			j++;
+	}
 	return (j);
 }
 
@@ -36,19 +43,61 @@ static char	*handle_whitespace_after_dollar(const char *str, int j,
 	return (prefix);
 }
 
+static char	*remove_backslash_escapes(const char *str, t_data *data)
+{
+	char	*result;
+	int		i;
+	int		j;
+	int		len;
+
+	len = ft_strlen(str);
+	result = ft_malloc((len + 1) * sizeof(char), data->n_head);
+	i = 0;
+	j = 0;
+	while (str[i])
+	{
+		if (str[i] == '\\' && str[i + 1] == '$')
+		{
+			result[j++] = '$';
+			i += 2;
+		}
+		else
+			result[j++] = str[i++];
+	}
+	result[j] = '\0';
+	return (result);
+}
+
 static char	*extract_prefix(const char *str, int *dollar_pos, t_data *data)
 {
 	char	*prefix;
+	char	*temp;
 	int		j;
+	int		i;
+	int		k;
 
 	j = find_dollar_position(str);
 	*dollar_pos = j;
 	if (!str[j] || !str[j + 1])
-		return (my_strdup(str, data->n_head));
+		return (remove_backslash_escapes(str, data));
 	if (str[j + 1] == 32 || (str[j + 1] >= 9 && str[j + 1] <= 13))
 		return (handle_whitespace_after_dollar(str, j, data));
+	temp = ft_malloc(((j + 1) * sizeof(char)), data->n_head);
+	ft_strlcpy(temp, str, j + 1);
 	prefix = ft_malloc(((j + 1) * sizeof(char)), data->n_head);
-	ft_strlcpy(prefix, str, j + 1);
+	i = 0;
+	k = 0;
+	while (temp[i])
+	{
+		if (temp[i] == '\\' && temp[i + 1] == '$')
+		{
+			prefix[k++] = '$';
+			i += 2;
+		}
+		else
+			prefix[k++] = temp[i++];
+	}
+	prefix[k] = '\0';
 	return (prefix);
 }
 
@@ -75,4 +124,50 @@ char	*expand_variable(const char *str, t_data *data)
 	if (var_value)
 		return (build_result(prefix, var_value, suffix, data));
 	return (build_result(prefix, "", suffix, data));
+}
+
+int	has_unescaped_dollar(const char *str)
+{
+	int	i;
+
+	if (!str)
+		return (0);
+	i = 0;
+	while (str[i])
+	{
+		if (str[i] == '\\' && str[i + 1] == '$')
+			i += 2;
+		else if (str[i] == '$')
+			return (1);
+		else
+			i++;
+	}
+	return (0);
+}
+
+char	*remove_escape_dollar(const char *str, t_data *data)
+{
+	char	*result;
+	int		i;
+	int		j;
+	int		len;
+
+	if (!str)
+		return (my_strdup("", data->n_head));
+	len = ft_strlen(str);
+	result = ft_malloc((len + 1) * sizeof(char), data->n_head);
+	i = 0;
+	j = 0;
+	while (str[i])
+	{
+		if (str[i] == '\\' && str[i + 1] == '$')
+		{
+			result[j++] = '$';
+			i += 2;
+		}
+		else
+			result[j++] = str[i++];
+	}
+	result[j] = '\0';
+	return (result);
 }

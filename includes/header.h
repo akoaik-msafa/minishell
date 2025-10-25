@@ -49,7 +49,10 @@ tree_node	*create_cmd_node(token_t **current, token_t *end,
 tree_node	*create_redir_node(token_t *redir_pos, tree_node *cmd,
 				t_data *data);
 char		*expand_variable(const char *str, t_data *data);
+char		*remove_escape_dollar(const char *str, t_data *data);
+int			has_unescaped_dollar(const char *str);
 char		*my_strdup(const char *s1, struct list_head *n_head);
+char		*my_strjoin(char const *s1, char const *s2, t_list_head *n_head);
 char		**get_env(t_env *env);
 void		add_to_export_only(char *arg, t_env *env, t_list_head *env_head);
 char		*ft_itoa_with_head(int n, t_list_head *head);

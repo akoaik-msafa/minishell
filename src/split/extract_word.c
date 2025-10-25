@@ -18,6 +18,7 @@ static int	calculate_word_length(char *cmd_line, int start)
 	int		i;
 	int		total_len;
 	int		end_quote;
+	int		j;
 
 	i = start;
 	total_len = 0;
@@ -26,10 +27,19 @@ static int	calculate_word_length(char *cmd_line, int start)
 	{
 		if (cmd_line[i] == '"' || cmd_line[i] == '\'')
 		{
+			quote_flag = cmd_line[i];
 			end_quote = find_closed_quote(cmd_line, i, &quote_flag);
 			if (end_quote == -1)
 				return (-1);
-			total_len += end_quote - i - 1;
+			j = i + 1;
+			while (j < end_quote)
+			{
+				if (quote_flag == '\'' && cmd_line[j] == '$')
+					total_len += 2;
+				else
+					total_len++;
+				j++;
+			}
 			i = end_quote + 1;
 		}
 		else
@@ -55,10 +65,20 @@ static int	copy_word_content(char *cmd_line, int start, char *word)
 	{
 		if (cmd_line[i] == '"' || cmd_line[i] == '\'')
 		{
+			quote_flag = cmd_line[i];
 			end_quote = find_closed_quote(cmd_line, i, &quote_flag);
 			i++;
 			while (i < end_quote)
-				word[result_pos++] = cmd_line[i++];
+			{
+				if (quote_flag == '\'' && cmd_line[i] == '$')
+				{
+					word[result_pos++] = '\\';
+					word[result_pos++] = '$';
+					i++;
+				}
+				else
+					word[result_pos++] = cmd_line[i++];
+			}
 			i++;
 		}
 		else

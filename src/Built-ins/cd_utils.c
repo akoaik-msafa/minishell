@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd_utils.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: msafa <msafa@student.42.fr>                +#+  +:+       +#+        */
+/*   By: akoaik <akoaik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/14 14:05:00 by msafa             #+#    #+#             */
-/*   Updated: 2025/09/24 19:47:32 by msafa            ###   ########.fr       */
+/*   Updated: 2025/10/25 20:49:42 by akoaik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ char	*extract_quoted_path(char *arg, t_list_head *n_head, t_env *env)
 		rest_path = arg + i + 1;
 		if (*rest_path == '\0')
 			return (my_strdup(home_path, n_head));
-		full_path = ft_strjoin(home_path, rest_path);
+		full_path = my_strjoin(home_path, rest_path, n_head);
 		if (!full_path)
 			return (NULL);
 		return (full_path);
