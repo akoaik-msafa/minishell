@@ -1,0 +1,6 @@
+minishell$ 
+heredoc> first
+heredoc> eof
+heredoc> second
+heredoc> eof
+second

@@ -143,6 +143,7 @@ void		set_exit_code_from_status(t_data *data, int status);
 int			child1(tree_node *cmd_node, int *pipefd, t_data *data);
 int			child2(tree_node *cmd_node, int *pipefd, t_data *data);
 void		execute_pipe(tree_node *ast, t_data *data);
+void		collect_heredocs(tree_node *node, t_data *data);
 
 // Printing.c
 void		print_2d(char **arr);
