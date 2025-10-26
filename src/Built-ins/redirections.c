@@ -14,11 +14,16 @@
 
 int	handle_output_redirection(tree_node *ast, t_data *data)
 {
-	int	outfile;
-	int	saved_fd;
+	int		outfile;
+	int		saved_fd;
+	char	*expanded_filename;
 
 	saved_fd = dup(STDOUT_FILENO);
-	outfile = open(ast->filename, O_CREAT | O_TRUNC | O_WRONLY, 0666);
+	if (has_unescaped_dollar(ast->filename))
+		expanded_filename = expand_variable(ast->filename, data);
+	else
+		expanded_filename = remove_escape_dollar(ast->filename, data);
+	outfile = open(expanded_filename, O_CREAT | O_TRUNC | O_WRONLY, 0666);
 	if (outfile == -1)
 	{
 		perror("open");
@@ -36,11 +41,16 @@ int	handle_output_redirection(tree_node *ast, t_data *data)
 
 int	redirect_append(char *filename, t_data *data)
 {
-	int	outfile;
-	int	saved_fd;
+	int		outfile;
+	int		saved_fd;
+	char	*expanded_filename;
 
 	saved_fd = dup(STDOUT_FILENO);
-	outfile = open(filename, O_CREAT | O_APPEND | O_WRONLY, 0666);
+	if (has_unescaped_dollar(filename))
+		expanded_filename = expand_variable(filename, data);
+	else
+		expanded_filename = remove_escape_dollar(filename, data);
+	outfile = open(expanded_filename, O_CREAT | O_APPEND | O_WRONLY, 0666);
 	if (outfile == -1)
 	{
 		perror("open");
@@ -68,11 +78,16 @@ int	handle_append_redirection(tree_node *ast, t_data *data)
 
 int	handle_redirection_input(tree_node *ast, t_data *data)
 {
-	int	infile;
-	int	saved_fd;
+	int		infile;
+	int		saved_fd;
+	char	*expanded_filename;
 
 	saved_fd = dup(STDIN_FILENO);
-	infile = open(ast->filename, O_RDONLY);
+	if (has_unescaped_dollar(ast->filename))
+		expanded_filename = expand_variable(ast->filename, data);
+	else
+		expanded_filename = remove_escape_dollar(ast->filename, data);
+	infile = open(expanded_filename, O_RDONLY);
 	if (infile == -1)
 	{
 		perror("open");
