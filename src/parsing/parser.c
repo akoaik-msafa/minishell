@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akoaik <akoaik@student.42.fr>              +#+  +:+       +#+        */
+/*   By: msafa <msafa@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/11 19:30:12 by akoaik            #+#    #+#             */
-/*   Updated: 2025/10/12 19:32:35 by akoaik           ###   ########.fr       */
+/*   Updated: 2025/10/28 01:13:46 by msafa            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,11 +65,11 @@ static int	init_parse_positions(token_t *tokens, int count, token_t **pipe_pos,
 	return (1);
 }
 
-static tree_node	*handle_pipe_parsing(data_handle_args *args,
+static t_tree_node	*handle_pipe_parsing(data_handle_args *args,
 		t_list_head *n_head, t_data *data)
 {
-	tree_node	*left;
-	tree_node	*right;
+	t_tree_node	*left;
+	t_tree_node	*right;
 	int			left_count;
 	int			right_count;
 
@@ -82,7 +82,7 @@ static tree_node	*handle_pipe_parsing(data_handle_args *args,
 	return (create_pipe_node(left, right, n_head));
 }
 
-tree_node	*parse_tokens(token_t *tokens, int count, t_list_head *n_head,
+t_tree_node	*parse_tokens(token_t *tokens, int count, t_list_head *n_head,
 		t_data *data)
 {
 	token_t				*pipe_position;
@@ -102,21 +102,3 @@ tree_node	*parse_tokens(token_t *tokens, int count, t_list_head *n_head,
 				tokens + count, data));
 	return (create_cmd_node(&tokens, tokens + count, n_head, data));
 }
-
-/*
-  find_pipe (line 15): Iterates through token array from 
-  start to end,
-	returns pointer to first pipe token found, or NULL if 
-	none exists.
-
-  handle_pipe_parsing (line 29): Splits tokens at pipe 
-  position into left and right parts,
-	recursively calls parse_tokens on each side,
-		creates pipe node connecting the results.
-
-  parse_tokens (line 46): Main parsing entry point that 
-  validates input,
-	searches for pipes,
-	and either delegates to handle_pipe_parsing or creates command 
-	node directly.
-*/

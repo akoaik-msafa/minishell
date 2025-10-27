@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   create.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akoaik <akoaik@student.42.fr>              +#+  +:+       +#+        */
+/*   By: msafa <msafa@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/10 15:55:37 by akoaik            #+#    #+#             */
-/*   Updated: 2025/10/27 02:43:50 by akoaik           ###   ########.fr       */
+/*   Updated: 2025/10/28 01:13:42 by msafa            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,13 +54,13 @@ static char	**create_cmd_args(token_t **current, token_t *end,
 	return (args);
 }
 
-tree_node	*create_cmd_node(token_t **current, token_t *end,
+t_tree_node	*create_cmd_node(token_t **current, token_t *end,
 		t_list_head *n_head, t_data *data)
 {
-	tree_node	*node;
+	t_tree_node	*node;
 	char		**args;
 
-	node = ft_malloc(sizeof(tree_node), n_head);
+	node = ft_malloc(sizeof(t_tree_node), n_head);
 	if (!node)
 		return (NULL);
 	args = create_cmd_args(current, end, n_head, data);
@@ -77,12 +77,12 @@ tree_node	*create_cmd_node(token_t **current, token_t *end,
 	return (node);
 }
 
-tree_node	*create_pipe_node(tree_node *left, tree_node *right,
+t_tree_node	*create_pipe_node(t_tree_node *left, t_tree_node *right,
 		t_list_head *n_head)
 {
-	tree_node	*node;
+	t_tree_node	*node;
 
-	node = ft_malloc(sizeof(tree_node), n_head);
+	node = ft_malloc(sizeof(t_tree_node), n_head);
 	if (!node)
 		return (NULL);
 	node->type = pipe_node;
@@ -96,11 +96,12 @@ tree_node	*create_pipe_node(tree_node *left, tree_node *right,
 	return (node);
 }
 
-tree_node	*create_redir_node(token_t *redir_pos, tree_node *cmd, t_data *data)
+t_tree_node	*create_redir_node(token_t *redir_pos, t_tree_node *cmd,
+		t_data *data)
 {
-	tree_node	*node;
+	t_tree_node	*node;
 
-	node = ft_malloc(sizeof(tree_node), data->n_head);
+	node = ft_malloc(sizeof(t_tree_node), data->n_head);
 	if (!node)
 		return (NULL);
 	node->type = redir_node;
@@ -118,23 +119,3 @@ tree_node	*create_redir_node(token_t *redir_pos, tree_node *cmd, t_data *data)
 	}
 	return (node);
 }
-
-/*
-  create_cmd_args (line 15): Counts consecutive word 
-  tokens using temp pointer,
-	allocates memory
-  for argument array, populates it with string pointers from tokens,
-	and advances current pointer.
-
-  create_cmd_node (line 44): Creates a command tree node by 
-  calling create_cmd_args to get the
-  args array,
-	and initializing the node structure with type node_cmd 
-	and null left/right pointers.
-
-  parse_tokens (line 65): Main entry point that takes a token 
-  array and count,
-	validates input,
-  and calls create_cmd_node to build a tree node from the tokens.
-
-*/

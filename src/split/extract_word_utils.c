@@ -1,20 +1,37 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   gv.h                                               :+:      :+:    :+:   */
+/*   extract_word_utils.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: msafa <msafa@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/10/04 22:38:12 by msafa             #+#    #+#             */
-/*   Updated: 2025/10/27 23:31:36 by msafa            ###   ########.fr       */
+/*   Created: 2025/10/27 23:11:30 by msafa             #+#    #+#             */
+/*   Updated: 2025/10/27 23:12:04 by msafa            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef GV_H
-# define GV_H
+#include "header.h"
 
-# include <signal.h>
+int	count_quoted_length(char *cmd_line, int i, char quote_flag,
+		int end_quote)
+{
+	int	j;
+	int	len;
 
-extern int	g_signal;
+	j = i + 1;
+	len = 0;
+	while (j < end_quote)
+	{
+		if (quote_flag == '\'' && cmd_line[j] == '$')
+			len += 2;
+		else
+			len++;
+		j++;
+	}
+	return (len);
+}
 
-#endif
+int	is_word_delimiter(char c)
+{
+	return (c == ' ' || c == '\t' || c == '|' || c == '<' || c == '>');
+}

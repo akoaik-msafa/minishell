@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   redirection_parser_utils.c                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akoaik <akoaik@student.42.fr>              +#+  +:+       +#+        */
+/*   By: msafa <msafa@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/12 17:15:49 by akoaik            #+#    #+#             */
-/*   Updated: 2025/10/12 19:24:10 by akoaik           ###   ########.fr       */
+/*   Updated: 2025/10/28 01:12:18 by msafa            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "header.h"
 
-char	**merge_args(tree_node *left_node, tree_node *right_node,
+char	**merge_args(t_tree_node *left_node, t_tree_node *right_node,
 		t_list_head *n_head)
 {
 	char	**new_args;
@@ -41,15 +41,15 @@ char	**merge_args(tree_node *left_node, tree_node *right_node,
 	return (new_args);
 }
 
-tree_node	*handle_cmd_node_case(tree_node *left_node, tree_node *right_node,
-		token_t *redir_pos, t_data *data)
+t_tree_node	*handle_cmd_node_case(t_tree_node *left_node,
+		t_tree_node *right_node, token_t *redir_pos, t_data *data)
 {
 	left_node->args = merge_args(left_node, right_node, data->n_head);
 	return (create_redir_node(redir_pos, left_node, data));
 }
 
-tree_node	*handle_default_case(tree_node *left_node, tree_node *right_node,
-		token_t *redir_pos, t_data *data)
+t_tree_node	*handle_default_case(t_tree_node *left_node,
+		t_tree_node *right_node, token_t *redir_pos, t_data *data)
 {
 	if (!left_node && right_node)
 		return (create_redir_node(redir_pos, right_node, data));

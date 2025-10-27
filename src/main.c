@@ -3,21 +3,32 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akoaik <akoaik@student.42.fr>              +#+  +:+       +#+        */
+/*   By: msafa <msafa@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/08 18:02:05 by akoaik            #+#    #+#             */
-/*   Updated: 2025/10/27 02:00:00 by akoaik           ###   ########.fr       */
+/*   Updated: 2025/10/28 01:19:06 by msafa            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "header.h"
 
-int			g_signal;
+int	g_signal;
+
+static int	handle_heredocs(t_tree_node *ast, t_data *data, t_list_head *n_head)
+{
+	if (collect_heredocs(ast, data) == -1)
+	{
+		free_all(n_head);
+		n_head->head = NULL;
+		return (-1);
+	}
+	return (0);
+}
 
 static void	process_prompt(char *prompt, t_list_head *n_head, t_data *data)
 {
 	token_t		*tokens;
-	tree_node	*ast;
+	t_tree_node	*ast;
 	int			token_count;
 
 	tokens = tokenize_input(prompt, data);
@@ -31,11 +42,8 @@ static void	process_prompt(char *prompt, t_list_head *n_head, t_data *data)
 	{
 		token_count = count_token_array(tokens);
 		ast = parse_tokens(tokens, token_count, n_head, data);
-		if (ast)
-		{
-			collect_heredocs(ast, data);
+		if (ast && handle_heredocs(ast, data, n_head) != -1)
 			execute_ast(ast, data);
-		}
 		free(prompt);
 		free_all(n_head);
 		n_head->head = NULL;
@@ -85,27 +93,3 @@ int	main(int argc, char **argv, char **envp)
 	free_all(&env_head);
 	return (0);
 }
-
-/*
-	I still have :
-		- Signals handling
-		- exit codes
-
-	Cases :
-		- in the export when i add export a= and
-		after that i change the value
-		if a using export a=12 it is not change
-	leaks :
-	export not changed
-
-	test :
-	1- echo "m"y H"ome i"s $"HOME" > f1 | cat <<EOF > f2
-	| cat <<"EOF" > f3 | ls > ls | cat f1 | cat f2 | cat f3 | cat
-	ls > ls | cat ls
-	2- ls > test1 | cat << test2 << test3 | pwd | pwd | cat <<
-	$HOME > test4
-
-				// print_tree_structure(ast);
-			// print_tree(ast, 0);
-					// print_tokens(tokens, token_count);
-*/

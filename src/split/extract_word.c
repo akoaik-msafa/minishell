@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   extract_word.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akoaik <akoaik@student.42.fr>              +#+  +:+       +#+        */
+/*   By: msafa <msafa@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/25 22:00:00 by akoaik            #+#    #+#             */
-/*   Updated: 2025/10/13 15:25:01 by akoaik           ###   ########.fr       */
+/*   Updated: 2025/10/27 23:18:16 by msafa            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,32 +14,22 @@
 
 static int	calculate_word_length(char *cmd_line, int start)
 {
-	char	quote_flag;
+	char	f_quote;
 	int		i;
 	int		total_len;
 	int		end_quote;
-	int		j;
 
 	i = start;
 	total_len = 0;
-	while (cmd_line[i] && cmd_line[i] != ' ' && cmd_line[i] != '\t'
-		&& cmd_line[i] != '|' && cmd_line[i] != '<' && cmd_line[i] != '>')
+	while (cmd_line[i] && !is_word_delimiter(cmd_line[i]))
 	{
 		if (cmd_line[i] == '"' || cmd_line[i] == '\'')
 		{
-			quote_flag = cmd_line[i];
-			end_quote = find_closed_quote(cmd_line, i, &quote_flag);
+			f_quote = cmd_line[i];
+			end_quote = find_closed_quote(cmd_line, i, &f_quote);
 			if (end_quote == -1)
 				return (-1);
-			j = i + 1;
-			while (j < end_quote)
-			{
-				if (quote_flag == '\'' && cmd_line[j] == '$')
-					total_len += 2;
-				else
-					total_len++;
-				j++;
-			}
+			total_len += count_quoted_length(cmd_line, i, f_quote, end_quote);
 			i = end_quote + 1;
 		}
 		else
@@ -51,36 +41,41 @@ static int	calculate_word_length(char *cmd_line, int start)
 	return (total_len);
 }
 
-static int	copy_word_content(char *cmd_line, int start, char *word)
+static int	copy_quoted_content(char *cmd_line, char *word, int *i,
+		int *result_pos)
 {
 	char	quote_flag;
+	int		end_quote;
+
+	quote_flag = cmd_line[*i];
+	end_quote = find_closed_quote(cmd_line, *i, &quote_flag);
+	(*i)++;
+	while (*i < end_quote)
+	{
+		if (quote_flag == '\'' && cmd_line[*i] == '$')
+		{
+			word[(*result_pos)++] = '\\';
+			word[(*result_pos)++] = '$';
+			(*i)++;
+		}
+		else
+			word[(*result_pos)++] = cmd_line[(*i)++];
+	}
+	(*i)++;
+	return (0);
+}
+
+static int	copy_word_content(char *cmd_line, int start, char *word)
+{
 	int		i;
 	int		result_pos;
-	int		end_quote;
 
 	i = start;
 	result_pos = 0;
-	while (cmd_line[i] && cmd_line[i] != ' ' && cmd_line[i] != '\t'
-		&& cmd_line[i] != '|' && cmd_line[i] != '<' && cmd_line[i] != '>')
+	while (cmd_line[i] && !is_word_delimiter(cmd_line[i]))
 	{
 		if (cmd_line[i] == '"' || cmd_line[i] == '\'')
-		{
-			quote_flag = cmd_line[i];
-			end_quote = find_closed_quote(cmd_line, i, &quote_flag);
-			i++;
-			while (i < end_quote)
-			{
-				if (quote_flag == '\'' && cmd_line[i] == '$')
-				{
-					word[result_pos++] = '\\';
-					word[result_pos++] = '$';
-					i++;
-				}
-				else
-					word[result_pos++] = cmd_line[i++];
-			}
-			i++;
-		}
+			copy_quoted_content(cmd_line, word, &i, &result_pos);
 		else
 			word[result_pos++] = cmd_line[i++];
 	}

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akoaik <akoaik@student.42.fr>              +#+  +:+       +#+        */
+/*   By: msafa <msafa@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/18 20:22:28 by msafa             #+#    #+#             */
-/*   Updated: 2025/10/13 16:31:20 by akoaik           ###   ########.fr       */
+/*   Updated: 2025/10/27 22:48:55 by msafa            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,35 +54,17 @@ static int	setup_stdin_for_heredoc(int *saved_stdin)
 	return (0);
 }
 
-static int	open_heredoc_file(char *temp_file, int saved_stdin)
+static void	heredoc_child_process(char *delimiter, t_data *data,
+		int expand_flag, char *temp_file)
 {
 	int	fd_write;
+	int	saved_stdin;
 
-	fd_write = open(temp_file, O_CREAT | O_WRONLY | O_TRUNC, 0600);
-	if (fd_write == -1)
-	{
-		if (saved_stdin != -1)
-		{
-			dup2(saved_stdin, STDIN_FILENO);
-			close(saved_stdin);
-		}
-		return (-1);
-	}
-	return (fd_write);
-}
-
-int	here_doc(char *delimiter, t_data *data, int expand_flag)
-{
-	char	*temp_file;
-	int		fd_write;
-	int		fd_read;
-	int		saved_stdin;
-
-	temp_file = "/tmp/heredoc_tmp";
+	signal(SIGINT, SIG_DFL);
 	setup_stdin_for_heredoc(&saved_stdin);
 	fd_write = open_heredoc_file(temp_file, saved_stdin);
 	if (fd_write == -1)
-		return (-1);
+		exit(1);
 	read_heredoc_lines(delimiter, data, expand_flag, fd_write);
 	if (saved_stdin != -1)
 	{
@@ -90,6 +72,24 @@ int	here_doc(char *delimiter, t_data *data, int expand_flag)
 		close(saved_stdin);
 	}
 	close(fd_write);
+	exit(0);
+}
+
+int	here_doc(char *delimiter, t_data *data, int expand_flag)
+{
+	char	*temp_file;
+	int		fd_read;
+	pid_t	pid;
+	int		status;
+
+	temp_file = "/tmp/heredoc_tmp";
+	signal(SIGINT, SIG_IGN);
+	pid = fork();
+	if (pid == 0)
+		heredoc_child_process(delimiter, data, expand_flag, temp_file);
+	waitpid(pid, &status, 0);
+	if (check_heredoc_status(status, data) == -1)
+		return (-1);
 	fd_read = open(temp_file, O_RDONLY);
 	if (fd_read == -1)
 		return (-1);
@@ -97,7 +97,7 @@ int	here_doc(char *delimiter, t_data *data, int expand_flag)
 	return (fd_read);
 }
 
-void	handle_heredoc_redirection(tree_node *ast, t_data *data)
+void	handle_heredoc_redirection(t_tree_node *ast, t_data *data)
 {
 	int	fd;
 	int	saved_fd;

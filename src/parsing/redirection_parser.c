@@ -27,7 +27,7 @@ token_t	*find_redirection(token_t *current, token_t *end)
 	return (NULL);
 }
 
-static tree_node	*parse_left_side(token_t *tokens, token_t *redir_pos,
+static t_tree_node	*parse_left_side(token_t *tokens, token_t *redir_pos,
 		t_list_head *n_head, t_data *data)
 {
 	int	cmd_count;
@@ -40,7 +40,7 @@ static tree_node	*parse_left_side(token_t *tokens, token_t *redir_pos,
 	return (NULL);
 }
 
-static tree_node	*parse_right_side(token_t *redir_pos, token_t *end,
+static t_tree_node	*parse_right_side(token_t *redir_pos, token_t *end,
 		t_list_head *n_head, t_data *data)
 {
 	int		remaining_count;
@@ -55,10 +55,10 @@ static tree_node	*parse_right_side(token_t *redir_pos, token_t *end,
 	return (NULL);
 }
 
-static tree_node	*handle_redir_node_case(tree_node *left_node,
-		tree_node *right_node, token_t *redir_pos, t_data *data)
+static t_tree_node	*handle_redir_node_case(t_tree_node *left_node,
+		t_tree_node *right_node, token_t *redir_pos, t_data *data)
 {
-	tree_node	*temp_rihgt_node;
+	t_tree_node	*temp_rihgt_node;
 
 	temp_rihgt_node = right_node;
 	while (temp_rihgt_node->left && temp_rihgt_node->left->type == redir_node)
@@ -68,11 +68,11 @@ static tree_node	*handle_redir_node_case(tree_node *left_node,
 	return (create_redir_node(redir_pos, right_node, data));
 }
 
-tree_node	*handle_redirection_parsing(token_t *tokens, token_t *redir_pos,
+t_tree_node	*handle_redirection_parsing(token_t *tokens, token_t *redir_pos,
 		token_t *end, t_data *data)
 {
-	tree_node	*left_node;
-	tree_node	*right_node;
+	t_tree_node	*left_node;
+	t_tree_node	*right_node;
 
 	if (redir_pos + 1 >= end || (redir_pos + 1)->type != t_word)
 		return (NULL);

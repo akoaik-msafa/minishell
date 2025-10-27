@@ -6,7 +6,7 @@
 /*   By: msafa <msafa@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/07 15:31:25 by msafa             #+#    #+#             */
-/*   Updated: 2025/09/30 01:31:55 by msafa            ###   ########.fr       */
+/*   Updated: 2025/10/27 23:31:31 by msafa            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,29 +36,31 @@ int			ft_pwd(char **args);
 
 // echo.c
 int			ft_echo(char **args);
-char	**echo_split(char *str);
+char		**echo_split(char *str);
 
 // export.c
 int			ft_strcmp(const char *s1, const char *s2);
 int			array_len(char **env);
-char **sorted_env(t_env *env,t_list_head *n_head);
+char		**sorted_env(t_env *env, t_list_head *n_head);
 int			validate_identifier(char *arg);
 int			find_env_var(char *var_name, char **env);
-void		append_to_env(char *arg, t_env *env, int index, t_list_head *env_head);
+void		append_to_env(char *arg, t_env *env, int index,
+				t_list_head *env_head);
 void		update_env(char *arg, t_env *env, int index, t_list_head *env_head);
 void		add_to_env(char *arg, t_env *env, t_list_head *env_head);
 void		add_var_no_value(char *arg, t_env *env, t_list_head *env_head);
 int			ft_export(char **args, t_data *data);
-void update_export(char *arg, t_env *env, int index, t_list_head *env_head);
+void		update_export(char *arg, t_env *env, int index,
+				t_list_head *env_head);
 
 // unset.c
-int	ft_unset(char **args, t_env *env);
+int			ft_unset(char **args, t_env *env);
 
 // env.c
 
-int	ft_env(char **arg, t_env *env);
+int			ft_env(char **arg, t_env *env);
 
 // exit.c
-int	ft_exit(char **args, t_data *data);
+int			ft_exit(char **args, t_data *data);
 
 #endif

@@ -65,7 +65,7 @@ void	print_indent(int depth)
 	}
 }
 
-void	print_ast(tree_node *node, int depth)
+void	print_ast(t_tree_node *node, int depth)
 {
 	const char	*node_types[] = {"CMD", "PIPE", "REDIRECT"};
 	const char	*redir_types[] = {"WORD", "BUILTIN", "PIPE", "REDIR_IN",
@@ -139,7 +139,7 @@ void	print_ast(tree_node *node, int depth)
 		print_ast(node->right, depth + 1);
 }
 
-void	print_tree_structure(tree_node *ast)
+void	print_tree_structure(t_tree_node *ast)
 {
 	if (!ast)
 	{
@@ -151,7 +151,7 @@ void	print_tree_structure(tree_node *ast)
 	printf("===============================\n");
 }
 
-void	print_tree(tree_node *node, int depth)
+void	print_tree(t_tree_node *node, int depth)
 {
 	int i;
 

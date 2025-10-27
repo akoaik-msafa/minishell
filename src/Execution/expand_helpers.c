@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_helpers.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akoaik <akoaik@student.42.fr>              +#+  +:+       +#+        */
+/*   By: msafa <msafa@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/12 00:00:00 by akoaik            #+#    #+#             */
-/*   Updated: 2025/10/12 22:01:59 by akoaik           ###   ########.fr       */
+/*   Updated: 2025/10/27 22:51:55 by msafa            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,4 +55,35 @@ char	*build_result(char *prefix, char *var_value, char *suffix, t_data *data)
 	ft_strlcat(result, var_value, total_len + 1);
 	ft_strlcat(result, suffix, total_len + 1);
 	return (result);
+}
+
+int	find_dollar_position(const char *str)
+{
+	int	j;
+
+	j = 0;
+	while (str[j])
+	{
+		if (str[j] == '\\' && str[j + 1] == '$')
+			j += 2;
+		else if (str[j] == '$')
+			break ;
+		else
+			j++;
+	}
+	return (j);
+}
+
+char	*handle_whitespace_after_dollar(const char *str, int j,
+		t_data *data)
+{
+	char	*prefix;
+	int		i;
+
+	i = j + 1;
+	while (str[i] == 32 || (str[i] >= 9 && str[i] <= 13))
+		i++;
+	prefix = ft_malloc(((i - 1) * sizeof(char)), data->n_head);
+	ft_strlcpy(prefix, str, i - 1);
+	return (prefix);
 }

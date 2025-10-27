@@ -12,7 +12,7 @@
 
 #include "header.h"
 
-void	exec_cmd(tree_node *node, t_env *env)
+void	exec_cmd(t_tree_node *node, t_env *env)
 {
 	char	*cmd_path;
 
@@ -28,7 +28,7 @@ void	exec_cmd(tree_node *node, t_env *env)
 	exit(127);
 }
 
-void	execute_command(tree_node *node, t_data *data)
+void	execute_command(t_tree_node *node, t_data *data)
 {
 	int	builtin_result;
 
@@ -43,7 +43,7 @@ void	execute_command(tree_node *node, t_data *data)
 	fork_and_execute(node, data);
 }
 
-void	execute_ast(tree_node *ast, t_data *data)
+void	execute_ast(t_tree_node *ast, t_data *data)
 {
 	if (!ast)
 		return ;

@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_exec.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akoaik <akoaik@student.42.fr>              +#+  +:+       +#+        */
+/*   By: msafa <msafa@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/10/12 00:00:00 by akoaik            #+#    #+#             */
-/*   Updated: 2025/10/12 00:00:00 by akoaik           ###   ########.fr       */
+/*   Created: 2025/10/12 06:43:29 by akoaik            #+#    #+#             */
+/*   Updated: 2025/10/28 01:16:52 by msafa            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "header.h"
 
-static int	execute_cd_pwd_echo(tree_node *node, t_data *data)
+static int	execute_cd_pwd_echo(t_tree_node *node, t_data *data)
 {
 	if (ft_strcmp(node->args[0], "cd") == 0)
 		return (ft_cd(node->args + 1, data->env, data->n_head));
@@ -23,7 +23,7 @@ static int	execute_cd_pwd_echo(tree_node *node, t_data *data)
 	return (-1);
 }
 
-static int	execute_export_unset_env(tree_node *node, t_data *data)
+static int	execute_export_unset_env(t_tree_node *node, t_data *data)
 {
 	if (ft_strcmp(node->args[0], "export") == 0)
 		return (ft_export(node->args + 1, data));
@@ -34,7 +34,7 @@ static int	execute_export_unset_env(tree_node *node, t_data *data)
 	return (-1);
 }
 
-int	execute_builtin(tree_node *node, t_data *data)
+int	execute_builtin(t_tree_node *node, t_data *data)
 {
 	int	result;
 

@@ -12,7 +12,7 @@
 
 #include "../includes/header.h"
 
-int	handle_output_redirection(tree_node *ast, t_data *data)
+int	handle_output_redirection(t_tree_node *ast, t_data *data)
 {
 	int		outfile;
 	int		saved_fd;
@@ -62,7 +62,7 @@ int	redirect_append(char *filename, t_data *data)
 	return (saved_fd);
 }
 
-int	handle_append_redirection(tree_node *ast, t_data *data)
+int	handle_append_redirection(t_tree_node *ast, t_data *data)
 {
 	int	saved_fd;
 
@@ -76,7 +76,7 @@ int	handle_append_redirection(tree_node *ast, t_data *data)
 	return (0);
 }
 
-int	handle_redirection_input(tree_node *ast, t_data *data)
+int	handle_redirection_input(t_tree_node *ast, t_data *data)
 {
 	int		infile;
 	int		saved_fd;
