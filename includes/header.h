@@ -53,6 +53,7 @@ char		*remove_escape_dollar(const char *str, t_data *data);
 int			has_unescaped_dollar(const char *str);
 char		*my_strdup(const char *s1, struct list_head *n_head);
 char		*my_strjoin(char const *s1, char const *s2, t_list_head *n_head);
+char		*my_ft_strtrim(char const *s1, char const *set, t_list_head *n_head);
 char		**get_env(t_env *env);
 void		add_to_export_only(char *arg, t_env *env, t_list_head *env_head);
 char		*ft_itoa_with_head(int n, t_list_head *head);

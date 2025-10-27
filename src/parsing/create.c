@@ -43,7 +43,7 @@ static char	**create_cmd_args(token_t **current, token_t *end,
 		if (has_unescaped_dollar((*current)->str))
 		{
 			args[i] = expand_variable((*current)->str, data);
-			args[i] = ft_strtrim(args[i], " \t");
+			args[i] = my_ft_strtrim(args[i], " \t", head);
 		}
 		else
 			args[i] = remove_escape_dollar((*current)->str, data);
