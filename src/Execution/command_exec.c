@@ -6,7 +6,7 @@
 /*   By: akoaik <akoaik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/15 09:45:57 by akoaik            #+#    #+#             */
-/*   Updated: 2025/10/26 23:20:19 by akoaik           ###   ########.fr       */
+/*   Updated: 2025/10/27 01:59:57 by akoaik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,6 @@ void	execute_ast(tree_node *ast, t_data *data)
 	}
 	else if (ast->type == redir_node)
 	{
-		collect_heredocs(ast, data);
 		if (ast->redir_type == t_re_heredoc)
 			handle_heredoc_redirection(ast, data);
 		else if (ast->redir_type == t_re_out)

@@ -6,7 +6,7 @@
 /*   By: akoaik <akoaik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/10 15:55:37 by akoaik            #+#    #+#             */
-/*   Updated: 2025/10/12 19:26:37 by akoaik           ###   ########.fr       */
+/*   Updated: 2025/10/27 02:43:50 by akoaik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,10 @@ static char	**create_cmd_args(token_t **current, token_t *end,
 	while (i < arg_count)
 	{
 		if (has_unescaped_dollar((*current)->str))
+		{
 			args[i] = expand_variable((*current)->str, data);
+			args[i] = ft_strtrim(args[i], " \t");
+		}
 		else
 			args[i] = remove_escape_dollar((*current)->str, data);
 		(*current)++;

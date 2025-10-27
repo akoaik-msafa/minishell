@@ -6,7 +6,7 @@
 /*   By: akoaik <akoaik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/08 18:02:05 by akoaik            #+#    #+#             */
-/*   Updated: 2025/10/26 23:20:09 by akoaik           ###   ########.fr       */
+/*   Updated: 2025/10/27 02:00:00 by akoaik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ static void	process_prompt(char *prompt, t_list_head *n_head, t_data *data)
 		ast = parse_tokens(tokens, token_count, n_head, data);
 		if (ast)
 		{
+			collect_heredocs(ast, data);
 			execute_ast(ast, data);
 		}
 		free(prompt);

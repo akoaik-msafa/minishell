@@ -6,7 +6,7 @@
 /*   By: akoaik <akoaik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/15 03:07:05 by akoaik            #+#    #+#             */
-/*   Updated: 2025/10/12 17:21:43 by akoaik           ###   ########.fr       */
+/*   Updated: 2025/10/27 02:00:07 by akoaik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,6 @@ void	execute_pipe(tree_node *ast, t_data *data)
 	pid_t	pid2;
 	int		status;
 
-	collect_heredocs(ast, data);
 	if (pipe(pipefd) < 0)
 	{
 		perror("pipe failed");
