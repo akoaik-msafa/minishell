@@ -1,0 +1,4 @@
+$USER\
+'USER\'
+cat << "EOF" > file 
+EOF/
