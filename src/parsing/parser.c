@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: msafa <msafa@student.42.fr>                +#+  +:+       +#+        */
+/*   By: akoaik <akoaik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/11 19:30:12 by akoaik            #+#    #+#             */
-/*   Updated: 2025/10/28 01:13:46 by msafa            ###   ########.fr       */
+/*   Updated: 2025/10/28 13:09:38 by akoaik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,10 @@ t_tree_node	*parse_tokens(t_token *tokens, int count, t_list_head *n_head,
 	t_data_handle_args	args;
 
 	if (!init_parse_positions(tokens, count, &pipe_position, &redir_position))
+	{
+		data->exit_code = 2 ;
 		return (NULL);
+	}
 	if (pipe_position)
 	{
 		args = (t_data_handle_args){tokens, pipe_position, tokens + count, 0, 0,
