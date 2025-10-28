@@ -1,91 +1,97 @@
 # **************************************************************************** #
-#                                   CONFIG                                     #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    Makefile                                           :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: akoaik <akoaik@student.42.fr>              +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2025/09/06 18:36:44 by akoaik            #+#    #+#              #
+#    Updated: 2025/10/28 22:45:12 by msafa            ###   ########.fr        #
+#                                                                              #
 # **************************************************************************** #
 
-CC       = cc
-CFLAGS   = -g -Wall -Wextra -Werror -Iincludes
-LDFLAGS  = -lreadline -lncurses
+CC			= cc
+CFLAGS		= -Wall -Wextra -Werror -Iincludes
+LDFLAGS		= -lreadline -lncurses
 
-NAME     = minishell
-SRC_DIR  = src
-SRCS     = $(shell find $(SRC_DIR) -name "*.c")
-OBJS     = $(SRCS:.c=.o)
+NAME		= minishell
 
-LIBFT_DIR = libft
-LIBFT     = $(LIBFT_DIR)/libft.a
+SRCS		= src/Built-ins/cd.c \
+			  src/Built-ins/cd_utils.c \
+			  src/Built-ins/echo.c \
+			  src/Built-ins/echo_utils.c \
+			  src/Built-ins/env.c \
+			  src/Built-ins/exit.c \
+			  src/Built-ins/heredoc.c \
+			  src/Built-ins/heredoc_utils.c \
+			  src/Built-ins/pwd.c \
+			  src/Built-ins/redirections.c \
+			  src/Built-ins/unset.c \
+			  src/Execution/builtin_exec.c \
+			  src/Execution/cmd_fork.c \
+			  src/Execution/cmd_validation.c \
+			  src/Execution/command_exec.c \
+			  src/Execution/exit_code.c \
+			  src/Execution/expand.c \
+			  src/Execution/expand_helpers2.c \
+			  src/Execution/expand_helpers.c \
+			  src/Execution/path_utils.c \
+			  src/export/add_append_env.c \
+			  src/export/export.c \
+			  src/export/export_handle.c \
+			  src/export/export.utils.c \
+			  src/export/sort.c \
+			  src/main.c \
+			  src/parsing/create.c \
+			  src/parsing/parser.c \
+			  src/parsing/pipe_exec.c \
+			  src/parsing/pipe_exec_utils.c \
+			  src/parsing/redirection_parser.c \
+			  src/parsing/redirection_parser_utils.c \
+			  src/parsing/token_fill.c \
+			  src/read_line.c \
+			  src/split/count_condition.c \
+			  src/split/count_refactored.c \
+			  src/split/count_utils.c \
+			  src/split/extract_word.c \
+			  src/split/extract_word_utils.c \
+			  src/split/helpers.c \
+			  src/split/split.c \
+			  src/split/split_cmd.c \
+			  src/utils/cpy_env.c \
+			  src/utils/cpy_env_utils.c \
+			  src/utils/data_init.c \
+			  src/utils/ft_malloc.c \
+			  src/utils/init_envp.c \
+			  src/utils/my_ft_strtrim.c \
+			  src/utils/my_strdup.c \
+			  src/utils/my_strjoin.c
 
-# **************************************************************************** #
-#                                   COLORS                                     #
-# **************************************************************************** #
+OBJS		= $(SRCS:.c=.o)
 
-RESET    = \033[0m
-BOLD     = \033[1m
-GREEN    = \033[32m
-YELLOW   = \033[33m
-CYAN     = \033[36m
-MAGENTA  = \033[35m
-RED      = \033[31m
-BLUE     = \033[34m
-GRAY     = \033[90m
+LIBFT_DIR	= libft
+LIBFT		= $(LIBFT_DIR)/libft.a
 
-# **************************************************************************** #
-#                                   RULES                                      #
-# **************************************************************************** #
-
-all: silent_header $(LIBFT) $(NAME) silent_footer
-
-# NOTE: ALL LINES BELOW HERE STARTING WITH @ MUST HAVE A TAB BEFORE THEM
-# The error "missing separator" happens if you use spaces instead of a TAB.
-
-silent_header:
-	@clear
-	@echo "$(CYAN)╔══════════════════════════════════════════════════════════════╗$(RESET)"
-	@echo "$(CYAN)║                                                              ║$(RESET)"
-	@echo "$(CYAN)║$(BOLD)         PROJECT: $(YELLOW)$(NAME)$(RESET)$(CYAN) - SHELL IMPLEMENTATION$(CYAN)            ║$(RESET)"
-	@echo "$(CYAN)║$(BOLD)         AUTHORS: $(MAGENTA)akoaik$(RESET)$(CYAN), $(MAGENTA)msafa$(RESET)$(CYAN)                               ║$(RESET)"
-	@echo "$(CYAN)║                                                              ║$(RESET)"
-	@echo "$(CYAN)╚══════════════════════════════════════════════════════════════╝$(RESET)"
-	@echo ""
-	@printf "$(BLUE)🚀 Starting build process..."
-	@for i in 1 2; do sleep 0.3; printf "."; done; echo "$(RESET)\n"
+all: $(NAME)
 
 $(LIBFT):
-	@printf "$(YELLOW)📚 Building libft..."
-	@$(MAKE) --no-print-directory -C $(LIBFT_DIR) CFLAGS="$(CFLAGS) -I ../includes" > /dev/null
-	@printf "\t$(GREEN)OK$(RESET)\n"
-	@sleep 0.3
+	@make --no-print-directory -C $(LIBFT_DIR) CFLAGS="$(CFLAGS) -I ../includes" > /dev/null 2>&1
 
-$(NAME): $(OBJS) $(LIBFT)
-	@printf "$(YELLOW)⚙️  Linking $(BOLD)$(NAME)$(RESET)$(YELLOW) objects..."
+$(NAME): $(LIBFT) $(OBJS)
 	@$(CC) $(OBJS) $(LIBFT) $(LDFLAGS) -o $(NAME)
-	@printf "\t$(GREEN)OK$(RESET)\n"
-	@sleep 0.3
-	@echo ""
-	@echo "$(GREEN)==================================================================$(RESET)"
-	@echo "$(GREEN)  ✅ $(BOLD)BUILD SUCCESSFUL!$(RESET)$(GREEN) $(NAME) is ready to use!$(RESET)"
-	@echo "$(GREEN)  ▶️  Run with: $(CYAN)./$(NAME)$(RESET)"
-	@echo "$(GREEN)==================================================================$(RESET)"
-	@echo ""
+	@echo "minishell compiled successfully"
 
 %.o: %.c
-	@printf "$(GRAY)  [COMPILING] $<$(RESET)\r"
-	@$(CC) $(CFLAGS) -c $< -o $@ > /dev/null
+	@$(CC) $(CFLAGS) -c $< -o $@
 
 clean:
-	@$(MAKE) --no-print-directory -C $(LIBFT_DIR) clean > /dev/null
+	@make --no-print-directory -C $(LIBFT_DIR) clean > /dev/null 2>&1
 	@rm -f $(OBJS)
-	@echo "$(RED)🧹 Object files cleaned.$(RESET)"
 
 fclean: clean
-	@$(MAKE) --no-print-directory -C $(LIBFT_DIR) fclean > /dev/null
+	@make --no-print-directory -C $(LIBFT_DIR) fclean > /dev/null 2>&1
 	@rm -f $(NAME)
-	@echo "$(RED)💣 Executable '$(NAME)' removed.$(RESET)"
 
 re: fclean all
 
-silent_footer:
-	@sleep 0.3
-	@echo "$(MAGENTA)✨ Build process completed. Have fun, akoaik & msafa! ✨$(RESET)"
-	@echo ""
-
-.PHONY: all clean fclean re silent_header silent_footer
+.PHONY: all clean fclean re

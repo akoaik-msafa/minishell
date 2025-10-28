@@ -36,8 +36,6 @@ void			update_export(char *arg, t_env *env, int index,
 					t_list_head *env_head);
 void			update_env(char *arg, t_env *env, int index,
 					t_list_head *env_head);
-void			temp_exit(char *str, t_list_head *n_head,
-					t_list_head *env_head);
 void			*ft_malloc(size_t size, t_list_head *n_head);
 void			free_all(t_list_head *n_head);
 void			init_data(t_data *data, t_list_head *n_head, t_env *env,
@@ -80,8 +78,6 @@ t_tree_node		*handle_default_case(t_tree_node *left_node,
 					t_tree_node *right_node, t_token *redir_pos, t_data *data);
 int				init_env(t_env *env, char **envp, t_list_head *head);
 void			execute_ast(t_tree_node *ast, t_data *data);
-char			**split_string(const char *str, t_data_handle_args *data_args,
-					t_list_head *n_head);
 void			fill_tokens_array(t_token *tokens, char **strs,
 					t_data_handle_args *data_args);
 t_token_type	is_builtin(const char *cmd);
@@ -162,13 +158,6 @@ int				collect_heredocs(t_tree_node *node, t_data *data);
 // pipe_exec_utils.c
 int				process_heredoc_node(t_tree_node *node, t_data *data);
 int				process_pipe_node(t_tree_node *node, t_data *data);
-
-// Printing.c
-void			print_2d(char **arr);
-void			print_tokens(t_token *tokens, int count);
-void			print_ast(t_tree_node *node, int depth);
-void			print_tree_structure(t_tree_node *ast);
-void			print_tree(t_tree_node *node, int depth);
 
 // redirections.c
 int				here_doc(char *delimiter, t_data *data, int expand_flag);
