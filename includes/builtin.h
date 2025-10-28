@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akoaik <akoaik@student.42.fr>              +#+  +:+       +#+        */
+/*   By: msafa <msafa@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/07 15:31:25 by msafa             #+#    #+#             */
-/*   Updated: 2025/10/28 12:59:43 by akoaik           ###   ########.fr       */
+/*   Updated: 2025/10/28 21:22:31 by msafa            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,6 @@ t_token_type	is_builtin(const char *cmd);
 
 // cd.c
 char			*get_home_path(t_env *env);
-int				is_only_spaces(char *str);
 char			*get_cd_path(char *arg, t_env *env, t_list_head *n_head);
 int				ft_cd(char **args, t_env *env, t_list_head *n_head);
 
@@ -37,7 +36,6 @@ int				ft_pwd(char **args);
 
 // echo.c
 int				ft_echo(char **args);
-char			**echo_split(char *str);
 
 // export.c
 int				ft_strcmp(const char *s1, const char *s2);

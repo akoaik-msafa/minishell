@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   header.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akoaik <akoaik@student.42.fr>              +#+  +:+       +#+        */
+/*   By: msafa <msafa@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/06 18:36:44 by akoaik            #+#    #+#             */
-/*   Updated: 2025/10/28 13:00:58 by akoaik           ###   ########.fr       */
+/*   Updated: 2025/10/28 21:22:50 by msafa            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,6 @@ t_token_type	identify_token_type(const char *str);
 char			**splite_token(char *cmd_line, t_data_handle_args *data_args,
 					t_data *data);
 int				count_token_array(t_token *tokens);
-char			*join_args(char **args);
 char			*ft_strcpy(char *dest, const char *src);
 char			*ft_strcat(char *dest, const char *src);
 void			init_sigaction(struct sigaction *signals);
@@ -100,7 +99,6 @@ char			*find_path_env(t_env *env);
 char			*build_full_path(char *dir, char *cmd);
 char			*search_in_paths(char **paths, char *cmd);
 char			*get_cmd_path(char *cmd, t_env *env);
-int				count_tokens(const char *str);
 int				count_refactored(const char *str);
 int				is_operator(char c1, char c2);
 int				is_whitespace(char c);
