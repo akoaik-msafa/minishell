@@ -59,6 +59,7 @@
   "files.associations": {
     "chrono": "c",
     "header.h": "c",
-    "fcntl.h": "c"
+    "fcntl.h": "c",
+    "readline.h": "c"
   }
 }

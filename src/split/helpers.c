@@ -31,7 +31,7 @@ int	find_closed_quote(char *str, int start, char *quote_flag)
 		return (-1);
 }
 
-char	*alloc_tokens(char *cmd_line, data_handle_args *data_args,
+char	*alloc_tokens(char *cmd_line, t_data_handle_args *data_args,
 		t_list_head *n_head)
 {
 	int		len;

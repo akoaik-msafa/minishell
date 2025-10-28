@@ -12,13 +12,13 @@
 
 #include "header.h"
 
-void	data_init(data_handle_args *data_args)
+void	data_init(t_data_handle_args *data_args)
 {
 	data_args->count = 0;
 	data_args->expansion = NULL;
 }
 
-int	count_token_array(token_t *tokens)
+int	count_token_array(t_token *tokens)
 {
 	int	count;
 
@@ -30,17 +30,17 @@ int	count_token_array(token_t *tokens)
 	return (count);
 }
 
-token_t	*tokenize_input(char *cmd_line, t_data *data)
+t_token	*tokenize_input(char *cmd_line, t_data *data)
 {
-	token_t				*tokens_arr;
+	t_token				*tokens_arr;
 	char				**arguments;
-	data_handle_args	data_args;
+	t_data_handle_args	data_args;
 
 	data_init(&data_args);
 	arguments = splite_token(cmd_line, &data_args, data);
 	if (!arguments)
 		return (NULL);
-	tokens_arr = ft_malloc((data_args.count + 1) * sizeof(token_t),
+	tokens_arr = ft_malloc((data_args.count + 1) * sizeof(t_token),
 			data->n_head);
 	if (!tokens_arr)
 		return (NULL);

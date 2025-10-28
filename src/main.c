@@ -27,7 +27,7 @@ static int	handle_heredocs(t_tree_node *ast, t_data *data, t_list_head *n_head)
 
 static void	process_prompt(char *prompt, t_list_head *n_head, t_data *data)
 {
-	token_t		*tokens;
+	t_token		*tokens;
 	t_tree_node	*ast;
 	int			token_count;
 

@@ -83,7 +83,7 @@ static int	copy_word_content(char *cmd_line, int start, char *word)
 	return (i);
 }
 
-int	extract_complete_word(char *cmd_line, data_handle_args *data_args,
+int	extract_complete_word(char *cmd_line, t_data_handle_args *data_args,
 		char **result, t_data *data)
 {
 	int		total_len;

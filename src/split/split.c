@@ -12,7 +12,7 @@
 
 #include "header.h"
 
-void	init_data_args(char *cmd_line, data_handle_args *data_args,
+void	init_data_args(char *cmd_line, t_data_handle_args *data_args,
 		t_list_head *n_head)
 {
 	data_args->count = count_refactored(cmd_line);
@@ -38,7 +38,7 @@ void	init_data_args(char *cmd_line, data_handle_args *data_args,
 	}
 }
 
-static void	init_operator_token(char *cmd_line, data_handle_args *data_args,
+static void	init_operator_token(char *cmd_line, t_data_handle_args *data_args,
 		int i)
 {
 	if ((cmd_line[i] == '<' && cmd_line[i + 1] == '<')
@@ -52,7 +52,7 @@ static void	init_operator_token(char *cmd_line, data_handle_args *data_args,
 		data_args->end_index = i + 1;
 }
 
-static int	find_token_end(char *cmd_line, data_handle_args *data_args,
+static int	find_token_end(char *cmd_line, t_data_handle_args *data_args,
 		char **arguments, t_data *data)
 {
 	char	*word;
@@ -80,7 +80,7 @@ static int	find_token_end(char *cmd_line, data_handle_args *data_args,
 	return (end_pos);
 }
 
-char	**extract_tokens(char *cmd_line, data_handle_args *data_args,
+char	**extract_tokens(char *cmd_line, t_data_handle_args *data_args,
 		t_data *data)
 {
 	char	**arguments;
@@ -107,7 +107,7 @@ char	**extract_tokens(char *cmd_line, data_handle_args *data_args,
 	return (arguments);
 }
 
-char	**splite_token(char *cmd_line, data_handle_args *data_args,
+char	**splite_token(char *cmd_line, t_data_handle_args *data_args,
 		t_data *data)
 {
 	char	**arguments;

@@ -6,25 +6,27 @@
 /*   By: akoaik <akoaik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/05 03:27:21 by akoaik            #+#    #+#             */
-/*   Updated: 2025/10/08 00:01:54 by akoaik           ###   ########.fr       */
+/*   Updated: 2025/10/28 12:42:28 by akoaik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "header.h"
 
-struct tree* createNode(int value) {
-    struct tree* new_node = malloc(sizeof(struct tree));
-    new_node->value = value;
-    new_node->left = NULL;
-    new_node->right = NULL;
-    return new_node;
+struct tree	*createNode(int value)
+{
+	struct tree	*new_node;
+
+	new_node = malloc(sizeof(struct tree));
+	new_node->value = value;
+	new_node->left = NULL;
+	new_node->right = NULL;
+	return (new_node);
 }
 
-struct tree *insert (struct tree *root, int value)
+struct tree	*insert(struct tree *root, int value)
 {
 	if (root == NULL)
-		return createNode(value) ;
-	
+		return (createNode(value));
 	if (value < root->value)
 	{
 		root->left = insert(root->left, value);
@@ -33,10 +35,10 @@ struct tree *insert (struct tree *root, int value)
 	{
 		root->right = insert(root->right, value);
 	}
-	return (root) ;
+	return (root);
 }
 
-void in_order(struct tree *node)
+void	in_order(struct tree *node)
 {
 	if (node == NULL)
 		return ;
@@ -45,7 +47,7 @@ void in_order(struct tree *node)
 	in_order(node->right);
 }
 
-void pre_order(struct tree *node)
+void	pre_order(struct tree *node)
 {
 	if (node == NULL)
 		return ;
@@ -54,11 +56,11 @@ void pre_order(struct tree *node)
 	in_order(node->right);
 }
 
-int main (void) 
+int	main(void)
 {
-	struct tree *root = NULL ;
-	
-	root = insert(root , 4);
+	struct tree *root = NULL;
+
+	root = insert(root, 4);
 	insert(root, 2);
 	insert(root, 1);
 	insert(root, 3);
@@ -69,8 +71,7 @@ int main (void)
 	insert(root, 56);
 	insert(root, -12);
 	insert(root, 0);
-	
-	
+
 	// in_order(root);
 	pre_order(root);
 }

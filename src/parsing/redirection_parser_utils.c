@@ -42,14 +42,14 @@ char	**merge_args(t_tree_node *left_node, t_tree_node *right_node,
 }
 
 t_tree_node	*handle_cmd_node_case(t_tree_node *left_node,
-		t_tree_node *right_node, token_t *redir_pos, t_data *data)
+		t_tree_node *right_node, t_token *redir_pos, t_data *data)
 {
 	left_node->args = merge_args(left_node, right_node, data->n_head);
 	return (create_redir_node(redir_pos, left_node, data));
 }
 
 t_tree_node	*handle_default_case(t_tree_node *left_node,
-		t_tree_node *right_node, token_t *redir_pos, t_data *data)
+		t_tree_node *right_node, t_token *redir_pos, t_data *data)
 {
 	if (!left_node && right_node)
 		return (create_redir_node(redir_pos, right_node, data));

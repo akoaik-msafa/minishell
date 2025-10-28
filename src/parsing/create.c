@@ -12,7 +12,7 @@
 
 #include "header.h"
 
-static int	count_cmd_args(token_t *current, token_t *end)
+static int	count_cmd_args(t_token *current, t_token *end)
 {
 	int	count;
 
@@ -26,8 +26,8 @@ static int	count_cmd_args(token_t *current, token_t *end)
 	return (count);
 }
 
-static char	**create_cmd_args(token_t **current, token_t *end,
-		struct list_head *head, t_data *data)
+static char	**create_cmd_args(t_token **current, t_token *end,
+		struct s_list_head *head, t_data *data)
 {
 	char	**args;
 	int		arg_count;
@@ -54,7 +54,7 @@ static char	**create_cmd_args(token_t **current, token_t *end,
 	return (args);
 }
 
-t_tree_node	*create_cmd_node(token_t **current, token_t *end,
+t_tree_node	*create_cmd_node(t_token **current, t_token *end,
 		t_list_head *n_head, t_data *data)
 {
 	t_tree_node	*node;
@@ -96,7 +96,7 @@ t_tree_node	*create_pipe_node(t_tree_node *left, t_tree_node *right,
 	return (node);
 }
 
-t_tree_node	*create_redir_node(token_t *redir_pos, t_tree_node *cmd,
+t_tree_node	*create_redir_node(t_token *redir_pos, t_tree_node *cmd,
 		t_data *data)
 {
 	t_tree_node	*node;

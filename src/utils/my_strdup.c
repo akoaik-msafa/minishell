@@ -12,7 +12,7 @@
 
 #include "header.h"
 
-char	*my_strdup(const char *s1, struct list_head *n_head)
+char	*my_strdup(const char *s1, struct s_list_head *n_head)
 {
 	int		len;
 	char	*copy;

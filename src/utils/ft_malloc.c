@@ -15,14 +15,14 @@
 void	*ft_malloc(size_t size, t_list_head *n_head)
 {
 	void				*ptr;
-	struct alloc_list	*node;
+	struct s_alloc_list	*node;
 
 	if (!n_head)
 		return (NULL);
 	ptr = malloc(size);
 	if (!ptr)
 		return (NULL);
-	node = malloc(sizeof(struct alloc_list));
+	node = malloc(sizeof(struct s_alloc_list));
 	if (!node)
 	{
 		free(ptr);
@@ -36,8 +36,8 @@ void	*ft_malloc(size_t size, t_list_head *n_head)
 
 void	free_all(t_list_head *n_head)
 {
-	struct alloc_list	*tmp;
-	struct alloc_list	*current;
+	struct s_alloc_list	*tmp;
+	struct s_alloc_list	*current;
 
 	if (!n_head)
 		return ;

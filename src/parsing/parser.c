@@ -12,9 +12,9 @@
 
 #include "header.h"
 
-static token_t	*find_pipe(token_t *current, token_t *end)
+static t_token	*find_pipe(t_token *current, t_token *end)
 {
-	token_t	*start;
+	t_token	*start;
 
 	start = current;
 	while (start < end)
@@ -26,8 +26,8 @@ static token_t	*find_pipe(token_t *current, token_t *end)
 	return (NULL);
 }
 
-static int	validate_syntax(token_t *current, token_t *end, token_t *pipe_pos,
-		token_t *redir_pos)
+static int	validate_syntax(t_token *current, t_token *end, t_token *pipe_pos,
+		t_token *redir_pos)
 {
 	if (pipe_pos)
 	{
@@ -48,11 +48,11 @@ static int	validate_syntax(token_t *current, token_t *end, token_t *pipe_pos,
 	return (1);
 }
 
-static int	init_parse_positions(token_t *tokens, int count, token_t **pipe_pos,
-		token_t **redir_pos)
+static int	init_parse_positions(t_token *tokens, int count, t_token **pipe_pos,
+		t_token **redir_pos)
 {
-	token_t	*current;
-	token_t	*end;
+	t_token	*current;
+	t_token	*end;
 
 	if (!tokens || count == 0)
 		return (0);
@@ -65,7 +65,7 @@ static int	init_parse_positions(token_t *tokens, int count, token_t **pipe_pos,
 	return (1);
 }
 
-static t_tree_node	*handle_pipe_parsing(data_handle_args *args,
+static t_tree_node	*handle_pipe_parsing(t_data_handle_args *args,
 		t_list_head *n_head, t_data *data)
 {
 	t_tree_node	*left;
@@ -82,18 +82,18 @@ static t_tree_node	*handle_pipe_parsing(data_handle_args *args,
 	return (create_pipe_node(left, right, n_head));
 }
 
-t_tree_node	*parse_tokens(token_t *tokens, int count, t_list_head *n_head,
+t_tree_node	*parse_tokens(t_token *tokens, int count, t_list_head *n_head,
 		t_data *data)
 {
-	token_t				*pipe_position;
-	token_t				*redir_position;
-	data_handle_args	args;
+	t_token				*pipe_position;
+	t_token				*redir_position;
+	t_data_handle_args	args;
 
 	if (!init_parse_positions(tokens, count, &pipe_position, &redir_position))
 		return (NULL);
 	if (pipe_position)
 	{
-		args = (data_handle_args){tokens, pipe_position, tokens + count, 0, 0,
+		args = (t_data_handle_args){tokens, pipe_position, tokens + count, 0, 0,
 			0, NULL, NULL, 0, 0};
 		return (handle_pipe_parsing(&args, n_head, data));
 	}

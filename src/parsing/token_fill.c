@@ -12,7 +12,7 @@
 
 #include "header.h"
 
-token_type	identify_token_type(const char *str)
+t_token_type	identify_token_type(const char *str)
 {
 	if (!str)
 		return (t_eof);
@@ -29,7 +29,7 @@ token_type	identify_token_type(const char *str)
 	return (is_builtin(str));
 }
 
-token_type	is_builtin(const char *cmd)
+t_token_type	is_builtin(const char *cmd)
 {
 	if (!cmd)
 		return (t_word);
@@ -50,8 +50,8 @@ token_type	is_builtin(const char *cmd)
 	return (t_word);
 }
 
-void	fill_tokens_array(token_t *tokens, char **strs,
-		data_handle_args *data_args)
+void	fill_tokens_array(t_token *tokens, char **strs,
+		t_data_handle_args *data_args)
 {
 	int	i;
 
